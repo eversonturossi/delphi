@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2012/05/28 10:17:03.373.pas,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas=C:\Users\Everson\Desktop\mensagem\Unit1.pas</Transaction>
+    <Transaction>2012/05/28 10:17:03.373.dfm,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm=C:\Users\Everson\Desktop\mensagem\Unit1.dfm</Transaction>
+    <Transaction>2012/05/28 10:17:03.993.dproj,C:\Users\Everson\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Everson\Desktop\mensagem\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
