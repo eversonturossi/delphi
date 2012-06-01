@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2012/05/30 21:16:50.049.pas,C:\Users\Everson\Desktop\MyDinamicDns\UClient.pas=C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2012/05/30 21:16:50.049.dfm,C:\Users\Everson\Desktop\MyDinamicDns\UClient.dfm=C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2012/05/30 21:16:56.339.dproj,C:\Users\Everson\Desktop\MyDinamicDns\Client.dproj=C:\Users\Everson\Documents\RAD Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2012/05/31 00:35:59.000.670,=C:\Users\Everson\Desktop\MyDinamicDns\Hashes.pas</Transaction>
+  </Transactions>
+</BorlandProject>
