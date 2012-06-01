@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
+	<Transactions>
     <Transaction>2012/05/31 23:03:54.955.pas,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas=D:\git\delphi\UpdateApp\UUpdateClient.pas</Transaction>
     <Transaction>2012/05/31 23:03:54.955.dfm,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm=D:\git\delphi\UpdateApp\UUpdateClient.dfm</Transaction>
     <Transaction>2012/05/31 23:03:56.174.dproj,C:\Users\Everson\Documents\RAD Studio\Projects\Project2.dproj=D:\git\delphi\UpdateApp\UpdateClient.dproj</Transaction>
