@@ -4,10 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs;
+  Dialogs, ScktComp;
 
 type
   TForm1 = class(TForm)
+    ServerSocket1: TServerSocket;
   private
     { Private declarations }
   public
