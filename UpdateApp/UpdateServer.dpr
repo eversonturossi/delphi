@@ -3,7 +3,8 @@ program UpdateServer;
 uses
   Forms,
   UUpdateServer in 'UUpdateServer.pas' {Form1},
-  USharedConst in 'USharedConst.pas';
+  USharedConst in 'USharedConst.pas',
+  USharedLibrary in 'USharedLibrary.pas';
 
 {$R *.res}
 

@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2012/05/31 23:03:54.955.dfm,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm=D:\git\delphi\UpdateApp\UUpdateClient.dfm</Transaction>
-    <Transaction>2012/05/31 23:03:54.955.pas,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas=D:\git\delphi\UpdateApp\UUpdateClient.pas</Transaction>
-    <Transaction>2012/05/31 23:03:56.174.dproj,C:\Users\Everson\Documents\RAD Studio\Projects\Project2.dproj=D:\git\delphi\UpdateApp\UpdateClient.dproj</Transaction>
-    <Transaction>2012/06/05 00:35:08.203,=D:\GitHub\delphi\UpdateApp\Unit1.pas</Transaction>
-    <Transaction>2012/06/05 00:35:36.184,D:\GitHub\delphi\UpdateApp\USharedConst.pas=D:\GitHub\delphi\UpdateApp\Unit1.pas</Transaction>
+    <Transaction>2012/05/31 23:03:54.955.dfm,D:\git\delphi\UpdateApp\UUpdateClient.dfm=C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2012/05/31 23:03:54.955.pas,D:\git\delphi\UpdateApp\UUpdateClient.pas=C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2012/05/31 23:03:56.174.dproj,D:\git\delphi\UpdateApp\UpdateClient.dproj=C:\Users\Everson\Documents\RAD Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2012/06/05 00:35:08.000.203,=D:\GitHub\delphi\UpdateApp\Unit1.pas</Transaction>
+    <Transaction>2012/06/05 00:35:36.000.184,D:\GitHub\delphi\UpdateApp\Unit1.pas=D:\GitHub\delphi\UpdateApp\USharedConst.pas</Transaction>
+    <Transaction>2012/06/05 00:48:45.596,=D:\GitHub\delphi\UpdateApp\Unit1.pas</Transaction>
+    <Transaction>2012/06/05 00:48:59.563,D:\GitHub\delphi\UpdateApp\USharedLibrary.pas=D:\GitHub\delphi\UpdateApp\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

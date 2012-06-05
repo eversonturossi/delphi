@@ -3,7 +3,8 @@ program UpdateClient;
 uses
   Forms,
   UUpdateClient in 'UUpdateClient.pas' {Form1},
-  USharedConst in 'USharedConst.pas';
+  USharedConst in 'USharedConst.pas',
+  USharedLibrary in 'USharedLibrary.pas';
 
 {$R *.res}
 

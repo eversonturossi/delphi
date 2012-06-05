@@ -39,6 +39,8 @@ var
 implementation
 
 {$R *.dfm}
+
+uses USharedConst, USharedLibrary;
 { TForm1 }
 
 constructor TForm1.Create(AOwner: TComponent);
@@ -77,10 +79,10 @@ var
 begin
   RecText := Socket.ReceiveText;
   ListBox1.Items.Add(RecText);
-  if (Pos('#VERSION#', RecText) > 0) then
-  begin
-    Socket.SendText('#VERSION#' + IntToStr(Version));
-  end;
+  if ExistText(DEF_VERSION, RecText) then
+    Socket.SendText(DEF_VERSION + IntToStr(Version));
+  if ExistText(DEF_PING, RecText) then
+    Socket.SendText(DEF_PONG + 'IP: ' + Socket.RemoteAddress + ' Port:' + IntToStr(Socket.RemotePort));
 end;
 
 procedure TForm1.ServerSocket1Listen(Sender: TObject; Socket: TCustomWinSocket);

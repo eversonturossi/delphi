@@ -17,11 +17,13 @@ type
     edtServerPort: TEdit;
     Label2: TLabel;
     ListBox1: TListBox;
+    Timer1: TTimer;
     procedure ClientSocket1Connect(Sender: TObject; Socket: TCustomWinSocket);
     procedure ClientSocket1Disconnect(Sender: TObject; Socket: TCustomWinSocket);
     procedure ClientSocket1Error(Sender: TObject; Socket: TCustomWinSocket; ErrorEvent: TErrorEvent; var ErrorCode: Integer);
     procedure btnConnectClick(Sender: TObject);
     procedure ClientSocket1Read(Sender: TObject; Socket: TCustomWinSocket);
+    procedure Timer1Timer(Sender: TObject);
   private
     FVersion: Integer;
     FServerPort: Integer;
@@ -44,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses USharedConst;
+uses USharedConst, USharedLibrary;
 { TForm1 }
 
 procedure TForm1.UpdateButtons;
@@ -79,7 +81,9 @@ var
   RecText: String;
 begin
   RecText := Socket.ReceiveText;
-  if (pos('#VERSION#', RecText) > 0) then
+  if (ExistText(DEF_VERSION, RecText)) then
+    ListBox1.Items.Add(RecText);
+  if (ExistText(DEF_PONG, RecText)) then
     ListBox1.Items.Add(RecText);
 end;
 
@@ -110,6 +114,12 @@ destructor TForm1.Destroy;
 begin
 
   inherited;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  if ClientSocket1.Active then
+    ClientSocket1.Socket.SendText(DEF_PING);
 end;
 
 end.

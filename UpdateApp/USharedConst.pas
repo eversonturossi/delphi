@@ -9,6 +9,8 @@ const
   DEF_VERSION = '#VERSION#';
   DEF_FILE = '#SENDFILE#';
   DEF_MD5 = '#MD5#';
+  DEF_PING = '#PING#';
+  DEF_PONG = '#PONG#';
 
 implementation
 
