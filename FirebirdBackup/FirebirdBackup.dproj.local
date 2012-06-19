@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2012/06/14 21:05:01.020.pas,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas=D:\GitHub\delphi\FirebirdBackup\UFirebirdBackup.pas</Transaction>
-    <Transaction>2012/06/14 21:05:01.020.dfm,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm=D:\GitHub\delphi\FirebirdBackup\UFirebirdBackup.dfm</Transaction>
-    <Transaction>2012/06/14 21:05:05.453.dproj,C:\Users\Everson\Documents\RAD Studio\Projects\Project2.dproj=D:\GitHub\delphi\FirebirdBackup\FirebirdBackup.dproj</Transaction>
-  </Transactions>
-</BorlandProject>

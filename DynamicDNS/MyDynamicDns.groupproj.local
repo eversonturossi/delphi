@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2012/05/31 19:40:00.000.374,C:\Users\Everson\Desktop\MyDinamicDns1\MyDinamicDns.groupproj=C:\Users\Everson\Desktop\MyDinamicDns1\MyDynamicDns.groupproj</Transaction>
-  </Transactions>
-	<Default.Personality>
-		<Projects ActiveProject="C:\Users\Everson\Desktop\MyDinamicDns1\Client.dproj"/>
-	</Default.Personality>
-</BorlandProject>

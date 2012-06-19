@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2012/06/06 00:07:33.413.pas,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.pas=D:\GitHub\delphi\ServiceDelphi\UServiceDelphi.pas</Transaction>
-    <Transaction>2012/06/06 00:07:33.427.dfm,C:\Users\Everson\Documents\RAD Studio\Projects\Unit1.dfm=D:\GitHub\delphi\ServiceDelphi\UServiceDelphi.dfm</Transaction>
-    <Transaction>2012/06/06 00:07:36.657.dproj,C:\Users\Everson\Documents\RAD Studio\Projects\Project2.dproj=D:\GitHub\delphi\ServiceDelphi\ServiceDelphi.dproj</Transaction>
-  </Transactions>
-</BorlandProject>
