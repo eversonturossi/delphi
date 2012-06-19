@@ -1,2 +1,7 @@
 *.dcu
+*.local
 *.exe
+*.identcache
+
+*.patch
+*.diff
