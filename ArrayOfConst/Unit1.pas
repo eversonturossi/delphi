@@ -3,7 +3,7 @@ unit Unit1;
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UTopMessageBox;
+  Dialogs, StdCtrls, UDynamicMessageBox;
 
 type
   TForm1 = class(TForm)
@@ -42,8 +42,7 @@ var
   aWideString: widestring;
   aInt64: Int64;
   aUnicodeString: UnicodeString;
-
-  Mensagem: TTopMessageBox;
+  Mensagem: TDynamicMessageBox;
 begin
 
   aInteger := 10;
@@ -66,7 +65,7 @@ begin
 
   // ShowMessage(MensagemEscolha(Self, '', '', [aInteger, aBoolean, aChar, aExtended, aString, aPointer, aPChar, aObject, aClass, aWideChar, aPWideChar,
   // aAnsiString, aCurrency, aVariant, aWideString, aInt64, aUnicodeString]));
-  Mensagem := TTopMessageBox.Create;
+  Mensagem := TDynamicMessageBox.Create;
   Mensagem.Opcao := 100000;
   ShowMessage(Mensagem.MensagemEscolha(Self, '', '', ['1', '2', '3', '4']));
   FreeAndNil(Mensagem);

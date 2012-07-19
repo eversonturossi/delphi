@@ -2,8 +2,9 @@ program ArrayOfConstProject;
 
 uses
   Forms,
-  Unit1 in 'Unit1.pas' { Form1 } ,
-  UTopMessageBox in 'UTopMessageBox.pas';
+  Unit1 in 'Unit1.pas' { Form1 },
+  UDynamicMessageBox in 'UDynamicMessageBox.pas';
+
 {$R *.res}
 
 begin
