@@ -118,7 +118,8 @@ begin
     pnl := TPanel.Create(Form);
     pnl.Parent := Form;
     pnl.BevelOuter := bvNone;
-    pnl.Color := $00D2D2D2;
+    // pnl.Color := $00D2D2D2;
+    pnl.Color := $00F3F3F3;
     pnl.ParentBackground := False;
     pnl.Align := alBottom;
     pnl.Height := 50;
@@ -128,7 +129,7 @@ begin
 
     memo := TMemo.Create(Form);
     memo.Parent := Form;
-    memo.Color := clWhite;
+    memo.Color := clred;
     memo.Top := 8;
     memo.Left := 8;
     memo.Height := 97;
@@ -136,9 +137,10 @@ begin
     memo.Visible := True;
     memo.BorderStyle := bsNone;
     memo.Enabled := False;
+    memo.Lines.Add(Mensagem);
 
     I := Low(Args);
-    while (I < High(Args)) do
+    while (I <= High(Args)) do
     begin
       btn := TButton.Create(pnl);
       btn.Top := 12;

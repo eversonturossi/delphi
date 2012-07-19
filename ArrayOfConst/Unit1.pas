@@ -1,18 +1,16 @@
 unit Unit1;
-interface
 
-uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UDynamicMessageBox;
+interface
+
+uses Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, UDynamicMessageBox, xpman;
 
 type
   TForm1 = class(TForm)
     Button1: TButton;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
   private
-    { Private declarations }
   public
-    { Public declarations }
   end;
 
 var
@@ -21,7 +19,6 @@ var
 implementation
 
 {$R *.dfm}
-{ TForm1 }
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
@@ -44,7 +41,6 @@ var
   aUnicodeString: UnicodeString;
   Mensagem: TDynamicMessageBox;
 begin
-
   aInteger := 10;
   aBoolean := false;
   aChar := AnsiChar('A');
@@ -62,14 +58,10 @@ begin
   aWideString := widestring('widestring que esta sendo acessada via ponteiro');
   aInt64 := StrToInt64(' 1234');
   aUnicodeString := UnicodeString('unicodestring');
-
-  // ShowMessage(MensagemEscolha(Self, '', '', [aInteger, aBoolean, aChar, aExtended, aString, aPointer, aPChar, aObject, aClass, aWideChar, aPWideChar,
-  // aAnsiString, aCurrency, aVariant, aWideString, aInt64, aUnicodeString]));
   Mensagem := TDynamicMessageBox.Create;
   Mensagem.Opcao := 100000;
-  ShowMessage(Mensagem.MensagemEscolha(Self, '', '', ['1', '2', '3', '4']));
+  ShowMessage(Mensagem.MensagemEscolha(Self, 'titulo', 'mensagem', ['botao1', 'botao2']));
   FreeAndNil(Mensagem);
 end;
 
 end.
-
