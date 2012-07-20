@@ -60,10 +60,11 @@ begin
   aWideString := widestring('widestring que esta sendo acessada via ponteiro');
   aInt64 := StrToInt64(' 1234');
   aUnicodeString := UnicodeString('unicodestring');
+
   Mensagem := TDynamicMessageDlg.Create;
   ShowMessage(Mensagem.MensagemEscolha(Self, 'titulo',
       'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ' +
-        'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ', ['botao1', 'botao2'], []));
+        'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ', ['botao1', 'botao2'], ['1', 2]));
   FreeAndNil(Mensagem);
 end;
 
@@ -73,7 +74,7 @@ var
 begin
   Opcao := DynamicMessageDlg(Self, 'titulo',
     'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ' +
-      'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ', ['botao1', 'botao2'], ['A', 1]);
+      'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ', ['botao1', 'botao2'], ['1', 2]);
   ShowMessage(Opcao);
 end;
 
