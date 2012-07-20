@@ -41,7 +41,7 @@
 			<DCCReference Include="Unit1.pas">
 				<Form> Form1 </Form>
 			</DCCReference>
-			<DCCReference Include="UDynamicMessageBox.pas"/>
+			<DCCReference Include="UDynamicMessageDlg.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

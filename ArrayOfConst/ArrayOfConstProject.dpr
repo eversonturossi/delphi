@@ -3,7 +3,7 @@ program ArrayOfConstProject;
 uses
   Forms,
   Unit1 in 'Unit1.pas' { Form1 },
-  UDynamicMessageBox in 'UDynamicMessageBox.pas';
+  UDynamicMessageDlg in 'UDynamicMessageDlg.pas';
 
 {$R *.res}
 

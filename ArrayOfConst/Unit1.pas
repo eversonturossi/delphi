@@ -2,13 +2,15 @@ unit Unit1;
 
 interface
 
-uses Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, UDynamicMessageBox, xpman;
+uses Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, UDynamicMessagedlg, xpman,
+  ExtCtrls;
 
 type
   TForm1 = class(TForm)
     Button1: TButton;
     Button2: TButton;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
   public
   end;
@@ -39,7 +41,7 @@ var
   aWideString: widestring;
   aInt64: Int64;
   aUnicodeString: UnicodeString;
-  Mensagem: TDynamicMessageBox;
+  Mensagem: TDynamicMessageDlg;
 begin
   aInteger := 10;
   aBoolean := false;
@@ -58,10 +60,21 @@ begin
   aWideString := widestring('widestring que esta sendo acessada via ponteiro');
   aInt64 := StrToInt64(' 1234');
   aUnicodeString := UnicodeString('unicodestring');
-  Mensagem := TDynamicMessageBox.Create;
-  Mensagem.Opcao := 100000;
-  ShowMessage(Mensagem.MensagemEscolha(Self, 'titulo', 'mensagem', ['botao1', 'botao2']));
+  Mensagem := TDynamicMessageDlg.Create;
+  ShowMessage(Mensagem.MensagemEscolha(Self, 'titulo',
+      'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ' +
+        'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ', ['botao1', 'botao2'], []));
   FreeAndNil(Mensagem);
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  Opcao: String;
+begin
+  Opcao := DynamicMessageDlg(Self, 'titulo',
+    'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ' +
+      'mensagem teste mensagem teste mensagem teste mensagem teste mensagem teste ', ['botao1', 'botao2'], ['A', 1]);
+  ShowMessage(Opcao);
 end;
 
 end.
