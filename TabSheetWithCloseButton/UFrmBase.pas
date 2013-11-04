@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs;
+  Dialogs, StdCtrls;
 
 type
   TFrmBase = class(TForm)
@@ -24,7 +24,7 @@ implementation
 
 Destructor TFrmBase.Destroy;
 begin
-  ShowMessage(Caption);
+  // ShowMessage(Caption);
   inherited;
 end;
 

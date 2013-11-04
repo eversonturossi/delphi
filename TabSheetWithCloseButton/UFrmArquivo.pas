@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, UFrmBase;
+  Dialogs, UFrmBase;
 
 type
   TFrmArquivo = class(TFrmBase)

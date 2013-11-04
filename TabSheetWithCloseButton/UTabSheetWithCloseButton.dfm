@@ -26,6 +26,10 @@ object FrmPrincipal: TFrmPrincipal
     object TabSheet7: TTabSheet
       Caption = 'TabSheet7'
       ImageIndex = 6
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
     end
     object TabSheet8: TTabSheet
       Caption = 'TabSheet8'

@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, UxTheme, Themes, Math, XPMan, UFrmArquivo, UFrmAjuda,
-  UFrmEditar, UFrmLocalizar, UManagerPageControl;
+  Dialogs, Menus, ComCtrls, UxTheme, Themes, Math, XPMan, UManagerPageControl;
 
 type
   TFrmPrincipal = class(TForm)
@@ -34,6 +33,8 @@ var
 
 implementation
 
+uses
+  UFrmAjuda, UFrmArquivo, UFrmBase, UFrmEditar, UFrmLocalizar;
 {$R *.dfm}
 
 procedure TFrmPrincipal.CriarAba(clsForm: TFormClass; Index: Integer);

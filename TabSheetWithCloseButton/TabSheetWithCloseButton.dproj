@@ -1,10 +1,10 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{7DD1997A-48EF-4E33-B2C7-82B7D7D40B47}</ProjectGuid>
-			<ProjectVersion>12.0</ProjectVersion>
+			<ProjectGuid>{9D613070-3FA9-4D2D-A107-4835062287B9}</ProjectGuid>
 			<MainSource>TabSheetWithCloseButton.dpr</MainSource>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<ProjectVersion>12.0</ProjectVersion>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -20,7 +20,6 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
 			<DCC_DependencyCheckOutputName>TabSheetWithCloseButton.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_Platform>x86</DCC_Platform>
@@ -39,23 +38,23 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="UTabSheetWithCloseButton.pas">
-				<Form> FrmPrincipal </Form>
+				<Form>FrmPrincipal</Form>
 			</DCCReference>
-			<DCCReference Include="UFrmArquivo.pas">
-				<Form> FrmArquivo </Form>
-			</DCCReference>
-			<DCCReference Include="UFrmEditar.pas">
-				<Form> FrmEditar </Form>
-			</DCCReference>
-			<DCCReference Include="UFrmLocalizar.pas">
-				<Form> FrmLocalizar </Form>
-			</DCCReference>
-			<DCCReference Include="UFrmAjuda.pas">
-				<Form> FrmAjuda </Form>
+			<DCCReference Include="UFrmBase.pas">
+				<Form>FrmBase</Form>
 			</DCCReference>
 			<DCCReference Include="UManagerPageControl.pas"/>
-			<DCCReference Include="UFrmBase.pas">
-				<Form> FrmBase </Form>
+			<DCCReference Include="UFrmArquivo.pas">
+				<Form>FrmArquivo</Form>
+			</DCCReference>
+			<DCCReference Include="UFrmEditar.pas">
+				<Form>FrmEditar</Form>
+			</DCCReference>
+			<DCCReference Include="UFrmLocalizar.pas">
+				<Form>FrmLocalizar</Form>
+			</DCCReference>
+			<DCCReference Include="UFrmAjuda.pas">
+				<Form>FrmAjuda</Form>
 			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
@@ -72,7 +71,7 @@
 		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
 		<ProjectExtensions>
 			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
-			<Borland.ProjectType/>
+			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
 			<BorlandProject>
 				<Delphi.Personality>
 					<Source>

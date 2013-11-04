@@ -4,10 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, UFrmBase;
 
 type
-  TFrmAjuda = class(TForm)
+  TFrmAjuda = class(TFrmBase)
   private
     { Private declarations }
   public
