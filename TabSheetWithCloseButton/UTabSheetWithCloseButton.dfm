@@ -23,11 +23,6 @@ object Form1: TForm1
     ActivePage = TabSheet7
     Align = alClient
     TabOrder = 0
-    OnDrawTab = PageControlCloseButtonDrawTab
-    OnMouseDown = PageControlCloseButtonMouseDown
-    OnMouseLeave = PageControlCloseButtonMouseLeave
-    OnMouseMove = PageControlCloseButtonMouseMove
-    OnMouseUp = PageControlCloseButtonMouseUp
     object TabSheet7: TTabSheet
       Caption = 'TabSheet7'
       ImageIndex = 6

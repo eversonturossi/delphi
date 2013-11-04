@@ -53,6 +53,7 @@
 			<DCCReference Include="UFrmAjuda.pas">
 				<Form>FrmAjuda</Form>
 			</DCCReference>
+			<DCCReference Include="UManagerPageControl.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

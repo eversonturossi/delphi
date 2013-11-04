@@ -6,7 +6,8 @@ uses
   UFrmArquivo in 'UFrmArquivo.pas' {FrmArquivo},
   UFrmEditar in 'UFrmEditar.pas' {FrmEditar},
   UFrmLocalizar in 'UFrmLocalizar.pas' {FrmLocalizar},
-  UFrmAjuda in 'UFrmAjuda.pas' {FrmAjuda};
+  UFrmAjuda in 'UFrmAjuda.pas' {FrmAjuda},
+  UManagerPageControl in 'UManagerPageControl.pas';
 
 {$R *.res}
 

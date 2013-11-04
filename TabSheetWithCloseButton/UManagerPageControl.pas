@@ -18,11 +18,21 @@ uses
   Themes,
   Math;
 
-procedure PageControlCloseButtonDrawTab(Control: TCustomTabControl; TabIndex: Integer; const Rect: TRect; Active: Boolean);
-procedure PageControlCloseButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-procedure PageControlCloseButtonMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-procedure PageControlCloseButtonMouseLeave(Sender: TObject);
-procedure PageControlCloseButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+type
+  ManagerPageControlCloseButton = class(TObject)
+  private
+  published
+    class procedure AssignEvents(var PageControl: TPageControl);
+    class procedure CreateCloseButtonInNewTab(var PageControl: TPageControl);
+
+    class procedure EventDrawTab(Control: TCustomTabControl; TabIndex: Integer; const Rect: TRect; Active: Boolean);
+    class procedure EventMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    class procedure EventMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    class procedure EventMouseLeave(Sender: TObject);
+    class procedure EventMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+
+    class procedure CriarAba(clsForm: TFormClass; var PageControl: TPageControl; Index: Integer);
+  end;
 
 var
   FCloseButtonsRect: array of TRect;
@@ -31,7 +41,56 @@ var
 
 implementation
 
-procedure TForm1.PageControlCloseButtonDrawTab(Control: TCustomTabControl; TabIndex: Integer; const Rect: TRect; Active: Boolean);
+{ http://stackoverflow.com/questions/2201850/how-to-implement-a-close-button-for-a-ttabsheet-of-a-tpagecontrol }
+class procedure ManagerPageControlCloseButton.AssignEvents(var PageControl: TPageControl);
+begin
+  PageControl.OnDrawTab := ManagerPageControlCloseButton.EventDrawTab;
+  PageControl.OnMouseDown := ManagerPageControlCloseButton.EventMouseDown;
+  PageControl.OnMouseMove := ManagerPageControlCloseButton.EventMouseMove;
+  PageControl.OnMouseLeave := ManagerPageControlCloseButton.EventMouseLeave;
+  PageControl.OnMouseUp := ManagerPageControlCloseButton.EventMouseUp;
+
+  PageControl.TabWidth := 150;
+  PageControl.TabHeight := 20;
+  PageControl.OwnerDraw := True;
+end;
+
+class procedure ManagerPageControlCloseButton.CreateCloseButtonInNewTab(var PageControl: TPageControl);
+var
+  I: Integer;
+begin
+  // should be done on every change of the page count
+  SetLength(FCloseButtonsRect, PageControl.PageCount);
+  FCloseButtonMouseDownIndex := -1;
+  for I := 0 to Length(FCloseButtonsRect) - 1 do
+    FCloseButtonsRect[I] := Rect(0, 0, 0, 0);
+end;
+
+class procedure ManagerPageControlCloseButton.CriarAba(clsForm: TFormClass; var PageControl: TPageControl; Index: Integer);
+var
+  { http: // www.lucianopimenta.com/post.aspx?id=171 }
+  TabSheet: TTabSheet;
+  Form: TForm;
+begin
+  Form := clsForm.Create(TabSheet);
+  TabSheet := TTabSheet.Create(PageControl);
+
+  TabSheet.PageControl := PageControl;
+  TabSheet.Caption := Form.Caption;
+  TabSheet.ImageIndex := Index;
+
+  // Form.Align := alClient;
+  Form.Position := poMainFormCenter;
+  Form.BorderStyle := bsNone;
+  Form.Parent := TabSheet;
+  Form.Show;
+
+  PageControl.ActivePage := TabSheet;
+
+  ManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControl);
+end;
+
+class procedure ManagerPageControlCloseButton.EventDrawTab(Control: TCustomTabControl; TabIndex: Integer; const Rect: TRect; Active: Boolean);
 var
   CloseBtnSize: Integer;
   PageControl: TPageControl;
@@ -90,7 +149,7 @@ begin
   end;
 end;
 
-procedure TForm1.PageControlCloseButtonMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+class procedure ManagerPageControlCloseButton.EventMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   I: Integer;
   PageControl: TPageControl;
@@ -111,7 +170,7 @@ begin
   end;
 end;
 
-procedure TForm1.PageControlCloseButtonMouseLeave(Sender: TObject);
+class procedure ManagerPageControlCloseButton.EventMouseLeave(Sender: TObject);
 var
   PageControl: TPageControl;
 begin
@@ -120,7 +179,7 @@ begin
   PageControl.Repaint;
 end;
 
-procedure TForm1.PageControlCloseButtonMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+class procedure ManagerPageControlCloseButton.EventMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   PageControl: TPageControl;
   Inside: Boolean;
@@ -139,7 +198,7 @@ begin
   end;
 end;
 
-procedure TForm1.PageControlCloseButtonMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+class procedure ManagerPageControlCloseButton.EventMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   PageControl: TPageControl;
 begin
