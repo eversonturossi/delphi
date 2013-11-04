@@ -39,21 +39,24 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="UTabSheetWithCloseButton.pas">
-				<Form>Form1</Form>
+				<Form> FrmPrincipal </Form>
 			</DCCReference>
 			<DCCReference Include="UFrmArquivo.pas">
-				<Form>FrmArquivo</Form>
+				<Form> FrmArquivo </Form>
 			</DCCReference>
 			<DCCReference Include="UFrmEditar.pas">
-				<Form>FrmEditar</Form>
+				<Form> FrmEditar </Form>
 			</DCCReference>
 			<DCCReference Include="UFrmLocalizar.pas">
-				<Form>FrmLocalizar</Form>
+				<Form> FrmLocalizar </Form>
 			</DCCReference>
 			<DCCReference Include="UFrmAjuda.pas">
-				<Form>FrmAjuda</Form>
+				<Form> FrmAjuda </Form>
 			</DCCReference>
 			<DCCReference Include="UManagerPageControl.pas"/>
+			<DCCReference Include="UFrmBase.pas">
+				<Form> FrmBase </Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

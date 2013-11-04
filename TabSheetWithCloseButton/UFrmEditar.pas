@@ -4,11 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, UFrmBase;
 
 type
-  TFrmEditar = class(TForm)
-    Label1: TLabel;
+  TFrmEditar = class(TFrmBase)
   private
     { Private declarations }
   public

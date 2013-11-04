@@ -13,11 +13,4 @@ object FrmArquivo: TFrmArquivo
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 240
-    Top = 181
-    Width = 37
-    Height = 13
-    Caption = 'Arquivo'
-  end
 end

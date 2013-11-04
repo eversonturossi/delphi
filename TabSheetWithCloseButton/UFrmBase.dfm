@@ -1,9 +1,8 @@
-object FrmLocalizar: TFrmLocalizar
+object FrmBase: TFrmBase
   Left = 0
   Top = 0
-  Caption = 'Localizar'
-  ClientHeight = 202
-  ClientWidth = 447
+  ClientHeight = 439
+  ClientWidth = 536
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,11 +12,4 @@ object FrmLocalizar: TFrmLocalizar
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 32
-    Top = 48
-    Width = 38
-    Height = 13
-    Caption = 'localizar'
-  end
 end

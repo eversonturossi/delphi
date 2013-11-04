@@ -8,7 +8,7 @@ uses
   UFrmEditar, UFrmLocalizar, UManagerPageControl;
 
 type
-  TForm1 = class(TForm)
+  TFrmPrincipal = class(TForm)
     MainMenu1: TMainMenu;
     Arquivo1: TMenuItem;
     Editar1: TMenuItem;
@@ -30,39 +30,40 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FrmPrincipal: TFrmPrincipal;
 
 implementation
 
 {$R *.dfm}
 
-procedure TForm1.CriarAba(clsForm: TFormClass; Index: Integer);
+procedure TFrmPrincipal.CriarAba(clsForm: TFormClass; Index: Integer);
 begin
+  // if not (ManagerPageControlCloseButton.ExisteAba(PageControlCloseButton,tform( clsForm).Caption)) then
   ManagerPageControlCloseButton.CriarAba(clsForm, PageControlCloseButton, Index);
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFrmPrincipal.FormCreate(Sender: TObject);
 begin
   ManagerPageControlCloseButton.AssignEvents(PageControlCloseButton);
   ManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControlCloseButton);
 end;
 
-procedure TForm1.Ajuda1Click(Sender: TObject);
+procedure TFrmPrincipal.Ajuda1Click(Sender: TObject);
 begin
   CriarAba(TFrmAjuda, 0);
 end;
 
-procedure TForm1.Arquivo1Click(Sender: TObject);
+procedure TFrmPrincipal.Arquivo1Click(Sender: TObject);
 begin
   CriarAba(TFrmArquivo, 0);
 end;
 
-procedure TForm1.Localizar1Click(Sender: TObject);
+procedure TFrmPrincipal.Localizar1Click(Sender: TObject);
 begin
   CriarAba(TFrmLocalizar, 0);
 end;
 
-procedure TForm1.Editar1Click(Sender: TObject);
+procedure TFrmPrincipal.Editar1Click(Sender: TObject);
 begin
   CriarAba(TFrmEditar, 0);
 end;

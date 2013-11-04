@@ -21,6 +21,7 @@ uses
 type
   ManagerPageControlCloseButton = class(TObject)
   private
+
   published
     class procedure AssignEvents(var PageControl: TPageControl);
     class procedure CreateCloseButtonInNewTab(var PageControl: TPageControl);
@@ -32,6 +33,8 @@ type
     class procedure EventMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 
     class procedure CriarAba(clsForm: TFormClass; var PageControl: TPageControl; Index: Integer);
+    class function ExisteAba(PageControl: TPageControl; NomeAba: String): Boolean;
+    class procedure FecharAba(PageControl: TPageControl; NomeAba: String);
   end;
 
 var
@@ -64,30 +67,6 @@ begin
   FCloseButtonMouseDownIndex := -1;
   for I := 0 to Length(FCloseButtonsRect) - 1 do
     FCloseButtonsRect[I] := Rect(0, 0, 0, 0);
-end;
-
-class procedure ManagerPageControlCloseButton.CriarAba(clsForm: TFormClass; var PageControl: TPageControl; Index: Integer);
-var
-  { http: // www.lucianopimenta.com/post.aspx?id=171 }
-  TabSheet: TTabSheet;
-  Form: TForm;
-begin
-  Form := clsForm.Create(TabSheet);
-  TabSheet := TTabSheet.Create(PageControl);
-
-  TabSheet.PageControl := PageControl;
-  TabSheet.Caption := Form.Caption;
-  TabSheet.ImageIndex := Index;
-
-  // Form.Align := alClient;
-  Form.Position := poMainFormCenter;
-  Form.BorderStyle := bsNone;
-  Form.Parent := TabSheet;
-  Form.Show;
-
-  PageControl.ActivePage := TabSheet;
-
-  ManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControl);
 end;
 
 class procedure ManagerPageControlCloseButton.EventDrawTab(Control: TCustomTabControl; TabIndex: Integer; const Rect: TRect; Active: Boolean);
@@ -201,18 +180,88 @@ end;
 class procedure ManagerPageControlCloseButton.EventMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   PageControl: TPageControl;
+  TabSheet: TTabSheet;
+  I: Integer;
+  Componente: TComponent;
 begin
   PageControl := TPageControl(Sender);
-
   if (Button = mbLeft) and (FCloseButtonMouseDownIndex >= 0) then
   begin
     if (PtInRect(FCloseButtonsRect[FCloseButtonMouseDownIndex], Point(X, Y))) then
     begin
       // ShowMessage('Button ' + IntToStr(FCloseButtonMouseDownIndex + 1) + ' pressed!');
-      PageControl.Pages[PageControl.ActivePageIndex].Free;
+      // PageControl.Pages[PageControl.ActivePageIndex].Free;
+
+      TabSheet := PageControl.Pages[PageControl.ActivePageIndex];
+      for I := (TabSheet.ComponentCount - 1) downto 0 do
+      begin
+        Componente := TComponent(TabSheet.Components[I]);
+        FreeAndNil(Componente);
+      end;
+      FreeAndNil(TabSheet);
 
       FCloseButtonMouseDownIndex := -1;
       PageControl.Repaint;
+    end;
+  end;
+end;
+
+class procedure ManagerPageControlCloseButton.CriarAba(clsForm: TFormClass; var PageControl: TPageControl; Index: Integer);
+var
+  { http: // www.lucianopimenta.com/post.aspx?id=171 }
+  TabSheet: TTabSheet;
+  Form: TForm;
+begin
+
+  TabSheet := TTabSheet.Create(PageControl);
+  Form := clsForm.Create(TabSheet);
+
+  TabSheet.PageControl := PageControl;
+  TabSheet.Caption := Form.Caption;
+  TabSheet.ImageIndex := Index;
+
+  // Form.Align := alClient;
+  Form.Position := poMainFormCenter;
+  Form.BorderStyle := bsNone;
+  Form.Parent := TabSheet;
+  Form.Show;
+
+  PageControl.ActivePage := TabSheet;
+
+  ManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControl);
+end;
+
+class function ManagerPageControlCloseButton.ExisteAba(PageControl: TPageControl; NomeAba: String): Boolean;
+var
+  I: Integer;
+  Aba: TTabSheet;
+begin
+  Result := False;
+  for I := 0 to PageControl.PageCount - 1 do
+  begin
+    if PageControl.Pages[I].Caption = NomeAba then
+    begin
+      Aba := PageControl.Pages[I];
+      PageControl.ActivePage := Aba;
+      Result := True;
+      Break;
+    end;
+  end;
+end;
+
+class procedure ManagerPageControlCloseButton.FecharAba(PageControl: TPageControl; NomeAba: String);
+var
+  I: Integer;
+  Aba: TTabSheet;
+begin
+  for I := 0 to PageControl.PageCount - 1 do
+  begin
+    if (PageControl.Pages[I].Caption = NomeAba) then
+    begin
+      Aba := PageControl.Pages[I];
+      Aba.Destroy;
+      PageControl.ActivePageIndex := 0;
+      Break;
     end;
   end;
 end;

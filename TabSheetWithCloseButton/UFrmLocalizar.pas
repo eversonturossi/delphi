@@ -4,10 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, UFrmBase;
 
 type
-  TFrmLocalizar = class(TForm)
+  TFrmLocalizar = class(TFrmBase)
     Label1: TLabel;
   private
     { Private declarations }

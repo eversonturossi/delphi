@@ -13,11 +13,4 @@ object FrmEditar: TFrmEditar
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 24
-    Top = 152
-    Width = 321
-    Height = 13
-    Caption = 'Editar'
-  end
 end
