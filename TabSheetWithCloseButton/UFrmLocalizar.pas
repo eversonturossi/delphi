@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, UFrmBase;
+  Dialogs, UFrmBase, StdCtrls;
 
 type
   TFrmLocalizar = class(TFrmBase)

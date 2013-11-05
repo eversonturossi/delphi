@@ -15,8 +15,7 @@ type
     Ajuda1: TMenuItem;
     PageControlCloseButton: TPageControl;
     StatusBar1: TStatusBar;
-    TabSheet7: TTabSheet;
-    TabSheet8: TTabSheet;
+    TabSheetPrincipal: TTabSheet;
     procedure FormCreate(Sender: TObject);
     procedure Arquivo1Click(Sender: TObject);
     procedure Editar1Click(Sender: TObject);

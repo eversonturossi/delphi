@@ -212,7 +212,6 @@ var
   TabSheet: TTabSheet;
   Form: TForm;
 begin
-
   TabSheet := TTabSheet.Create(PageControl);
   Form := clsForm.Create(TabSheet);
 
@@ -220,9 +219,14 @@ begin
   TabSheet.Caption := Form.Caption;
   TabSheet.ImageIndex := Index;
 
-  // Form.Align := alClient;
+  // ===============================================
+  { Form.Align := alClient; }
   Form.Position := poMainFormCenter;
+  // ===============================================
   Form.BorderStyle := bsNone;
+  { Form.BorderStyle := bsSingle;
+    Form.BorderIcons := [biHelp]; }
+  // ===============================================
   Form.Parent := TabSheet;
   Form.Show;
 

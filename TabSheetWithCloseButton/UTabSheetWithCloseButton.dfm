@@ -20,24 +20,12 @@ object FrmPrincipal: TFrmPrincipal
     Top = 0
     Width = 815
     Height = 513
-    ActivePage = TabSheet7
+    ActivePage = TabSheetPrincipal
     Align = alClient
     TabOrder = 0
-    object TabSheet7: TTabSheet
-      Caption = 'TabSheet7'
+    object TabSheetPrincipal: TTabSheet
+      Caption = 'Principal'
       ImageIndex = 6
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
-    end
-    object TabSheet8: TTabSheet
-      Caption = 'TabSheet8'
-      ImageIndex = 7
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
     end
   end
   object StatusBar1: TStatusBar

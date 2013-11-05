@@ -8,10 +8,13 @@ uses
 
 type
   TFrmBase = class(TForm)
+    LabelTitulo: TLabel;
+    Button1: TButton;
   private
     { Private declarations }
   public
     Destructor Destroy; override;
+    Constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -21,6 +24,12 @@ implementation
 
 {$R *.dfm}
 { TFrmBase }
+
+Constructor TFrmBase.Create(AOwner: TComponent);
+begin
+  inherited;
+  LabelTitulo.Caption := Self.Caption;
+end;
 
 Destructor TFrmBase.Destroy;
 begin
