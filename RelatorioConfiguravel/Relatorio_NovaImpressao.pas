@@ -34,7 +34,7 @@ type
 implementation
 
 {$R *.DFM}
-{ TRelatorioNovaImpressaoPedido }
+{ TRelatorioNovaImpressao }
 
 Constructor TRelatorioNovaImpressao.Create(AOwner: TComponent);
 var
