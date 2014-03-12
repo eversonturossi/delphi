@@ -1,0 +1,64 @@
+package FlatStyle_D6;
+
+{$R *.res}
+{$R '..\Source\TFlatRegister.dcr'}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'FlatStyle'}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  designide;
+
+contains
+  TFlatTitlebarUnit in '..\Source\TFlatTitlebarUnit.pas',
+  FlatUtilitys in '..\Source\FlatUtilitys.pas',
+  HSLUtils in '..\Source\HSLUtils.pas',
+  TFlatAnimationUnit in '..\Source\TFlatAnimationUnit.pas',
+  TFlatAnimWndUnit in '..\Source\TFlatAnimWndUnit.pas',
+  TFlatButtonUnit in '..\Source\TFlatButtonUnit.pas',
+  TFlatCheckBoxUnit in '..\Source\TFlatCheckBoxUnit.pas',
+  TFlatCheckListBoxUnit in '..\Source\TFlatCheckListBoxUnit.pas',
+  TFlatColorComboBoxUnit in '..\Source\TFlatColorComboBoxUnit.pas',
+  TFlatComboBoxUnit in '..\Source\TFlatComboBoxUnit.pas',
+  TFlatEditUnit in '..\Source\TFlatEditUnit.pas',
+  TFlatGaugeUnit in '..\Source\TFlatGaugeUnit.pas',
+  TFlatGroupBoxUnit in '..\Source\TFlatGroupBoxUnit.pas',
+  TFlatHintUnit in '..\Source\TFlatHintUnit.pas',
+  TFlatListBoxUnit in '..\Source\TFlatListBoxUnit.pas',
+  TFlatMaskEditUnit in '..\Source\TFlatMaskEditUnit.pas',
+  TFlatMemoUnit in '..\Source\TFlatMemoUnit.pas',
+  TFlatPanelUnit in '..\Source\TFlatPanelUnit.pas',
+  TFlatProgressBarUnit in '..\Source\TFlatProgressBarUnit.pas',
+  TFlatRadioButtonUnit in '..\Source\TFlatRadioButtonUnit.pas',
+  TFlatRegister in '..\Source\TFlatRegister.pas',
+  TFlatScrollbarUnit in '..\Source\TFlatScrollbarUnit.pas',
+  TFlatSoundUnit in '..\Source\TFlatSoundUnit.pas',
+  TFlatSpeedButtonUnit in '..\Source\TFlatSpeedButtonUnit.pas',
+  TFlatSpinButtonUnit in '..\Source\TFlatSpinButtonUnit.pas',
+  TFlatSpinEditUnit in '..\Source\TFlatSpinEditUnit.pas',
+  TFlatSplitterUnit in '..\Source\TFlatSplitterUnit.pas',
+  TFlatTabControlUnit in '..\Source\TFlatTabControlUnit.pas',
+  FlatGraphics in '..\Source\FlatGraphics.pas';
+
+end.
