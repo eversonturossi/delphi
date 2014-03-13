@@ -120,11 +120,9 @@ object Form1: TForm1
     OnWork = IdFTP1Work
     OnWorkBegin = IdFTP1WorkBegin
     IPVersion = Id_IPv4
+    AutoLogin = True
     Passive = True
     PassiveUseControlHost = True
-    NATKeepAlive.UseKeepAlive = False
-    NATKeepAlive.IdleTimeMS = 0
-    NATKeepAlive.IntervalMS = 0
     ProxySettings.ProxyType = fpcmNone
     ProxySettings.Port = 0
     Left = 240
