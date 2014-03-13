@@ -24,12 +24,9 @@ type
     btnChanceDir: TButton;
     procedure btnConectarClick(Sender: TObject);
     procedure btnDesconectarClick(Sender: TObject);
-    procedure IdFTP1Status(ASender: TObject; const AStatus: TIdStatus;
-      const AStatusText: string);
-    procedure IdFTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode;
-      AWorkCountMax: Int64);
-    procedure IdFTP1Work(ASender: TObject; AWorkMode: TWorkMode;
-      AWorkCount: Int64);
+    procedure IdFTP1Status(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
+    procedure IdFTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode; AWorkCountMax: Int64);
+    procedure IdFTP1Work(ASender: TObject; AWorkMode: TWorkMode; AWorkCount: Int64);
     procedure btnPutClick(Sender: TObject);
     procedure btnCriaDirClick(Sender: TObject);
     procedure btnDeleteDirClick(Sender: TObject);
@@ -38,7 +35,7 @@ type
     procedure btnListarArquivosClick(Sender: TObject);
   private
     bytesToTransfer: integer;
-    Diretorio_Leitura: String;
+    Diretorio_Leitura: string;
   public
     constructor Create(AOwner: tcomponent); override;
   end;
@@ -84,7 +81,7 @@ var
   m: TStream;
   f: TStream;
   t: Cardinal;
-  Nome_Arquivo, Auxiliar: String;
+  Nome_Arquivo, Auxiliar: string;
   contador: integer;
 begin
   Auxiliar := ' ';
@@ -120,8 +117,7 @@ begin
       t := GetTickCount;
       IdFTP1.Put(m, Nome_Arquivo);
 
-      Memo_Relatorio_FTP.Lines.Add(Format('tempo %d milesegundos',
-        [GetTickCount - t]));
+      Memo_Relatorio_FTP.Lines.Add(Format('tempo %d milesegundos', [GetTickCount - t]));
       Memo_Relatorio_FTP.Lines.Add(Format('Tamanho %d bytes', [m.Size]));
       Memo_Relatorio_FTP.Lines.Add('');
 
@@ -163,33 +159,43 @@ var
   AFile: string;
 begin
   IdFTP1.List(nil);
-  for i := 0 to IdFTP1.ListResult.Count - 1 do
+  for i := 0 To IdFTP1.ListResult.Count - 1 do
   begin
-{$IFDEF VER210}   // 2010
+{$IFDEF VER000}   // exemplo original provavelmente em delphi7
     AFile := IdFTP1.ListResult.Items[i].FileName;
-
     if (AFile = '.') or (AFile = '..') then
       Continue;
-
     if IdFTP1.ListResult.Items[i].ItemType = ditDirectory then
       Memo_Relatorio_FTP.Lines.Add('dir: ' + AFile)
-    else if IdFTP1.ListResult.Items[i].ItemType = ditFile then
-    begin
-      Memo_Relatorio_FTP.Lines.Add('file: ' + AFile)
-    end;
+    else
+      if IdFTP1.ListResult.Items[i].ItemType = ditFile then
+      begin
+        Memo_Relatorio_FTP.Lines.Add('file: ' + AFile)
+      end;
+{$ENDIF}
+{$IFDEF VER210}   // 2010
+    AFile := IdFTP1.DirectoryListing.Items[i].FileName;
+    if (AFile = '.') or (AFile = '..') then
+      Continue;
+    if IdFTP1.DirectoryListing.Items[i].ItemType = ditDirectory then
+      Memo_Relatorio_FTP.Lines.Add('dir: ' + AFile)
+    else
+      if IdFTP1.DirectoryListing.Items[i].ItemType = ditFile then
+      begin
+        Memo_Relatorio_FTP.Lines.Add('file: ' + AFile)
+      end;
 {$ENDIF}
 {$IFDEF VER260}       // XE5
     AFile := IdFTP1.ListResult.Items[i].FileName;
-
     if (AFile = '.') or (AFile = '..') then
       Continue;
-
     if IdFTP1.ListResult.Items[i].ItemType = ditDirectory then
       Memo_Relatorio_FTP.Lines.Add('dir: ' + AFile)
-    else if IdFTP1.ListResult.Items[i].ItemType = ditFile then
-    begin
-      Memo_Relatorio_FTP.Lines.Add('file: ' + AFile)
-    end;
+    else
+      if IdFTP1.ListResult.Items[i].ItemType = ditFile then
+      begin
+        Memo_Relatorio_FTP.Lines.Add('file: ' + AFile)
+      end;
 {$ENDIF}
   end;
 end;
@@ -238,8 +244,7 @@ begin
 
 end;
 
-procedure TForm1.IdFTP1Status(ASender: TObject; const AStatus: TIdStatus;
-  const AStatusText: string);
+procedure TForm1.IdFTP1Status(ASender: TObject; const AStatus: TIdStatus; const AStatusText: string);
 begin
   case AStatus of
     hsConnected:
@@ -263,15 +268,13 @@ begin
   Self.Caption := AStatusText;
 end;
 
-procedure TForm1.IdFTP1Work(ASender: TObject; AWorkMode: TWorkMode;
-  AWorkCount: Int64);
+procedure TForm1.IdFTP1Work(ASender: TObject; AWorkMode: TWorkMode; AWorkCount: Int64);
 begin
   Gauge1.Progress := AWorkCount;
   Application.ProcessMessages;
 end;
 
-procedure TForm1.IdFTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode;
-  AWorkCountMax: Int64);
+procedure TForm1.IdFTP1WorkBegin(ASender: TObject; AWorkMode: TWorkMode; AWorkCountMax: Int64);
 begin
   Gauge1.Progress := 0;
   if AWorkCountMax > 0 then
