@@ -234,7 +234,7 @@ begin
 end;
 
 function TFlatSpinEditInteger.IsValidChar(Key: Char): Boolean;
-begin
+begin  {d2010: DecimalSeparator - System.Char (está na classe SysUtils)}
   Result := (Key in [DecimalSeparator, '+', '-', '0' .. '9']) or ((Key < #32) and (Key <> Chr(VK_RETURN)));
   if not FEditorEnabled and Result and ((Key >= #32) or (Key = Char(VK_BACK)) or (Key = Char(VK_DELETE))) then
     Result := False;
@@ -519,11 +519,12 @@ var
 begin
   try
     s := Text;
+    {d2010: CurrencyString - System.string (está em SysUtils)}
     while Pos(CurrencyString, s) > 0 do
       Delete(s, Pos(CurrencyString, s), Length(CurrencyString));
     while Pos(' ', s) > 0 do
       Delete(s, Pos(' ', s), 1);
-    while Pos(ThousandSeparator, s) > 0 do
+    while Pos(ThousandSeparator, s) > 0 do  {d2010: ThousandSeparator - System.Char (está em SysUtils)}
       Delete(s, Pos(ThousandSeparator, s), Length(ThousandSeparator));
 
     // Delete negative numbers in format Currency
