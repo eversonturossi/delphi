@@ -1,0 +1,73 @@
+//diretivas para cada vesao do delphi copiado do acbr
+  {$IFDEF VER150}  {$ENDIF} // D7
+  {$IFDEF VER170}  {$ENDIF} // D2005
+  {$IFDEF VER180}
+    {$IFNDEF VER185}  {$ENDIF} // D2006
+  {$ENDIF}
+  {$IFDEF VER185}  {$ENDIF} // D2007  ????? aqui pode estar errado
+  {$IFDEF VER190}  {$ENDIF} // D2007  
+  {$IFDEF VER200}  {$ENDIF} // D2009
+  {$IFDEF VER210}  {$ENDIF} // D2010
+  {$IFDEF VER220}  {$ENDIF} // XE
+  {$IFDEF VER230}  {$ENDIF} //XE2
+  {$IFDEF VER240}  {$ENDIF} //XE3
+  {$IFDEF VER250}  {$ENDIF} //XE4
+  {$IFDEF VER260}  {$ENDIF} //XE5
+//----------------------------------------------------------------------  
+//https://gist.github.com/2485849
+if CompilerVersion = 20 then sCompilerName := 'Delphi 2009';
+ or in conditional compiler expressions:
+ {$if CompilerVersion > 18} // Delphi 2007 or later {$ifend}
+ Compiler CompilerVersion Defined Symbol
+Delphi XE4 25 VER250
+Delphi XE3 24 VER240
+Delphi XE2 23 VER230
+Delphi XE 22 VER220
+Delphi 2010 21 VER210
+Delphi 2009 20 VER200
+Delphi 2007 .NET 19 VER190
+Delphi 2007 18.5 VER185
+Delphi 2006 18 VER180
+Delphi 2005 17 VER170
+Delphi 8 .NET 16 VER160
+Delphi 7 15 VER150
+Delphi 6 14 VER140
+Delphi 5 13 VER130
+Delphi 4 12 VER120
+Delphi 3 10 VER100
+Delphi 2 9 VER90
+Delphi 1 8 VER80 
+  
+{$IFDEF VER80} ShowMessage('Delphi 1');{$ENDIF}
+{$IFDEF VER90} ShowMessage('Delphi 2');{$ENDIF}
+{$IFDEF VER100} ShowMessage('Delphi 3');{$ENDIF}
+{$IFDEF VER120} ShowMessage('Delphi 4');{$ENDIF}
+{$IFDEF VER130} ShowMessage('Delphi 5');{$ENDIF}
+{$IFDEF VER140} ShowMessage('Delphi 6');{$ENDIF}
+{$IFDEF VER150} ShowMessage('Delphi 7');{$ENDIF}
+{$IFDEF VER160} ShowMessage('Delphi 8');{$ENDIF}
+{$IFDEF VER170} ShowMessage('Delphi 2005');{$ENDIF}
+{$IFDEF VER180} ShowMessage('Delphi 2006');{$ENDIF}
+{$IFDEF VER185} ShowMessage('Delphi 2007');{$ENDIF}
+{$IFDEF VER200} ShowMessage('Delphi 2009');{$ENDIF}
+{$IFDEF VER210} ShowMessage('Delphi 2010');{$ENDIF}
+{$IFDEF VER220} ShowMessage('Delphi XE');{$ENDIF}
+{$IFDEF VER230} ShowMessage('Delphi XE2');{$ENDIF}
+{$IFDEF VER240} ShowMessage('Delphi XE3');{$ENDIF}
+{$IFDEF VER250} ShowMessage('Delphi XE4');{$ENDIF}  
+//----------------------------------------------------------------------  
+//exemplo de if else
+{$IFDEF VER150}
+   ShowMessage('Compilando em Delphi 7.0');
+{$ELSE}
+   ShowMessage('Não sei qual a versão do delphi');
+{$ENDIF}
+//----------------------------------------------------------------------
+//não recompilar pacotes requeridos  
+  {$IMPLICITBUILD ON}
+//----------------------------------------------------------------------  
+//no arquivo inc
+{$DEFINE NOMEDIETIVA}     
+//----------------------------------------------------------------------
+//incluir um arquivo com diretivas
+{$I arquivo.inc} ou {$INCLUDE arquivo.inc};
