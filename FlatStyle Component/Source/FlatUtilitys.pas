@@ -353,9 +353,16 @@ begin
 
   // fixup the result variables
   with GlyphPos do
-  begin
+  begin  {d2010: Client.Left é Integer;Offset.x é Integer  }
+  {d2010: Offset - Types.TPoint (PPoint = ^TPoint;TPoint = record X: Longint;Y: Longint;end;)}
+{$IF CompilerVersion <= 21}
     Inc(x, Client.Left + Offset.x);
     Inc(y, Client.Top + Offset.y);
+{$IFEND}
+{$IFDEF VER260}
+    Inc(x, Client.Left + Offset.Dx);
+    Inc(y, Client.Top + Offset.Dy);
+{$ENDIF}
   end;
   OffsetRect(TextBounds, TextPos.x + Client.Left + Offset.x, TextPos.y + Client.Top + Offset.x);
 end;
