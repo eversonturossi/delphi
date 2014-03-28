@@ -15,6 +15,8 @@ type
     Label4: TLabel;
     SpinEditRatio: TSpinEdit;
     SpinEditModul: TSpinEdit;
+    Label1: TLabel;
+    SpinEditAltura: TSpinEdit;
     procedure ButtonGerarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -45,7 +47,8 @@ begin
     ACBrBarCode1.Text := Edit1.Text;
     ACBrBarCode1.ShowText := bcoCode;
     ACBrBarCode1.ShowTextPosition := stpBottomCenter;
-    ACBrBarCode1.BarCode.Height := Trunc(ACBrBarCode1.BarCode.Width / 3);
+    // ACBrBarCode1.BarCode.Height := Trunc(ACBrBarCode1.BarCode.Width / 3);
+    ACBrBarCode1.BarCode.Height := SpinEditAltura.Value;
     bmp := Graphics.TBitmap.Create();
     bmp.Width := ACBrBarCode1.BarCode.Width;
     bmp.Height := ACBrBarCode1.BarCode.Height;
@@ -72,6 +75,7 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   Edit1.OnChange := ChangeCodBar;
+  SpinEditAltura.OnChange := ChangeCodBar;
   SpinEditRatio.OnChange := ChangeCodBar;
   SpinEditModul.OnChange := ChangeCodBar;
 end;

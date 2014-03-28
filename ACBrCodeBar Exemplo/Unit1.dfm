@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Teste de c'#243'digo de Barras'
   ClientHeight = 552
   ClientWidth = 1032
   Color = clBtnFace
@@ -21,18 +21,25 @@ object Form1: TForm1
     Height = 29
   end
   object Label3: TLabel
-    Left = 227
+    Left = 326
     Top = 11
     Width = 25
     Height = 13
     Caption = 'Ratio'
   end
   object Label4: TLabel
-    Left = 313
+    Left = 412
     Top = 11
     Width = 28
     Height = 13
     Caption = 'Modul'
+  end
+  object Label1: TLabel
+    Left = 232
+    Top = 11
+    Width = 29
+    Height = 13
+    Caption = 'Altura'
   end
   object ButtonGerar: TButton
     Left = 8
@@ -52,23 +59,33 @@ object Form1: TForm1
     Text = '123456789'
   end
   object SpinEditRatio: TSpinEdit
-    Left = 258
-    Top = 8
-    Width = 49
-    Height = 22
-    MaxValue = 0
-    MinValue = 0
-    TabOrder = 2
-    Value = 2
-  end
-  object SpinEditModul: TSpinEdit
-    Left = 347
+    Left = 357
     Top = 8
     Width = 49
     Height = 22
     MaxValue = 0
     MinValue = 0
     TabOrder = 3
+    Value = 2
+  end
+  object SpinEditModul: TSpinEdit
+    Left = 446
+    Top = 8
+    Width = 49
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 4
     Value = 1
+  end
+  object SpinEditAltura: TSpinEdit
+    Left = 267
+    Top = 8
+    Width = 49
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 2
+    Value = 50
   end
 end
