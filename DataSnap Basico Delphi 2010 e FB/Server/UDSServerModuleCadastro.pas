@@ -9,6 +9,8 @@ type
   TDSServerModuleCadastro = class(TDSServerModule)
     SQLClifor: TSQLQuery;
     dspClifor: TDataSetProvider;
+    SQLTeste: TSQLQuery;
+    dspTeste: TDataSetProvider;
     procedure DSServerModuleCreate(Sender: TObject);
   private
     { Private declarations }

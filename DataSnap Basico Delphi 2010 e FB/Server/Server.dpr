@@ -7,7 +7,8 @@ uses
   UDatasnapContainer in 'UDatasnapContainer.pas' { DatasnapContainer: TDataModule},
   UDSServerModuleCadastro in 'UDSServerModuleCadastro.pas' {DSServerModuleCadastro: TDSServerModule},
   UDataModuleConexao in 'UDataModuleConexao.pas' { DataModuleConexao: TDataModule},
-  UDSServerModuleMovimento in 'UDSServerModuleMovimento.pas' {DSServerModuleMovimento: TDSServerModule};
+  UDSServerModuleMovimento in 'UDSServerModuleMovimento.pas' {DSServerModuleMovimento: TDSServerModule},
+  UDSServerModuleRelatorio in 'UDSServerModuleRelatorio.pas' {DSServerModuleRelatorio: TDSServerModule};
 
 {$R *.res}
 

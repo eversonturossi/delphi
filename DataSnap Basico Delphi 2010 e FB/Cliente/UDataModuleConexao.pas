@@ -10,6 +10,7 @@ type
     Conexao: TSQLConnection;
     DSProviderCadastro: TDSProviderConnection;
     DSProviderMovimento: TDSProviderConnection;
+    DSProviderRelatorio: TDSProviderConnection;
   private
     { Private declarations }
   public

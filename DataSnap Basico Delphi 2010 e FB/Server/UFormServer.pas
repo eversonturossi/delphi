@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, UDataModuleConexao, UDSServerModuleCadastro, UDatasnapContainer,
-  UDSServerModuleMovimento;
+  UDSServerModuleMovimento, UDSServerModuleRelatorio;
 
 type
   TFormServer = class(TForm)
@@ -15,6 +15,7 @@ type
     // DataModuleConexao: TDataModuleConexao;
     DSServerModuleCadastro: TDSServerModuleCadastro;
     DSServerModuleMovimento: TDSServerModuleMovimento;
+    DSServerModuleRelatorio: TDSServerModuleRelatorio;
     DatasnapContainer: TDatasnapContainer;
   public
 
@@ -32,6 +33,7 @@ begin
   // DataModuleConexao := TDataModuleConexao.Create(Self);
   DSServerModuleCadastro := TDSServerModuleCadastro.Create(Self);
   DSServerModuleMovimento := TDSServerModuleMovimento.Create(Self);
+  DSServerModuleRelatorio := TDSServerModuleRelatorio.Create(Self);
   DatasnapContainer := TDatasnapContainer.Create(Self);
 end;
 
@@ -40,6 +42,7 @@ begin
   try
     FreeAndNil(DSServerModuleCadastro);
     FreeAndNil(DSServerModuleMovimento);
+    FreeAndNil(DSServerModuleRelatorio);
     FreeAndNil(DatasnapContainer);
   finally
     // FreeAndNil(DataModuleConexao);

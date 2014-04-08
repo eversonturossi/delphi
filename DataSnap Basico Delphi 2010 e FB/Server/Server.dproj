@@ -61,6 +61,10 @@
 				<Form>DSServerModuleMovimento</Form>
 				<DesignClass>TDSServerModule</DesignClass>
 			</DCCReference>
+			<DCCReference Include="UDSServerModuleRelatorio.pas">
+				<Form>DSServerModuleRelatorio</Form>
+				<DesignClass>TDSServerModule</DesignClass>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
