@@ -23,14 +23,21 @@ object DatasnapContainer: TDatasnapContainer
     OnGetClass = DSServerClass1GetClass
     Server = DatasapServer
     LifeCycle = 'Session'
-    Left = 320
+    Left = 224
     Top = 27
   end
   object DSServerClassCadastro: TDSServerClass
     OnGetClass = DSServerClassCadastroGetClass
     Server = DatasapServer
     LifeCycle = 'Session'
-    Left = 320
+    Left = 224
     Top = 88
+  end
+  object DSServerClassMovimento: TDSServerClass
+    OnGetClass = DSServerClassMovimentoGetClass
+    Server = DatasapServer
+    LifeCycle = 'Session'
+    Left = 224
+    Top = 152
   end
 end

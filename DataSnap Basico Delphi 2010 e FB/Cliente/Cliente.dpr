@@ -2,18 +2,20 @@ program Cliente;
 
 uses
   Forms,
-  UFormPrincipal in 'UFormPrincipal.pas' {Form1},
+  UFormCliente in 'UFormCliente.pas' {FormCliente},
   UDataModuleConexao in 'UDataModuleConexao.pas' {DataModuleConexao: TDataModule},
-  UDataModuleCadastro in 'UDataModuleCadastro.pas' {DataModule2: TDataModule},
-  ClientClasses in 'ClientClasses.pas';
+  UDataModuleCadastro in 'UDataModuleCadastro.pas' {DataModuleCadastro: TDataModule},
+  ClientClasses in 'ClientClasses.pas',
+  UDataModuleMovimento in 'UDataModuleMovimento.pas' {DataModuleMovimento: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormCliente, FormCliente);
   Application.CreateForm(TDataModuleConexao, DataModuleConexao);
-  Application.CreateForm(TDataModule2, DataModule2);
+  Application.CreateForm(TDataModuleCadastro, DataModuleCadastro);
+  Application.CreateForm(TDataModuleMovimento, DataModuleMovimento);
   Application.Run;
 end.

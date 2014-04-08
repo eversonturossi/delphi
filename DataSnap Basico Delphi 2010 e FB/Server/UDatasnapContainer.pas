@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Classes,
   DSTCPServerTransport,
-  DSServer, DSCommonServer, UrdmCadastro;
+  DSServer, DSCommonServer, UDSServerModuleCadastro, UDSServerModuleMovimento;
 
 type
   TDatasnapContainer = class(TDataModule)
@@ -13,10 +13,12 @@ type
     DSTCPServerTransport1: TDSTCPServerTransport;
     DSServerClass1: TDSServerClass;
     DSServerClassCadastro: TDSServerClass;
+    DSServerClassMovimento: TDSServerClass;
     procedure DSServerClass1GetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
     procedure DSServerClassCadastroGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
+    procedure DSServerClassMovimentoGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
   private
     { Private declarations }
   public
@@ -47,7 +49,12 @@ end;
 
 procedure TDatasnapContainer.DSServerClassCadastroGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
-  PersistentClass := TrdmCadastro;
+  PersistentClass := TDSServerModuleCadastro;
+end;
+
+procedure TDatasnapContainer.DSServerClassMovimentoGetClass(DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
+begin
+  PersistentClass := TDSServerModuleMovimento;
 end;
 
 end.

@@ -3,11 +3,13 @@ unit UDataModuleConexao;
 interface
 
 uses
-  SysUtils, Classes, WideStrings, DB, SqlExpr, DbxDatasnap;
+  SysUtils, Classes, WideStrings, DB, SqlExpr, DbxDatasnap, DBClient, DSConnect;
 
 type
   TDataModuleConexao = class(TDataModule)
     Conexao: TSQLConnection;
+    DSProviderCadastro: TDSProviderConnection;
+    DSProviderMovimento: TDSProviderConnection;
   private
     { Private declarations }
   public

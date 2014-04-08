@@ -38,18 +38,22 @@
 			<DelphiCompile Include="Cliente.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="UFormPrincipal.pas">
-				<Form>Form1</Form>
+			<DCCReference Include="UFormCliente.pas">
+				<Form>FormCliente</Form>
 			</DCCReference>
 			<DCCReference Include="UDataModuleConexao.pas">
 				<Form>DataModuleConexao</Form>
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
 			<DCCReference Include="UDataModuleCadastro.pas">
-				<Form>DataModule2</Form>
+				<Form>DataModuleCadastro</Form>
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
 			<DCCReference Include="ClientClasses.pas"/>
+			<DCCReference Include="UDataModuleMovimento.pas">
+				<Form>DataModuleMovimento</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

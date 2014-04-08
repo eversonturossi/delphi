@@ -49,13 +49,17 @@
 				<Form> DatasnapContainer</Form>
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
-			<DCCReference Include="URdmCadastro.pas">
-				<Form> RdmCadastro</Form>
+			<DCCReference Include="UDSServerModuleCadastro.pas">
+				<Form>DSServerModuleCadastro</Form>
 				<DesignClass>TDSServerModule</DesignClass>
 			</DCCReference>
 			<DCCReference Include="UDataModuleConexao.pas">
 				<Form> DataModuleConexao</Form>
 				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="UDSServerModuleMovimento.pas">
+				<Form>DSServerModuleMovimento</Form>
+				<DesignClass>TDSServerModule</DesignClass>
 			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>

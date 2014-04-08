@@ -12,4 +12,16 @@ object DataModuleConexao: TDataModuleConexao
     Left = 88
     Top = 24
   end
+  object DSProviderCadastro: TDSProviderConnection
+    ServerClassName = 'TDSServerModuleCadastro'
+    SQLConnection = Conexao
+    Left = 216
+    Top = 104
+  end
+  object DSProviderMovimento: TDSProviderConnection
+    ServerClassName = 'TDSServerModuleMovimento'
+    SQLConnection = Conexao
+    Left = 80
+    Top = 104
+  end
 end

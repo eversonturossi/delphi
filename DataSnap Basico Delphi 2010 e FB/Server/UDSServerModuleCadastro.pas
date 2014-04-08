@@ -1,4 +1,4 @@
-unit URdmCadastro;
+unit UDSServerModuleCadastro;
 
 interface
 
@@ -6,7 +6,7 @@ uses
   SysUtils, Classes, DSServer, FMTBcd, DB, SqlExpr, UDataModuleConexao, Provider;
 
 type
-  TRdmCadastro = class(TDSServerModule)
+  TDSServerModuleCadastro = class(TDSServerModule)
     SQLClifor: TSQLQuery;
     dspClifor: TDataSetProvider;
     procedure DSServerModuleCreate(Sender: TObject);
@@ -20,7 +20,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TRdmCadastro.DSServerModuleCreate(Sender: TObject);
+procedure TDSServerModuleCadastro.DSServerModuleCreate(Sender: TObject);
 begin
   SQLClifor.SQLConnection := DataModuleConexao.ConexaoFirebird;
 end;

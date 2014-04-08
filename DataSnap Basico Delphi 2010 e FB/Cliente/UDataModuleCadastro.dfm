@@ -1,19 +1,12 @@
-object DataModule2: TDataModule2
+object DataModuleCadastro: TDataModuleCadastro
   OldCreateOrder = False
   Height = 386
   Width = 700
-  object DSProviderCadastro: TDSProviderConnection
-    ServerClassName = 'TrdmCadastro'
-    Connected = True
-    SQLConnection = DataModuleConexao.Conexao
-    Left = 40
-    Top = 16
-  end
-  object ClientDataSet1: TClientDataSet
+  object cdClifor: TClientDataSet
     Aggregates = <>
     Params = <>
-    ProviderName = 'DataSetProvider1'
-    RemoteServer = DSProviderCadastro
+    ProviderName = 'dspClifor'
+    RemoteServer = DataModuleConexao.DSProviderCadastro
     Left = 40
     Top = 80
   end
