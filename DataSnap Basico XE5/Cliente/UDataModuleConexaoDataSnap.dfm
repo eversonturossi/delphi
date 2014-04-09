@@ -27,7 +27,7 @@ object DataModule2: TDataModule2
   object DSProviderConfiguracao: TDSProviderConnection
     ServerClassName = 'TDSServerModuleConfiguracao'
     SQLConnection = ConexaoDataSnap
-    Left = 120
-    Top = 112
+    Left = 96
+    Top = 104
   end
 end
