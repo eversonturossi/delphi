@@ -8,8 +8,6 @@ uses
 
 type
   TDataModule1 = class(TDataModule)
-    ConexaoDataSnap: TSQLConnection;
-    DSProviderConfiguracao: TDSProviderConnection;
   private
     { Private declarations }
   public

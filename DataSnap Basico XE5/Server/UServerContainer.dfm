@@ -5,6 +5,7 @@ object ServerContainer: TServerContainer
   Height = 664
   Width = 897
   object DataSnapServer: TDSServer
+    AutoStart = False
     Left = 96
     Top = 11
   end
@@ -37,7 +38,7 @@ object ServerContainer: TServerContainer
     OnUserAuthenticate = DSAuthenticationManager1UserAuthenticate
     OnUserAuthorize = DSAuthenticationManager1UserAuthorize
     Roles = <>
-    Left = 88
+    Left = 96
     Top = 133
   end
   object DSServerClass1: TDSServerClass

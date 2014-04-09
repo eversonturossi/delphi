@@ -28,8 +28,9 @@ type
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
-    { Private declarations }
+
   public
+
   end;
 
 var
