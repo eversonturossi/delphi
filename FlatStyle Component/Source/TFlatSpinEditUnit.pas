@@ -235,7 +235,7 @@ end;
 
 function TFlatSpinEditInteger.IsValidChar(Key: Char): Boolean;
 begin  {d2010: DecimalSeparator - System.Char (está na classe SysUtils)}
-  Result := (Key in [DecimalSeparator, '+', '-', '0' .. '9']) or ((Key < #32) and (Key <> Chr(VK_RETURN)));
+  Result := (Key in [{$IF CompilerVersion <= 21}DecimalSeparator{$IFEND}{$IFDEF VER260}TFormatSettings.DecimalSeparator{$ENDIF}, '+', '-', '0' .. '9']) or ((Key < #32) and (Key <> Chr(VK_RETURN)));
   if not FEditorEnabled and Result and ((Key >= #32) or (Key = Char(VK_BACK)) or (Key = Char(VK_DELETE))) then
     Result := False;
 end;

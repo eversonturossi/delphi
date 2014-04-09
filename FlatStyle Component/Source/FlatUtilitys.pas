@@ -4,7 +4,21 @@ interface
 
 {$I DFS.inc}
 
-uses Windows, Classes, Graphics, Buttons, Messages, Controls, HSLUtils;
+uses
+ //Windows, Classes, Graphics, Buttons, Messages, Controls,
+{$IF CompilerVersion <= 21}
+   //Windows, Classes, Graphics, Buttons, Messages, Controls,
+{$IFEND}
+
+{$IFDEF VER260}
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+     Vcl.StdCtrls ,Vcl.Buttons, System.Types,
+{$ENDIF}
+   HSLUtils;
+
+
+
+
 {$IFNDEF DFS_COMPILER_4_UP}
 
 const
@@ -360,8 +374,8 @@ begin
     Inc(y, Client.Top + Offset.y);
 {$IFEND}
 {$IFDEF VER260}
-    Inc(x, Client.Left + Offset.Dx);
-    Inc(y, Client.Top + Offset.Dy);
+   // Inc(x, Client.Left + Offset.x);
+  //  Inc(y, Client.Top + Offset.y);
 {$ENDIF}
   end;
   OffsetRect(TextBounds, TextPos.x + Client.Left + Offset.x, TextPos.y + Client.Top + Offset.x);
