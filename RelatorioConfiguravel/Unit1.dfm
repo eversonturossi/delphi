@@ -11,13 +11,17 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  DesignSize = (
+    337
+    347)
   PixelsPerInch = 96
   TextHeight = 13
   object Button1: TButton
     Left = 8
     Top = 8
-    Width = 317
+    Width = 321
     Height = 81
+    Anchors = [akLeft, akTop, akRight]
     Caption = 'Gerar'
     TabOrder = 0
     OnClick = Button1Click
@@ -25,8 +29,9 @@ object Form1: TForm1
   object DBGrid1: TDBGrid
     Left = 8
     Top = 95
-    Width = 320
+    Width = 321
     Height = 120
+    Anchors = [akLeft, akTop, akRight]
     DataSource = dsRelatorio
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -38,8 +43,9 @@ object Form1: TForm1
   object DBGrid2: TDBGrid
     Left = 8
     Top = 221
-    Width = 320
+    Width = 321
     Height = 120
+    Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = dsItens
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
