@@ -36,6 +36,8 @@ implementation
 {$R *.dfm}
 
 procedure TForm1.Button1Click(Sender: TObject);
+var
+  AParam: TParam;
 begin
   try
     Connection.DriverName := 'Firebird';
@@ -60,6 +62,17 @@ begin
     SQLItens.SQL.Add('itempedido.*');
     SQLItens.SQL.Add('from itempedido');
     SQLItens.SQL.Add('where itempedido.numero = :numero');
+
+    // link dinamico
+    // cdsItens.MasterSource := dsRelatorio;
+    // cdsItens.PacketRecords := 0;
+    // cdsItens.IndexFieldNames := 'numero';
+    // cdsItens.MasterFields := 'numero';
+    // AParam := TParam.Create(nil);
+    // AParam.DataType := ftInteger;
+    // AParam.Name := 'numero';
+    // cdsItens.Params.Clear;
+    // cdsItens.Params.AddParam(AParam);
 
     cdsRelatorio.Open;
     cdsItens.Open;
