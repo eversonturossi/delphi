@@ -24,6 +24,7 @@ type
     procedure Button1Click(Sender: TObject);
   private
     RelatorioNovaImpressao: TRelatorioNovaImpressao;
+    function CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; Master: TDataSource): TClientDataSet;
   public
     { Public declarations }
   end;
@@ -34,6 +35,42 @@ var
 implementation
 
 {$R *.dfm}
+
+function TForm1.CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; Master: TDataSource): TClientDataSet;
+var
+  AQuery: TSQLQuery;
+  AProvider: TDataSetProvider;
+  ADataSet: TClientDataSet;
+  AParam: TParam;
+begin
+  AQuery := TSQLQuery.Create(Self);
+  AProvider := TDataSetProvider.Create(Self);
+  ADataSet := TClientDataSet.Create(Self);
+
+  AQuery.SQLConnection := Con;
+  AQuery.SQL.Add(ASql);
+  AProvider.DataSet := AQuery;
+  ADataSet.SetProvider(AProvider);
+  ADataSet.IndexFieldNames := NomeParametro;
+  ADataSet.MasterFields := NomeParametro;
+
+  if (Master <> nil) then
+  begin
+    ADataSet.MasterSource := Master;
+    ADataSet.PacketRecords := 0;
+  end;
+
+  if (NomeParametro <> '') then
+  begin
+    AParam := TParam.Create(nil);
+    AParam.DataType := ftInteger;
+    AParam.Name := NomeParametro;
+    AQuery.Params.AddParam(AParam);
+    ADataSet.Params.AddParam(AParam);
+  end;
+
+  Result := ADataSet;
+end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
