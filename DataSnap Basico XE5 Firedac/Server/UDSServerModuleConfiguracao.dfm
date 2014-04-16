@@ -2,7 +2,7 @@ object DSServerModuleConfiguracao: TDSServerModuleConfiguracao
   OldCreateOrder = False
   Height = 464
   Width = 661
-  object FDQuery1: TFDQuery
+  object FDQueryTabelas: TFDQuery
     Connection = DataModuleConexaoBanco.FDConexaoBanco
     SQL.Strings = (
       'SELECT RDB$RELATION_NAME as nome_tabela'
@@ -12,8 +12,9 @@ object DSServerModuleConfiguracao: TDSServerModuleConfiguracao
     Left = 48
     Top = 24
   end
-  object FDPhysDataSnapDriverLink1: TFDPhysDataSnapDriverLink
-    Left = 224
-    Top = 40
+  object dspTabelas: TDataSetProvider
+    DataSet = FDQueryTabelas
+    Left = 48
+    Top = 88
   end
 end

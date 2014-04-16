@@ -9,7 +9,8 @@ uses
   FireDAC.Phys, Data.DB, FireDAC.Comp.Client, Datasnap.DBClient,
   Data.DbxDatasnap, IPPeerClient, Data.DBXCommon, Datasnap.DSConnect,
   Data.SqlExpr, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Phys.TDBXBase,
+  FireDAC.Phys.DataSnap;
 
 type
   TDataModuleConexaoDataSap = class(TDataModule)
@@ -17,9 +18,9 @@ type
     ConexaoDataSnap: TSQLConnection;
     DSProviderConfiguracao: TDSProviderConnection;
     ClientDataSet1: TClientDataSet;
-    FDQuery1: TFDQuery;
     FDTable1: TFDTable;
-    DataSource1: TDataSource;
+    FDPhysDataSnapDriverLink1: TFDPhysDataSnapDriverLink;
+    ClientDataSet1NOME_TABELA: TWideStringField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private

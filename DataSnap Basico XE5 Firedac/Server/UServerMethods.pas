@@ -2,7 +2,7 @@ unit UServerMethods;
 
 interface
 
-uses System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth;
+uses System.SysUtils, System.Classes, Datasnap.DSServer ;
 
 type
   TServerMethods = class(TDSServerModule)

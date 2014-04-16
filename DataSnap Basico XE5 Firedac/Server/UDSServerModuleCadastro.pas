@@ -3,7 +3,9 @@ unit UDSServerModuleCadastro;
 interface
 
 uses
-  System.SysUtils, System.Classes, Datasnap.DSServer, Datasnap.DSAuth;
+  System.SysUtils, System.Classes, Datasnap.DSServer
+
+  ;
 
 type
   TDSServerModuleCadastro = class(TDSServerModule)

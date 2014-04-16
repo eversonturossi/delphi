@@ -4,10 +4,12 @@ interface
 
 uses
   System.SysUtils, System.Classes,
-  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
-  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
-  FireDAC.Phys, FireDAC.Comp.Client, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
-  FireDAC.Phys.IBBase, FireDAC.Phys.FB, Data.DB;
+
+  FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  FireDAC.Comp.UI, FireDAC.Phys.IBBase, FireDAC.Phys.FB, Data.DB,
+  FireDAC.Comp.Client;
 
 type
   TDataModuleConexaoBanco = class(TDataModule)
@@ -33,12 +35,12 @@ implementation
 
 procedure TDataModuleConexaoBanco.DataModuleCreate(Sender: TObject);
 begin
-  fdConexaoBanco.Connected := True;
+  FDConexaoBanco.Connected := True;
 end;
 
 procedure TDataModuleConexaoBanco.DataModuleDestroy(Sender: TObject);
 begin
-  fdConexaoBanco.Connected := False;
+  FDConexaoBanco.Connected := False;
 end;
 
 end.

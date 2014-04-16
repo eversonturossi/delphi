@@ -13,16 +13,16 @@ object DataModuleConexaoBanco: TDataModuleConexaoBanco
       'Password=masterkey'
       'DriverID=FB')
     LoginPrompt = False
-    Left = 176
-    Top = 40
+    Left = 64
+    Top = 32
   end
   object FDPhysFBDriverLink1: TFDPhysFBDriverLink
-    Left = 176
-    Top = 112
+    Left = 320
+    Top = 32
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 184
-    Top = 176
+    Left = 328
+    Top = 112
   end
 end

@@ -30,37 +30,37 @@ object DataModuleConexaoDataSap: TDataModuleConexaoDataSap
       'Port=214'
       'Filters={}')
     Connected = True
-    Left = 328
+    Left = 248
     Top = 32
   end
   object DSProviderConfiguracao: TDSProviderConnection
     ServerClassName = 'TDSServerModuleConfiguracao'
     Connected = True
     SQLConnection = ConexaoDataSnap
-    Left = 328
-    Top = 104
+    Left = 248
+    Top = 88
   end
   object ClientDataSet1: TClientDataSet
     Aggregates = <>
     Params = <>
+    ProviderName = 'dspTabelas'
     RemoteServer = DSProviderConfiguracao
-    Left = 328
-    Top = 176
-  end
-  object FDQuery1: TFDQuery
-    Connection = FDConexaoDataSnap
-    Left = 64
-    Top = 104
+    Left = 248
+    Top = 144
+    object ClientDataSet1NOME_TABELA: TWideStringField
+      FieldName = 'NOME_TABELA'
+      FixedChar = True
+      Size = 31
+    end
   end
   object FDTable1: TFDTable
     Connection = FDConexaoDataSnap
     SchemaName = 'TDSServerModuleConfiguracao'
-    Left = 72
-    Top = 168
+    Left = 64
+    Top = 152
   end
-  object DataSource1: TDataSource
-    DataSet = FDTable1
-    Left = 72
-    Top = 232
+  object FDPhysDataSnapDriverLink1: TFDPhysDataSnapDriverLink
+    Left = 65
+    Top = 96
   end
 end
