@@ -5,3 +5,6 @@
 
 *.patch
 *.diff
+
+Win32
+Win64
