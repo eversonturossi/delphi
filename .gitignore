@@ -1,6 +1,7 @@
 *.dcu
 *.local
 *.exe
+*.dll
 *.identcache
 
 *.patch
