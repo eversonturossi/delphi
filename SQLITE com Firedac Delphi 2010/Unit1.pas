@@ -8,7 +8,7 @@ uses
   uADPhysIntf, uADStanDef, uADStanPool, uADStanAsync, uADPhysManager,
   uADStanParam, uADDatSManager, uADDAptIntf, uADDAptManager, Grids, DBGrids, DB,
   uADCompDataSet, uADCompClient, uADStanExprFuncs, uADGUIxFormsWait,
-  uADCompGUIx, uADPhysSQLite, ComCtrls;
+  uADCompGUIx, uADPhysSQLite, ComCtrls, XPMan;
 
 type
   TForm1 = class(TForm)
@@ -25,6 +25,7 @@ type
     EditMax: TEdit;
     CheckBoxInserirViaSQL: TCheckBox;
     CheckBoxResetarDados: TCheckBox;
+    XPManifest1: TXPManifest;
     procedure ButtonOpenClick(Sender: TObject);
     procedure ButtonInsertClick(Sender: TObject);
   private

@@ -116,4 +116,8 @@ object Form1: TForm1
     Left = 112
     Top = 112
   end
+  object XPManifest1: TXPManifest
+    Left = 352
+    Top = 40
+  end
 end
