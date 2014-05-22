@@ -20,7 +20,6 @@ type
     Key: Integer;
   end;
 
-  // (rom) definitely needs improvement
   TJvParserInfo = class(TObject)
   public
     StartTag: string;
