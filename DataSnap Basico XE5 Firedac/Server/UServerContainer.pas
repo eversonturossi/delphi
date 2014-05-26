@@ -30,7 +30,7 @@ type
   private
 
   public
-
+    destructor Destroy; override;
   end;
 
 var
@@ -40,7 +40,7 @@ implementation
 
 uses Winapi.Windows, uServerMethods, UDSServerModuleCadastro,
   UDSServerModuleConfiguracao, UDSServerModuleMovimento,
-  UDSServerModuleRelatorio;
+  UDSServerModuleRelatorio, Vcl.Dialogs;
 
 {$R *.dfm}
 
@@ -77,6 +77,12 @@ end;
 procedure TServerContainer.DataModuleDestroy(Sender: TObject);
 begin
   DataSnapServer.Stop;
+end;
+
+destructor TServerContainer.Destroy;
+begin
+  ShowMessage('Destruindo TServerContainer');
+  inherited;
 end;
 
 procedure TServerContainer.DSAuthenticationManager1UserAuthenticate(Sender: TObject; const Protocol, Context, User, Password: string; var valid: Boolean;

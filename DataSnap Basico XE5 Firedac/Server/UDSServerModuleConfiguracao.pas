@@ -17,15 +17,22 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    destructor Destroy; override;
   end;
 
 implementation
 
 { %CLASSGROUP 'Vcl.Controls.TControl' }
 
-uses UDataModuleConexaoBanco;
+uses UDataModuleConexaoBanco, Vcl.Dialogs;
 
 {$R *.dfm}
+{ TDSServerModuleConfiguracao }
+
+destructor TDSServerModuleConfiguracao.Destroy;
+begin
+  ShowMessage('Destruindo TDSServerModuleConfiguracao');
+  inherited;
+end;
 
 end.

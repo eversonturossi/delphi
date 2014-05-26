@@ -15,6 +15,7 @@ uses
 
 begin
   Application.Initialize;
+  ReportMemoryLeaksOnShutdown := DebugHook <> 0;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDataModuleConexaoBanco, DataModuleConexaoBanco);
   Application.CreateForm(TFormServer, FormServer);

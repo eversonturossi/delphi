@@ -21,7 +21,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    destructor Destroy; override;
   end;
 
 var
@@ -31,6 +31,8 @@ implementation
 
 { %CLASSGROUP 'Vcl.Controls.TControl' }
 
+uses
+  Vcl.Dialogs;
 {$R *.dfm}
 
 procedure TDataModuleConexaoBanco.DataModuleCreate(Sender: TObject);
@@ -41,6 +43,12 @@ end;
 procedure TDataModuleConexaoBanco.DataModuleDestroy(Sender: TObject);
 begin
   FDConexaoBanco.Connected := False;
+end;
+
+destructor TDataModuleConexaoBanco.Destroy;
+begin
+  ShowMessage('Destruindo TDataModuleConexaoBanco');
+  inherited;
 end;
 
 end.

@@ -2,7 +2,7 @@ unit UServerMethods;
 
 interface
 
-uses System.SysUtils, System.Classes, Datasnap.DSServer ;
+uses System.SysUtils, System.Classes, Datasnap.DSServer;
 
 type
   TServerMethods = class(TDSServerModule)
@@ -12,13 +12,21 @@ type
     { Public declarations }
     function EchoString(Value: string): string;
     function ReverseString(Value: string): string;
+    destructor Destroy; override;
   end;
 
 implementation
 
 {$R *.dfm}
 
-uses System.StrUtils;
+uses System.StrUtils,
+  Vcl.Dialogs;
+
+destructor TServerMethods.Destroy;
+begin
+  ShowMessage('Destruindo TServerMethods');
+  inherited;
+end;
 
 function TServerMethods.EchoString(Value: string): string;
 begin
@@ -31,4 +39,3 @@ begin
 end;
 
 end.
-

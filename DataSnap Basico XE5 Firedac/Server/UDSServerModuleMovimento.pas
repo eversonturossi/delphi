@@ -10,14 +10,22 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    destructor Destroy; override;
   end;
 
 implementation
 
-{%CLASSGROUP 'Vcl.Controls.TControl'}
+{ %CLASSGROUP 'Vcl.Controls.TControl' }
 
+uses
+  Vcl.Dialogs;
 {$R *.dfm}
+{ TDSServerModuleMovimento }
+
+destructor TDSServerModuleMovimento.Destroy;
+begin
+  ShowMessage('Destruindo TDSServerModuleMovimento');
+  inherited;
+end;
 
 end.
-

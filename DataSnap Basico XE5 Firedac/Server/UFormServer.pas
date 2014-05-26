@@ -16,7 +16,6 @@ uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
 type
   TFormServer = class(TForm)
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
   private
     ServerMethods: TServerMethods;
 
@@ -28,7 +27,7 @@ type
     ServerContainer: TServerContainer;
 
   public
-    { Public declarations }
+    destructor Destroy; override;
   end;
 
 var
@@ -38,23 +37,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TFormServer.FormCreate(Sender: TObject);
-begin
-  try
-    ServerMethods := TServerMethods.Create(Self);
-
-    DSServerModuleCadastro := TDSServerModuleCadastro.Create(Self);
-    DSServerModuleConfiguracao := TDSServerModuleConfiguracao.Create(Self);
-    DSServerModuleMovimento := TDSServerModuleMovimento.Create(Self);
-    DSServerModuleRelatorio := TDSServerModuleRelatorio.Create(Self);
-
-    ServerContainer := TServerContainer.Create(Self);
-  finally
-
-  end;
-end;
-
-procedure TFormServer.FormDestroy(Sender: TObject);
+destructor TFormServer.Destroy;
 begin
   FreeAndNil(ServerMethods);
   FreeAndNil(DSServerModuleCadastro);
@@ -62,6 +45,24 @@ begin
   FreeAndNil(DSServerModuleMovimento);
   FreeAndNil(DSServerModuleRelatorio);
   FreeAndNil(ServerContainer);
+  ShowMessage('Destruindo TFormServer');
+  inherited;
+end;
+
+procedure TFormServer.FormCreate(Sender: TObject);
+begin
+  try
+    ServerMethods := TServerMethods.Create(nil);
+
+    DSServerModuleCadastro := TDSServerModuleCadastro.Create(nil);
+    DSServerModuleConfiguracao := TDSServerModuleConfiguracao.Create(nil);
+    DSServerModuleMovimento := TDSServerModuleMovimento.Create(nil);
+    DSServerModuleRelatorio := TDSServerModuleRelatorio.Create(nil);
+
+    ServerContainer := TServerContainer.Create(nil);
+  finally
+
+  end;
 end;
 
 end.
