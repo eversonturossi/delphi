@@ -31,7 +31,7 @@ type
     procedure AdicionarBand(Nome: String; TipoBand: TTipoBand);
   public
     Constructor Create(AOwner: TComponent); override;
-    procedure Gerar();
+    procedure MontarRelatorio();
     procedure Preview();
   end;
 
@@ -69,16 +69,11 @@ var
   ABand: TComponent;
 begin
   case TipoBand of
-    tHeaderUnico:
-      ABand := TComponent.Create(Self);
-    tHeaderPagina:
-      ABand := TComponent.Create(Self);
-    tDetalhe:
-      ABand := TComponent.Create(Self);
-    tSubDetalhe:
-      ABand := TComponent.Create(Self);
-    tRodape:
-      ABand := TComponent.Create(Self);
+    tHeaderUnico: ABand := TComponent.Create(Self);
+    tHeaderPagina: ABand := TComponent.Create(Self);
+    tDetalhe: ABand := TComponent.Create(Self);
+    tSubDetalhe: ABand := TComponent.Create(Self);
+    tRodape: ABand := TComponent.Create(Self);
   end;
 end;
 
@@ -140,7 +135,7 @@ begin
   PrintBand := (Self.PageNumber > 1);
 end;
 
-procedure TRelatorioNovaImpressao.Gerar();
+procedure TRelatorioNovaImpressao.MontarRelatorio();
 var
   I: Integer;
 begin

@@ -112,7 +112,7 @@ begin
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
     RelatorioNovaImpressao.QRBandSubDetalhe.DataSet := cd01;
 
-    RelatorioNovaImpressao.Gerar();
+    RelatorioNovaImpressao.MontarRelatorio();
     RelatorioNovaImpressao.Preview();
   finally
     FreeAndNil(RelatorioNovaImpressao);
