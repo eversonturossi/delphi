@@ -25,7 +25,7 @@ type
     procedure AdicionarCampoLabel(Texto: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
     procedure AdicionarCampoDBLabel(Field: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand, TipoBand: String);
 
-    function GetParent(Tipo: String): TWinControl;
+    function GetParent(NomeComponente: String): TWinControl;
     procedure RedimensionarParent(Componente: TWinControl);
 
     procedure AdicionarBand(Nome: String; TipoBand: TTipoBand);
@@ -116,9 +116,9 @@ begin
   end;
 end;
 
-function TRelatorioNovaImpressao.GetParent(Tipo: String): TWinControl;
+function TRelatorioNovaImpressao.GetParent(NomeComponente: String): TWinControl;
 begin
-  Result := TWinControl(FindComponent(Tipo));
+  Result := TWinControl(FindComponent(NomeComponente));
 end;
 
 procedure TRelatorioNovaImpressao.RedimensionarParent(Componente: TWinControl);
