@@ -27,6 +27,7 @@ type
     cd02: TClientDataSet;
     cd03: TClientDataSet;
     function CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; Master: TDataSource): TClientDataSet;
+    procedure EnableDisableControls(EnableControls: Boolean);
   public
     destructor Destroy; override;
   end;
@@ -84,7 +85,6 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-
   Connection.DriverName := 'Firebird';
   Connection.GetDriverFunc := 'getSQLDriverINTERBASE';
   Connection.LibraryName := 'dbxfb.dll';
@@ -104,18 +104,32 @@ begin
   dsItens.DataSet := cd01;
 end;
 
+procedure TForm1.EnableDisableControls(EnableControls: Boolean);
+var
+  I: Integer;
+begin
+  for I := 0 to ComponentCount - 1 do
+    if (Components[I] is TClientDataSet) then
+    begin
+      if EnableControls then
+        TClientDataSet(Components[I]).EnableControls
+      else
+        TClientDataSet(Components[I]).DisableControls;
+    end;
+end;
+
 procedure TForm1.Button2Click(Sender: TObject);
 begin
+  EnableDisableControls(False);
+  RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
   try
-    RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
-
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
     RelatorioNovaImpressao.QRBandSubDetalhe.DataSet := cd01;
-
     RelatorioNovaImpressao.MontarRelatorio();
     RelatorioNovaImpressao.Preview();
   finally
     FreeAndNil(RelatorioNovaImpressao);
+    EnableDisableControls(True);
   end;
 end;
 
