@@ -114,7 +114,7 @@ begin
     cdsRelatorio.Open;
     cdsItens.Open;
 
-    RelatorioNovaImpressao.Gerar();
+    RelatorioNovaImpressao.MontarRelatorio();
     RelatorioNovaImpressao.Preview();
 
   finally

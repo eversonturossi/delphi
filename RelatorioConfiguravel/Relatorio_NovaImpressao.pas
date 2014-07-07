@@ -27,7 +27,7 @@ type
     procedure RedimensionarParent(Componente: TWinControl);
   public
     Constructor Create(AOwner: TComponent); override;
-    procedure Gerar();
+    procedure MontarRelatorio();
     procedure Preview();
   end;
 
@@ -140,9 +140,7 @@ begin
   PrintBand := (Self.PageNumber > 1);
 end;
 
-procedure TRelatorioNovaImpressao.Gerar();
-var
-  I: Integer;
+procedure TRelatorioNovaImpressao.MontarRelatorio();
 begin
   AdicionarCampoLabel('texto H', 1, 10, 50, 12, 'H');
   AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'H');
