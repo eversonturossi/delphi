@@ -111,7 +111,7 @@ begin
   RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
   try
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
-    RelatorioNovaImpressao.QRBandSubDetalhe.DataSet := cd01;
+    RelatorioNovaImpressao.QRBandSubDetalhe01.DataSet := cd01;
     RelatorioNovaImpressao.MontarRelatorio();
     RelatorioNovaImpressao.Preview();
   finally

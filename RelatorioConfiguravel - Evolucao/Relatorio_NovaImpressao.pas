@@ -10,12 +10,12 @@ type
   TTipoBand = (tHeaderUnico, tHeaderPagina, tDetalhe, tSubDetalhe, tRodape);
 
   TRelatorioNovaImpressao = class(TQuickRep)
-    QRBandCabecalhoUnico: TQRBand;
+    QRBandDetalhe: TQRBand;
     QRBandRodape: TQRBand;
     QRPDFFilter1: TQRPDFFilter;
-    QRBandSubDetalhe: TQRSubDetail;
+    QRBandSubDetalhe01: TQRSubDetail;
     QRBandCabecalhoProduto: TQRChildBand;
-    QRBandDetalhe: TQRChildBand;
+    QRBandDetalhe02: TQRChildBand;
     QRBandCabecalhoGeral: TQRBand;
     QRBand1: TQRBand;
     QRBand2: TQRBand;
@@ -23,7 +23,7 @@ type
   private
     procedure ConfigurarCampoLabel(var Componente: TQRCustomLabel; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
     procedure AdicionarCampoLabel(Texto: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
-    procedure AdicionarCampoDBLabel(Field: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand, TipoBand: String);
+    procedure AdicionarCampoDBLabel(Field: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
 
     function GetParent(NomeComponente: String): TWinControl;
     procedure RedimensionarParent(Componente: TWinControl);
@@ -46,10 +46,10 @@ var
 begin
   inherited;
   for I := 0 to ComponentCount - 1 do
-    if (TComponent(Components[I]).ClassType = TQRBand) or (TComponent(Components[I]).ClassType = TQRSubDetail) then
+    if (TComponent(Components[I]).ClassType = TQRBand) or (TComponent(Components[I]).ClassType = TQRSubDetail) or (TComponent(Components[I]).ClassType = TQRChildBand) then
     begin
       TQRCustomBand(Components[I]).Visible := False;
-      TQRCustomBand(Components[I]).Height := 1;
+      TQRCustomBand(Components[I]).Height := 0;
       TQRCustomBand(Components[I]).TransparentBand := False;
     end;
 end;
@@ -86,18 +86,23 @@ begin
   ConfigurarCampoLabel(Componente, Linha, Coluna, TamanhoMaxTexto, TamanhoFonte, NomeBand);
 end;
 
-procedure TRelatorioNovaImpressao.AdicionarCampoDBLabel(Field: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand, TipoBand: String);
+procedure TRelatorioNovaImpressao.AdicionarCampoDBLabel(Field: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
 var
   Componente: TQRCustomLabel;
+  Parent: TComponent;
 begin
   Componente := TQRDBText.Create(Self);
   TQRDBText(Componente).Transparent := True;
 
-  if (TipoBand = 'D') then
-    TQRDBText(Componente).DataSet := Self.DataSet
-  else
-    if (TipoBand = 'S') then
-      TQRDBText(Componente).DataSet := QRBandSubDetalhe.DataSet;
+  Parent := GetParent(NomeBand);
+  if (Parent <> nil) then
+  begin
+    if (Parent.ClassType = TQRSubDetail) then
+      TQRDBText(Componente).DataSet := TQRSubDetail(Parent).DataSet
+    else
+      if (Parent.ClassType = TQRBand) or (Parent.ClassType = TQRChildBand) then
+        TQRDBText(Componente).DataSet := Self.DataSet;
+  end;
 
   TQRDBText(Componente).DataField := Field;
   ConfigurarCampoLabel(Componente, Linha, Coluna, TamanhoMaxTexto, TamanhoFonte, NomeBand);
@@ -126,8 +131,9 @@ var
   TamanhoOcupadoComponente: Integer;
 begin
   TamanhoOcupadoComponente := Componente.Top + Componente.Height;
-  if (Componente.Parent.Height < TamanhoOcupadoComponente) then
-    Componente.Parent.Height := TamanhoOcupadoComponente;
+  if (Componente.Parent <> nil) then // evitar exception de parent inexistente
+    if (Componente.Parent.Height < TamanhoOcupadoComponente) then
+      Componente.Parent.Height := TamanhoOcupadoComponente;
 end;
 
 procedure TRelatorioNovaImpressao.QRBandCabecalhoGeralBeforePrint(Sender: TQRCustomBand; var PrintBand: Boolean);
@@ -136,23 +142,39 @@ begin
 end;
 
 procedure TRelatorioNovaImpressao.MontarRelatorio();
+const
+  CabecalhoGeral = 'QRBandCabecalhoGeral';
+  Detalhe = 'QRBandDetalhe';
+  SubDetalhe01 = 'QRBandSubDetalhe01';
+  SubDetalhe02 = 'QRBandSubDetalhe02';
+  SubDetalhe03 = 'QRBandSubDetalhe03';
+  RodapeGeral = 'QRBandRodape';
 begin
-  AdicionarCampoLabel('texto cabeçalho unico', 1, 300, 0, 12, 'QRBandCabecalhoUnico');
-  // AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoUnico');
-  AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoGeral');
-  AdicionarCampoLabel('texto fixo geral  ', 1, 100, 0, 12, 'QRBandCabecalhoGeral');
-  AdicionarCampoLabel('texto fixo produto', 1, 100, 0, 12, 'QRBandCabecalhoProduto');
-  AdicionarCampoLabel('texto fixo rodape ', 1, 100, 0, 12, 'QRBandRodape');
+  // AdicionarCampoLabel('texto cabeçalho unico', 1, 300, 0, 12, 'QRBandCabecalhoUnico');
+  // AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoGeral');
+  // AdicionarCampoLabel('texto fixo geral  ', 1, 100, 0, 12, 'QRBandCabecalhoGeral');
+  // AdicionarCampoLabel('texto fixo produto', 1, 100, 0, 12, 'QRBandCabecalhoProduto');
+  // AdicionarCampoLabel('texto fixo rodape ', 1, 100, 0, 12, 'QRBandRodape');
+  // AdicionarCampoDBLabel('numero', 1, 50, 50, 12, 'QRBandCabecalhoUnico', 'D');
+  // AdicionarCampoLabel('texto fixo detalhe', 1, 50, 0, 12, 'QRBandDetalhe');
+  // AdicionarCampoDBLabel('numero', 100, 50, 0, 12, 'QRBandDetalhe', 'D');
+  // AdicionarCampoDBLabel('numero', 2, 50, 0, 12, 'QRBand2', 'D');
+  // AdicionarCampoDBLabel('numero', 1, 50, 0, 10, 'QRBandSubDetalhe', 'S');
+  // AdicionarCampoDBLabel('produto', 1, 200, 0, 10, 'QRBandSubDetalhe', 'S');
+  // AdicionarCampoLabel('texto fixo sub detalhe', 1, 300, 0, 10, 'QRBandSubDetalhe');
 
-  AdicionarCampoDBLabel('numero', 1, 50, 50, 12, 'QRBandCabecalhoUnico', 'D');
-  AdicionarCampoLabel('texto fixo detalhe', 1, 50, 0, 12, 'QRBandDetalhe');
-  AdicionarCampoDBLabel('numero', 100, 50, 0, 12, 'QRBandDetalhe', 'D');
+  AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, CabecalhoGeral);
+  AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12, CabecalhoGeral);
 
-  AdicionarCampoDBLabel('numero', 2, 50, 0, 12, 'QRBand2', 'D');
+  AdicionarCampoLabel('texto fixo em todo rodape ', 1, 100, 0, 12, RodapeGeral);
 
-  AdicionarCampoDBLabel('numero', 1, 50, 0, 10, 'QRBandSubDetalhe', 'S');
-  AdicionarCampoDBLabel('produto', 1, 200, 0, 10, 'QRBandSubDetalhe', 'S');
-  AdicionarCampoLabel('texto fixo sub detalhe', 1, 300, 0, 10, 'QRBandSubDetalhe');
+  AdicionarCampoLabel('texto corpo', 1, 300, 0, 12, Detalhe);
+  AdicionarCampoDBLabel('numero', 1, 50, 50, 12, Detalhe);
+  AdicionarCampoDBLabel('emissao', 1, 150, 0, 12, Detalhe);
+
+  AdicionarCampoDBLabel('numero', 1, 50, 0, 10, SubDetalhe01);
+  AdicionarCampoDBLabel('produto', 1, 200, 0, 10, SubDetalhe01);
+  AdicionarCampoLabel('texto fixo sub detalhe', 10, 300, 0, 10, SubDetalhe01);
 end;
 
 end.
