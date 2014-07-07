@@ -10,15 +10,18 @@ type
   TTipoBand = (tHeaderUnico, tHeaderPagina, tDetalhe, tSubDetalhe, tRodape);
 
   TRelatorioNovaImpressao = class(TQuickRep)
-    QRBandDetalhe: TQRBand;
-    QRBandRodape: TQRBand;
     QRPDFFilter1: TQRPDFFilter;
-    QRBandSubDetalhe01: TQRSubDetail;
-    QRBandCabecalhoProduto: TQRChildBand;
-    QRBandDetalhe02: TQRChildBand;
-    QRBandCabecalhoGeral: TQRBand;
-    QRBand1: TQRBand;
-    QRBand2: TQRBand;
+    CabecalhoGeral: TQRBand;
+    Principal: TQRBand;
+    Cabecalho01: TQRChildBand;
+    Detalhe01: TQRSubDetail;
+    Rodape01: TQRBand;
+    Cabecalho02: TQRBand;
+    Detalhe02: TQRSubDetail;
+    Rodape02: TQRBand;
+    Cabecalho03: TQRBand;
+    Detalhe03: TQRSubDetail;
+    Rodape03: TQRBand;
     procedure QRBandCabecalhoGeralBeforePrint(Sender: TQRCustomBand; var PrintBand: Boolean);
   private
     procedure ConfigurarCampoLabel(var Componente: TQRCustomLabel; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
@@ -143,38 +146,49 @@ end;
 
 procedure TRelatorioNovaImpressao.MontarRelatorio();
 const
-  CabecalhoGeral = 'QRBandCabecalhoGeral';
-  Detalhe = 'QRBandDetalhe';
-  SubDetalhe01 = 'QRBandSubDetalhe01';
-  SubDetalhe02 = 'QRBandSubDetalhe02';
-  SubDetalhe03 = 'QRBandSubDetalhe03';
+  CabecalhoGeral = 'CabecalhoGeral';
+  BaseRelatorio = 'Principal';
+  Cabecalho01 = 'Cabecalho01';
+  Cabecalho02 = 'Cabecalho02';
+  Cabecalho03 = 'Cabecalho03';
+  Detalhe01 = 'Detalhe01';
+  Detalhe02 = 'Detalhe02';
+  Detalhe03 = 'Detalhe03';
+  Rodape01 = 'Rodape01';
+  Rodape02 = 'Rodape02';
+  Rodape03 = 'Rodape03';
   RodapeGeral = 'QRBandRodape';
 begin
-  // AdicionarCampoLabel('texto cabeçalho unico', 1, 300, 0, 12, 'QRBandCabecalhoUnico');
-  // AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoGeral');
-  // AdicionarCampoLabel('texto fixo geral  ', 1, 100, 0, 12, 'QRBandCabecalhoGeral');
-  // AdicionarCampoLabel('texto fixo produto', 1, 100, 0, 12, 'QRBandCabecalhoProduto');
-  // AdicionarCampoLabel('texto fixo rodape ', 1, 100, 0, 12, 'QRBandRodape');
-  // AdicionarCampoDBLabel('numero', 1, 50, 50, 12, 'QRBandCabecalhoUnico', 'D');
-  // AdicionarCampoLabel('texto fixo detalhe', 1, 50, 0, 12, 'QRBandDetalhe');
-  // AdicionarCampoDBLabel('numero', 100, 50, 0, 12, 'QRBandDetalhe', 'D');
-  // AdicionarCampoDBLabel('numero', 2, 50, 0, 12, 'QRBand2', 'D');
-  // AdicionarCampoDBLabel('numero', 1, 50, 0, 10, 'QRBandSubDetalhe', 'S');
-  // AdicionarCampoDBLabel('produto', 1, 200, 0, 10, 'QRBandSubDetalhe', 'S');
-  // AdicionarCampoLabel('texto fixo sub detalhe', 1, 300, 0, 10, 'QRBandSubDetalhe');
-
   AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, CabecalhoGeral);
   AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12, CabecalhoGeral);
 
   AdicionarCampoLabel('texto fixo em todo rodape ', 1, 100, 0, 12, RodapeGeral);
 
-  AdicionarCampoLabel('texto corpo', 1, 300, 0, 12, Detalhe);
-  AdicionarCampoDBLabel('numero', 1, 50, 50, 12, Detalhe);
-  AdicionarCampoDBLabel('emissao', 1, 150, 0, 12, Detalhe);
+  AdicionarCampoLabel('texto corpo', 1, 300, 0, 12, BaseRelatorio);
+  AdicionarCampoLabel('texto corpo 2', 30, 300, 0, 12, BaseRelatorio);
+  AdicionarCampoDBLabel('numero', 1, 50, 50, 12, BaseRelatorio);
+  AdicionarCampoDBLabel('emissao', 1, 150, 0, 12, BaseRelatorio);
 
-  AdicionarCampoDBLabel('numero', 1, 50, 0, 10, SubDetalhe01);
-  AdicionarCampoDBLabel('produto', 1, 200, 0, 10, SubDetalhe01);
-  AdicionarCampoLabel('texto fixo sub detalhe', 10, 300, 0, 10, SubDetalhe01);
+  AdicionarCampoLabel('numero-->', 1, 50, 0, 10, Cabecalho01);
+  AdicionarCampoDBLabel('numero', 1, 50, 0, 10, Detalhe01);
+  AdicionarCampoDBLabel('produto', 1, 200, 0, 10, Detalhe01);
+  AdicionarCampoLabel('texto fixo itens', 10, 300, 0, 10, Detalhe01);
+  AdicionarCampoLabel('numero<--', 1, 50, 0, 10, Rodape01);
+
+  AdicionarCampoLabel('ordem-->', 1, 50, 0, 10, Cabecalho02);
+  AdicionarCampoDBLabel('numero', 1, 1, 0, 10, Detalhe02);
+  AdicionarCampoDBLabel('ordem', 1, 50, 0, 10, Detalhe02);
+  AdicionarCampoDBLabel('VCTO', 1, 100, 0, 10, Detalhe02);
+  AdicionarCampoDBLabel('valor', 1, 250, 0, 10, Detalhe02);
+  AdicionarCampoLabel('texto fixo ordem', 1, 400, 0, 10, Detalhe02);
+  AdicionarCampoLabel('ordem<--', 1, 50, 0, 10, Rodape02);
+
+  AdicionarCampoLabel('bloqueio-->', 1, 50, 0, 10, Cabecalho03);
+  AdicionarCampoDBLabel('numero', 1, 1, 0, 10, Detalhe03);
+  AdicionarCampoDBLabel('motivo', 1, 50, 0, 10, Detalhe03);
+  AdicionarCampoDBLabel('autorizado', 1, 100, 0, 10, Detalhe03);
+  AdicionarCampoLabel('texto fixo bloqueio', 1, 400, 0, 10, Detalhe03);
+  AdicionarCampoLabel('bloqueio<--', 1, 50, 0, 10, Rodape03);
 end;
 
 end.

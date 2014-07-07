@@ -82,7 +82,7 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
-  ASqlItens: String;
+  ASqlItens, ASqlOrdem, aqslbloqueio: String;
 begin
   Connection.DriverName := 'Firebird';
   Connection.GetDriverFunc := 'getSQLDriverINTERBASE';
@@ -96,12 +96,19 @@ begin
   SQLRelatorio.SQL.Clear;
   SQLRelatorio.SQL.Add('select pedido.* from pedido where (numero > 1) and (numero <500)');
   ASqlItens := 'select itempedido.* from itempedido where (itempedido.numero = :numero) order by numero,produto';
-
+  ASqlOrdem := 'select ordempedido.* from ordempedido where (ordempedido.numero = :numero) order by ordem';
+  aqslbloqueio := 'select BLOQUEIOPEDIDO.* from BLOQUEIOPEDIDO where (BLOQUEIOPEDIDO.pedido = :pedido) order by motivo';
   cdsRelatorio.Open;
 
   cd01 := CriarDatasetDinamico(ASqlItens, 'numero', Connection, dsRelatorio);
   cd01.Open;
   dsItens.DataSet := cd01;
+
+  cd02 := CriarDatasetDinamico(ASqlOrdem, 'numero', Connection, dsRelatorio);
+  cd02.Open;
+
+  cd03 := CriarDatasetDinamico(aqslbloqueio, 'pedido', Connection, dsRelatorio);
+  cd03.Open;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
@@ -111,7 +118,9 @@ begin
   RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
   try
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
-    RelatorioNovaImpressao.QRBandSubDetalhe01.DataSet := cd01;
+    RelatorioNovaImpressao.Detalhe01.DataSet := cd01;
+    RelatorioNovaImpressao.Detalhe02.DataSet := cd02;
+    RelatorioNovaImpressao.Detalhe03.DataSet := cd03;
     RelatorioNovaImpressao.MontarRelatorio();
     RelatorioNovaImpressao.Preview();
   finally
