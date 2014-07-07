@@ -95,6 +95,7 @@ object Form1: TForm1
   end
   object cdsRelatorio: TClientDataSet
     Aggregates = <>
+    FetchOnDemand = False
     Params = <>
     ProviderName = 'dspRelatorio'
     Left = 168
@@ -105,6 +106,7 @@ object Form1: TForm1
     FieldDefs = <>
     IndexDefs = <>
     IndexFieldNames = 'numero'
+    FetchOnDemand = False
     MasterFields = 'numero'
     MasterSource = dsRelatorio
     PacketRecords = 0

@@ -9,16 +9,16 @@ uses
 
 type
   TForm1 = class(TForm)
-    Connection: TSQLConnection;
-    SQLRelatorio: TSQLQuery;
-    cdsRelatorio: TClientDataSet;
-    dspRelatorio: TDataSetProvider;
     Button1: TButton;
-    DBGrid1: TDBGrid;
-    dsRelatorio: TDataSource;
-    dsItens: TDataSource;
-    DBGrid2: TDBGrid;
     Button2: TButton;
+    cdsRelatorio: TClientDataSet;
+    Connection: TSQLConnection;
+    DBGridMaster: TDBGrid;
+    DBGridDetalhe: TDBGrid;
+    dsItens: TDataSource;
+    dspRelatorio: TDataSetProvider;
+    dsRelatorio: TDataSource;
+    SQLRelatorio: TSQLQuery;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
   private
@@ -26,8 +26,7 @@ type
     cd01: TClientDataSet;
     cd02: TClientDataSet;
     cd03: TClientDataSet;
-    function CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; Master: TDataSource): TClientDataSet;
-    procedure EnableDisableControls(EnableControls: Boolean);
+    function CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
   public
     destructor Destroy; override;
   end;
@@ -35,14 +34,11 @@ type
 var
   Form1: TForm1;
 
-const
-  ASqlItens = 'select itempedido.* from itempedido where (itempedido.numero = :numero)';
-
 implementation
 
 {$R *.dfm}
 
-function TForm1.CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; Master: TDataSource): TClientDataSet;
+function TForm1.CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
 var
   AQuery: TSQLQuery;
   AProvider: TDataSetProvider;
@@ -59,10 +55,11 @@ begin
   ADataSet.SetProvider(AProvider);
   ADataSet.IndexFieldNames := NomeParametro;
   ADataSet.MasterFields := NomeParametro;
+  // ADataSet.FetchOnDemand := False;       nao usar
 
-  if (Master <> nil) then
+  if (MasterSource <> nil) then
   begin
-    ADataSet.MasterSource := Master;
+    ADataSet.MasterSource := MasterSource;
     ADataSet.PacketRecords := 0;
   end;
 
@@ -84,6 +81,8 @@ begin
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
+var
+  ASqlItens: String;
 begin
   Connection.DriverName := 'Firebird';
   Connection.GetDriverFunc := 'getSQLDriverINTERBASE';
@@ -95,7 +94,8 @@ begin
   Connection.Params.Values['Password'] := 'masterkey';
 
   SQLRelatorio.SQL.Clear;
-  SQLRelatorio.SQL.Add('select pedido.* from pedido where (numero > 490) and (numero <500)');
+  SQLRelatorio.SQL.Add('select pedido.* from pedido where (numero > 1) and (numero <500)');
+  ASqlItens := 'select itempedido.* from itempedido where (itempedido.numero = :numero) order by numero,produto';
 
   cdsRelatorio.Open;
 
@@ -104,23 +104,10 @@ begin
   dsItens.DataSet := cd01;
 end;
 
-procedure TForm1.EnableDisableControls(EnableControls: Boolean);
-var
-  I: Integer;
-begin
-  for I := 0 to ComponentCount - 1 do
-    if (Components[I] is TClientDataSet) then
-    begin
-      if EnableControls then
-        TClientDataSet(Components[I]).EnableControls
-      else
-        TClientDataSet(Components[I]).DisableControls;
-    end;
-end;
-
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-  EnableDisableControls(False);
+  DBGridMaster.DataSource := nil;
+  dsItens.DataSet := nil;
   RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
   try
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
@@ -129,7 +116,8 @@ begin
     RelatorioNovaImpressao.Preview();
   finally
     FreeAndNil(RelatorioNovaImpressao);
-    EnableDisableControls(True);
+    DBGridMaster.DataSource := dsRelatorio;
+    dsItens.DataSet := cd01;
   end;
 end;
 

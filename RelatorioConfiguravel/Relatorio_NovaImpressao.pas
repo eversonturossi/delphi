@@ -148,10 +148,11 @@ begin
   AdicionarCampoLabel('texto C', 1, 100, 0, 12, 'X');
   AdicionarCampoLabel('texto R', 1, 10, 50, 12, 'R');
 
-  AdicionarCampoLabel('teste teste', 1, 50, 50, 12, 'D');
-  AdicionarCampoDBLabel('numero', 1, 50, 50, 12, 'H');
-  AdicionarCampoDBLabel('produto', 1, 10, 50, 20, 'S');
-  AdicionarCampoDBLabel('numero', 1, 100, 50, 20, 'S');
+  AdicionarCampoLabel('teste teste azul', 1, 50, 0, 9, 'D');
+  AdicionarCampoDBLabel('numero', 1, 200, 0, 12, 'D');
+  AdicionarCampoDBLabel('numero', 1, 500, 0, 12, 'H');
+  AdicionarCampoDBLabel('produto', 1, 10, 100, 10, 'S');
+  AdicionarCampoDBLabel('numero', 1, 100, 100, 10, 'S');
 
   AdicionarBarCode('173000661', 1, 500, 'H');
 end;

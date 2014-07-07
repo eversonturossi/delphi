@@ -25,7 +25,7 @@ object Form1: TForm1
     TabOrder = 0
     OnClick = Button1Click
   end
-  object DBGrid1: TDBGrid
+  object DBGridMaster: TDBGrid
     Left = 8
     Top = 95
     Width = 428
@@ -39,7 +39,7 @@ object Form1: TForm1
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object DBGrid2: TDBGrid
+  object DBGridDetalhe: TDBGrid
     Left = 8
     Top = 221
     Width = 428
@@ -96,6 +96,7 @@ object Form1: TForm1
   end
   object cdsRelatorio: TClientDataSet
     Aggregates = <>
+    FetchOnDemand = False
     Params = <>
     ProviderName = 'dspRelatorio'
     Left = 168

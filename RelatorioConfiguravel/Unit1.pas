@@ -9,24 +9,24 @@ uses
 
 type
   TForm1 = class(TForm)
-    Connection: TSQLConnection;
-    SQLRelatorio: TSQLQuery;
-    SQLItens: TSQLQuery;
-    cdsRelatorio: TClientDataSet;
+    Button1: TButton;
     cdsItens: TClientDataSet;
+    cdsRelatorio: TClientDataSet;
+    Connection: TSQLConnection;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    dsItens: TDataSource;
     dspItens: TDataSetProvider;
     dspRelatorio: TDataSetProvider;
-    Button1: TButton;
-    DBGrid1: TDBGrid;
     dsRelatorio: TDataSource;
-    dsItens: TDataSource;
-    DBGrid2: TDBGrid;
+    SQLItens: TSQLQuery;
+    SQLRelatorio: TSQLQuery;
     procedure Button1Click(Sender: TObject);
   private
     RelatorioNovaImpressao: TRelatorioNovaImpressao;
     function CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; Master: TDataSource): TClientDataSet;
   public
-    { Public declarations }
+    destructor Destroy; override;
   end;
 
 var
@@ -72,6 +72,11 @@ begin
   Result := ADataSet;
 end;
 
+destructor TForm1.Destroy;
+begin
+  inherited;
+end;
+
 procedure TForm1.Button1Click(Sender: TObject);
 var
   AParam: TParam;
@@ -91,14 +96,9 @@ begin
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
     RelatorioNovaImpressao.QRBandSubDetalhe.DataSet := cdsItens;
 
-    SQLRelatorio.SQL.Add('select');
-    SQLRelatorio.SQL.Add('pedido.*');
-    SQLRelatorio.SQL.Add('from pedido');
+    SQLRelatorio.SQL.Add('select pedido.* from pedido');
 
-    SQLItens.SQL.Add('select');
-    SQLItens.SQL.Add('itempedido.*');
-    SQLItens.SQL.Add('from itempedido');
-    SQLItens.SQL.Add('where itempedido.numero = :numero');
+    SQLItens.SQL.Add('select itempedido.* from itempedido where itempedido.numero = :numero');
 
     // link dinamico
     // cdsItens.MasterSource := dsRelatorio;

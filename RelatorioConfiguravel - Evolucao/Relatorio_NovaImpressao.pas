@@ -137,8 +137,9 @@ end;
 
 procedure TRelatorioNovaImpressao.MontarRelatorio();
 begin
-  AdicionarCampoLabel('texto cabeçalho unico', 1, 10, 0, 12, 'QRBandCabecalhoUnico');
-  AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoUnico');
+  AdicionarCampoLabel('texto cabeçalho unico', 1, 300, 0, 12, 'QRBandCabecalhoUnico');
+  // AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoUnico');
+  AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, 'QRBandCabecalhoGeral');
   AdicionarCampoLabel('texto fixo geral  ', 1, 100, 0, 12, 'QRBandCabecalhoGeral');
   AdicionarCampoLabel('texto fixo produto', 1, 100, 0, 12, 'QRBandCabecalhoProduto');
   AdicionarCampoLabel('texto fixo rodape ', 1, 100, 0, 12, 'QRBandRodape');
@@ -149,9 +150,9 @@ begin
 
   AdicionarCampoDBLabel('numero', 2, 50, 0, 12, 'QRBand2', 'D');
 
-  AdicionarCampoDBLabel('numero', 1, 50, 0, 20, 'QRBandSubDetalhe', 'S');
-  AdicionarCampoDBLabel('produto', 1, 200, 0, 20, 'QRBandSubDetalhe', 'S');
-  AdicionarCampoLabel('texto fixo sub detalhe', 100, 200, 0, 10, 'QRBandSubDetalhe');
+  AdicionarCampoDBLabel('numero', 1, 50, 0, 10, 'QRBandSubDetalhe', 'S');
+  AdicionarCampoDBLabel('produto', 1, 200, 0, 10, 'QRBandSubDetalhe', 'S');
+  AdicionarCampoLabel('texto fixo sub detalhe', 1, 300, 0, 10, 'QRBandSubDetalhe');
 end;
 
 end.
