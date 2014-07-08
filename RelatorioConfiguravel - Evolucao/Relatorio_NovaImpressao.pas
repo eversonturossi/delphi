@@ -184,7 +184,7 @@ begin
   AdicionarCampoLabel('ordem<--', 1, 50, 0, 10, Rodape02);
 
   AdicionarCampoLabel('bloqueio-->', 1, 50, 0, 10, Cabecalho03);
-  AdicionarCampoDBLabel('numero', 1, 1, 0, 10, Detalhe03);
+  AdicionarCampoDBLabel('pedido', 1, 1, 0, 10, Detalhe03);
   AdicionarCampoDBLabel('motivo', 1, 50, 0, 10, Detalhe03);
   AdicionarCampoDBLabel('autorizado', 1, 100, 0, 10, Detalhe03);
   AdicionarCampoLabel('texto fixo bloqueio', 1, 400, 0, 10, Detalhe03);

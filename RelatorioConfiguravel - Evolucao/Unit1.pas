@@ -26,7 +26,7 @@ type
     cd01: TClientDataSet;
     cd02: TClientDataSet;
     cd03: TClientDataSet;
-    function CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
+    function CriarDatasetDinamico(ASql, NomeCampo, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
   public
     destructor Destroy; override;
   end;
@@ -38,7 +38,7 @@ implementation
 
 {$R *.dfm}
 
-function TForm1.CriarDatasetDinamico(ASql, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
+function TForm1.CriarDatasetDinamico(ASql, NomeCampo, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
 var
   AQuery: TSQLQuery;
   AProvider: TDataSetProvider;
@@ -53,7 +53,7 @@ begin
   AQuery.SQL.Add(ASql);
   AProvider.DataSet := AQuery;
   ADataSet.SetProvider(AProvider);
-  ADataSet.IndexFieldNames := NomeParametro;
+  ADataSet.IndexFieldNames := NomeCampo;
   ADataSet.MasterFields := NomeParametro;
   // ADataSet.FetchOnDemand := False;       nao usar
 
@@ -96,18 +96,18 @@ begin
   SQLRelatorio.SQL.Clear;
   SQLRelatorio.SQL.Add('select pedido.* from pedido where (numero > 1) and (numero <500)');
   ASqlItens := 'select itempedido.* from itempedido where (itempedido.numero = :numero) order by numero,produto';
-  ASqlOrdem := 'select ordempedido.* from ordempedido where (ordempedido.numero = :numero) order by ordem';
-  aqslbloqueio := 'select BLOQUEIOPEDIDO.* from BLOQUEIOPEDIDO where (BLOQUEIOPEDIDO.pedido = :pedido) order by motivo';
+  ASqlOrdem := 'select ordempedido.* from ordempedido where (ordempedido.numero = :numero) ' { order by ordem } ;
+  aqslbloqueio := 'select BLOQUEIOPEDIDO.* from BLOQUEIOPEDIDO where (BLOQUEIOPEDIDO.pedido = :numero)' { order by motivo } ;
   cdsRelatorio.Open;
 
-  cd01 := CriarDatasetDinamico(ASqlItens, 'numero', Connection, dsRelatorio);
+  cd01 := CriarDatasetDinamico(ASqlItens, 'numero', 'numero', Connection, dsRelatorio);
   cd01.Open;
   dsItens.DataSet := cd01;
 
-  cd02 := CriarDatasetDinamico(ASqlOrdem, 'numero', Connection, dsRelatorio);
+  cd02 := CriarDatasetDinamico(ASqlOrdem, 'numero', 'numero', Connection, dsRelatorio);
   cd02.Open;
 
-  cd03 := CriarDatasetDinamico(aqslbloqueio, 'pedido', Connection, dsRelatorio);
+  cd03 := CriarDatasetDinamico(aqslbloqueio, 'pedido', 'numero', Connection, dsRelatorio);
   cd03.Open;
 end;
 
