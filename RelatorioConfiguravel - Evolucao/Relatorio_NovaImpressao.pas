@@ -58,7 +58,13 @@ begin
 end;
 
 procedure TRelatorioNovaImpressao.Preview;
+var
+  I: Integer;
 begin
+  for I := 0 to ComponentCount - 1 do
+    if (Components[I].ClassType = TQRSubDetail) then
+      TQRSubDetail(Components[I]).PrintIfEmpty := False;
+
   Self.PrevInitialZoom := qrZoom100;
   Self.PreviewInitialState := wsMaximized;
   Self.PrevShowThumbs := False;
