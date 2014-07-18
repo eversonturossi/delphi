@@ -30,17 +30,27 @@ procedure TForm1.Button1Click(Sender: TObject);
 var
   DataInicial, DataFinal: TDate;
   StrList: TStringList;
-  I, IInicial, IFinal: Integer;
+  I: Double;
 begin
-  DataInicial := EncodeDate(StrToInt(edtAnoInicial.Text), 01, 01);
-  DataFinal := EncodeDate(StrToInt(edtAnoFinal.Text), 12, 31);
+  DataInicial := StrToDate('01/01/0001'); // EncodeDate(StrToInt(edtAnoInicial.Text), 01, 01);
+  DataFinal := StrToDate('31/12/2300'); // EncodeDate(StrToInt(edtAnoFinal.Text), 12, 31);
   StrList := TStringList.Create;
-
-  for I := IInicial to IFinal do
+  I := DataInicial;
+  while (I <= DataFinal) do
   begin
-
+    StrList.Add(FormatDateTime('ddmmyyyy', I));
+    StrList.Add(FormatDateTime('dd/mm/yyyy', I));
+    StrList.Add(FormatDateTime('dd-mm-yyyy', I));
+    StrList.Add(FormatDateTime('dd/mm/yy', I));
+    StrList.Add(FormatDateTime('dd-mm-yy', I));
+    StrList.Add(FormatDateTime('yyyymmdd', I));
+    // StrList.Add(FormatDateTime('yyyy/mm/dd', I));
+    // StrList.Add(FormatDateTime('yyyy-mm-dd', I));
+    // StrList.Add(FormatDateTime('yy/mm/dd', I));
+    // StrList.Add(FormatDateTime('yy-mm-dd', I));
+    I := I + 1;
   end;
-
+  StrList.SaveToFile('datas-ano01ate2300.txt');
   FreeAndNil(StrList);
 end;
 
