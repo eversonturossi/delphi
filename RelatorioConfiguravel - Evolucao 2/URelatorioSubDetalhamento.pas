@@ -53,6 +53,12 @@ type
     property Rodape: TDesenho read fRodape;
   end;
 
+  TDetalhamento = class(TBaseDetalhamento)
+  private
+  public
+    constructor Create(AOwner: TComponent; ANomeDetalhamento: String); override;
+  end;
+
   TSubDetalhamento = class(TBaseDetalhamento)
   private
   public
@@ -140,6 +146,14 @@ end;
 constructor TSubDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String);
 begin
   fTipoDetalhe := tdSubDetalhe;
+  inherited;
+end;
+
+{ TDetalhamento }
+
+constructor TDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String);
+begin
+  fTipoDetalhe := tdDetalhe;
   inherited;
 end;
 
