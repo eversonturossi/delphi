@@ -30,7 +30,7 @@ type
 
     procedure AdicionarCampoDBLabel(NomeField: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer);
     procedure AdicionarCampoLabel(Texto: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer);
-    procedure AdicionarIncrementoAlturaBand(NomeBand: String; IncrementoAltura: Integer);
+    procedure AdicionarIncrementoAlturaBand(IncrementoAltura: Integer);
     procedure AdicionarShape(TipoShape: TTipoShape; Linha, Coluna, Comprimento, Altura: Integer);
     procedure ConfigurarCampoLabel(var Componente: TQRCustomLabel; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer);
 
@@ -136,7 +136,7 @@ begin
   { Result := TWinControl(FindComponent(NomeComponente)); }
 end;
 
-procedure TDesenho.AdicionarIncrementoAlturaBand(NomeBand: String; IncrementoAltura: Integer);
+procedure TDesenho.AdicionarIncrementoAlturaBand(IncrementoAltura: Integer);
 begin
   VerificaParent();
   TQRCustomBand(ComponenteParent).Height := TQRCustomBand(ComponenteParent).Height + IncrementoAltura;

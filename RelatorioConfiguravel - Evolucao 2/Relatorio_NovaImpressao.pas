@@ -4,7 +4,7 @@ interface
 
 uses Windows, SysUtils, Messages, Classes, Graphics, Controls,
   StdCtrls, ExtCtrls, Forms, QuickRpt, QRPrntr, QRCtrls, DB, DBClient, QRPDFFilt,
-  CJVQRBarCode, URelatorioSubDetalhamento;
+  CJVQRBarCode, URelatorioSubDetalhamento, URelatorioDesenho;
 
 type
   TRelatorioNovaImpressao = class(TQuickRep)
@@ -72,27 +72,23 @@ begin
 end;
 
 procedure TRelatorioNovaImpressao.MontarRelatorio();
-const
-  _CabecalhoGeral = 'CabecalhoGeral';
-  _BaseRelatorio = 'Principal';
-  _RodapeGeral = 'QRBandRodape';
 var
   ItensPedido, Ordem, Bloqueio: TSubDetalhamento;
+  Relatorio: TDetalhamento;
 begin
+  Relatorio := TDetalhamento.Create(Self, 'Relatorio');
+ // relatorio.DataSet := self.DataSet;
+  Relatorio.Cabecalho.AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12);
+  Relatorio.Cabecalho.AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12);
+  Relatorio.Rodape.AdicionarCampoLabel('texto fixo em todo rodape ', 1, 100, 0, 12);
+  Relatorio.Detalhe.AdicionarCampoLabel('texto corpo', 1, 300, 0, 12);
+  Relatorio.Detalhe.AdicionarCampoLabel('texto corpo 2', 30, 300, 0, 12);
+  Relatorio.Detalhe.AdicionarCampoDBLabel('numero', 1, 50, 50, 12);
+  Relatorio.Detalhe.AdicionarCampoDBLabel('emissao', 1, 150, 0, 12);
+  // AdicionarShape('retangulo', 1, 1, 0, 18, _BaseRelatorio);
+  Relatorio.Detalhe.AdicionarShape(tsLinha, 50, 0, 0, 5);
+  Relatorio.Detalhe.AdicionarIncrementoAlturaBand(100);
 
-  // AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, _CabecalhoGeral);
-  // AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12, _CabecalhoGeral);
-  //
-  // AdicionarCampoLabel('texto fixo em todo rodape ', 1, 100, 0, 12, _RodapeGeral);
-  //
-  // AdicionarCampoLabel('texto corpo', 1, 300, 0, 12, _BaseRelatorio);
-  // AdicionarCampoLabel('texto corpo 2', 30, 300, 0, 12, _BaseRelatorio);
-  // AdicionarCampoDBLabel('numero', 1, 50, 50, 12, _BaseRelatorio);
-  // AdicionarCampoDBLabel('emissao', 1, 150, 0, 12, _BaseRelatorio);
-  // // AdicionarShape('retangulo', 1, 1, 0, 18, _BaseRelatorio);
-  // AdicionarShape('linha', 50, 0, 0, 5, _BaseRelatorio);
-  // AdicionarIncrementoAlturaBand(_BaseRelatorio, 50);
-  //
   // AdicionarShape('linha', 1, 0, 0, 18, 'SeparadorPrincipal');
 
   ItensPedido := TSubDetalhamento.Create(Self, 'ItensPedido');
@@ -128,6 +124,7 @@ begin
   Bloqueio.Rodape.AdicionarCampoLabel('bloqueio<--', 1, 50, 0, 10);
   FreeAndNil(Bloqueio);
 
+  FreeAndNil(Relatorio);
 end;
 
 end.

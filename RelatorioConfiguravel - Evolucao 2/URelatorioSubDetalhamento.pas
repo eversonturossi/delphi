@@ -30,12 +30,15 @@ type
     fBandDetalhe: TQRCustomBand;
     fRodape: TDesenho;
     fBandRodape: TQRBand;
-    fRelatorioParent: TWinControl;
+    fBandSeparador: TQRChildBand;
+
+    {fRelatorioParentX: TWinControl;}
     fTipoDetalhe: TTipoDetalhe;
     procedure SetDataSet(const Value: TDataSet);
     property BandDetalhe: TQRCustomBand read fBandDetalhe;
     property BandCabecalho: TQRBand read fBandCabecalho;
     property BandRodape: TQRBand read fBandRodape;
+    property BandSeparador : TQRChildBand read fBandSeparador;
   public
     procedure Cores(CorCabecalho, CorDetalhe, CorRodape: TColor); virtual;
 
@@ -44,7 +47,7 @@ type
 
     property TipoDetalhe: TTipoDetalhe read fTipoDetalhe;
 
-    property RelatorioParent: TWinControl read fRelatorioParent write fRelatorioParent;
+{    property RelatorioParentX: TWinControl read fRelatorioParentX write fRelatorioParentX;}
     property DataSet: TDataSet read fDataSet write SetDataSet;
     property NomeDetalhamento: String read fNomeDetalhamento;
 
@@ -82,7 +85,10 @@ begin
 
   fBandCabecalho := TQRBand.Create(AOwner);
   if (TipoDetalhe = tdDetalhe) then
+  begin
     fBandDetalhe := TQRBand.Create(AOwner);
+    fBandSeparador := TQRChildBand.Create(AOwner);
+  end;
   if (TipoDetalhe = tdSubDetalhe) then
     fBandDetalhe := TQRSubDetail.Create(AOwner);
   fBandRodape := TQRBand.Create(AOwner);
@@ -99,7 +105,11 @@ begin
   begin
     fBandCabecalho.BandType := rbPageHeader;
     TQRBand(fBandDetalhe).BandType := rbDetail;
+    TQRBand(fBandDetalhe).ForceNewPage := True;
+    TQRBand(fBandDetalhe).HasChild := True;
     fBandRodape.BandType := rbPageFooter;
+
+    fBandSeparador.ParentBand := TQRBand(fBandDetalhe);
   end;
 
   if (TipoDetalhe = tdSubDetalhe) then
@@ -107,6 +117,8 @@ begin
     fBandCabecalho.BandType := rbGroupHeader;
     TQRSubDetail(fBandDetalhe).HeaderBand := fBandCabecalho;
     TQRSubDetail(fBandDetalhe).FooterBand := fBandRodape;
+    TQRSubDetail(fBandDetalhe).Master := TQuickRep(AOwner);
+    TQRSubDetail(fBandDetalhe).PrintIfEmpty := False;
     fBandRodape.BandType := rbGroupFooter;
   end;
 
@@ -114,9 +126,9 @@ begin
   fBandDetalhe.Height := 0;
   fBandRodape.Height := 0;
 
-  fCabecalho := TDesenho.Create(TQuickRep(AOwner), fBandCabecalho);
-  fDetalhe := TDesenho.Create(TQuickRep(AOwner), fBandDetalhe);
-  fRodape := TDesenho.Create(TQuickRep(AOwner), fBandRodape);
+  fCabecalho := TDesenho.Create(TWinControl(AOwner), fBandCabecalho);
+  fDetalhe := TDesenho.Create(TWinControl(AOwner), fBandDetalhe);
+  fRodape := TDesenho.Create(TWinControl(AOwner), fBandRodape);
 end;
 
 destructor TBaseDetalhamento.Destroy;
@@ -135,8 +147,8 @@ end;
 procedure TBaseDetalhamento.SetDataSet(const Value: TDataSet);
 begin
   fDataSet := Value;
-  if (TipoDetalhe = tdDetalhe) then
-    TQuickRep(RelatorioParent).DataSet := fDataSet;
+ { if (TipoDetalhe = tdDetalhe) then
+    TQuickRep(RelatorioParentX).DataSet := fDataSet; }
   if (TipoDetalhe = tdSubDetalhe) then
     TQRSubDetail(fBandDetalhe).DataSet := fDataSet;
 end;
