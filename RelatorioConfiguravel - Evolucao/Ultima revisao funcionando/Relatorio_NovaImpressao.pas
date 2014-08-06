@@ -13,7 +13,7 @@ type
     QRPDFFilter1: TQRPDFFilter;
     CabecalhoGeral: TQRBand;
     Principal: TQRBand;
-    Cabecalho01: TQRChildBand;
+    FilhoPrincipal: TQRChildBand;
     Detalhe01: TQRSubDetail;
     Rodape01: TQRBand;
     Cabecalho02: TQRBand;
@@ -22,6 +22,7 @@ type
     Cabecalho03: TQRBand;
     Detalhe03: TQRSubDetail;
     Rodape03: TQRBand;
+    Cabecalho01: TQRBand;
     procedure QRBandCabecalhoGeralBeforePrint(Sender: TQRCustomBand; var PrintBand: Boolean);
   private
     procedure ConfigurarCampoLabel(var Componente: TQRCustomLabel; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer; NomeBand: String);
@@ -165,6 +166,8 @@ const
   Rodape03 = 'Rodape03';
   RodapeGeral = 'QRBandRodape';
 begin
+  AdicionarCampoLabel('----------', 1, 1, 0, 12, 'FilhoPrincipal');
+
   AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12, CabecalhoGeral);
   AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12, CabecalhoGeral);
 
