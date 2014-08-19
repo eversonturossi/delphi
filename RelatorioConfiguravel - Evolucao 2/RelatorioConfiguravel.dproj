@@ -48,6 +48,7 @@
 			<DCCReference Include="URelatorioDesenho.pas"/>
 			<DCCReference Include="URelatorioSubDetalhamento.pas"/>
 			<DCCReference Include="URelatorioFonte.pas"/>
+			<DCCReference Include="URelatorioDetalhamento.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

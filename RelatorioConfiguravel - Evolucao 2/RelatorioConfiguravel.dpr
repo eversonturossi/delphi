@@ -6,7 +6,8 @@ uses
   Relatorio_NovaImpressao in 'Relatorio_NovaImpressao.pas' {RelatorioNovaImpressao: TQuickRep},
   URelatorioDesenho in 'URelatorioDesenho.pas',
   URelatorioSubDetalhamento in 'URelatorioSubDetalhamento.pas',
-  URelatorioFonte in 'URelatorioFonte.pas';
+  URelatorioFonte in 'URelatorioFonte.pas',
+  URelatorioDetalhamento in 'URelatorioDetalhamento.pas';
 
 {$R *.res}
 

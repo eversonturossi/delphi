@@ -22,7 +22,7 @@ type
   private
     fComponenteParent: TWinControl;
     fRelatorioParent: TWinControl;
-    procedure RedimensionarParent();
+    procedure RedimensionarParent(Componente: TWinControl);
     procedure VerificaParent;
   public
     property ComponenteParent: TWinControl read fComponenteParent write fComponenteParent;
@@ -68,7 +68,7 @@ begin
   Componente.AutoSize := False;
   if (TamanhoMaxTexto = 0) then
     Componente.AutoSize := True;
-  RedimensionarParent();
+  RedimensionarParent(Componente);
 end;
 
 procedure TDesenho.AdicionarCampoLabel(Texto: String; Linha, Coluna, TamanhoMaxTexto, TamanhoFonte: Integer);
@@ -122,18 +122,18 @@ begin
     Componente.Width := ComponenteParent.Width - Coluna;
   if (Altura <= 0) then
     raise Exception.Create('Obrigatório Informar Altura');
-  RedimensionarParent();
+  RedimensionarParent(Componente);
 end;
 
-procedure TDesenho.RedimensionarParent();
+procedure TDesenho.RedimensionarParent(Componente: TWinControl);
+{ Result := TWinControl(FindComponent(NomeComponente)); }
 var
   TamanhoOcupadoComponente: Integer;
 begin
   VerificaParent();
-  TamanhoOcupadoComponente := ComponenteParent.Top + ComponenteParent.Height;
-  if (ComponenteParent.Parent.Height < TamanhoOcupadoComponente) then
-    ComponenteParent.Parent.Height := TamanhoOcupadoComponente;
-  { Result := TWinControl(FindComponent(NomeComponente)); }
+  TamanhoOcupadoComponente := Componente.Top + Componente.Height;
+  if (ComponenteParent.Height < TamanhoOcupadoComponente) then
+    ComponenteParent.Height := TamanhoOcupadoComponente;
 end;
 
 procedure TDesenho.AdicionarIncrementoAlturaBand(IncrementoAltura: Integer);

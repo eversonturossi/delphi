@@ -1,4 +1,4 @@
-unit URelatorioSubDetalhamento;
+unit URelatorioDetalhamento;
 
 interface
 
@@ -18,7 +18,7 @@ uses
   URelatorioDesenho;
 
 type
-  TSubDetalhamento = class(TObject)
+  TDetalhamento = class(TObject)
   private
     fDataSet: TDataSet;
     fCabecalho: TDesenho;
@@ -55,16 +55,16 @@ type
 
 implementation
 
-{ TSubDetalhamento }
+{ TDetalhamento }
 
-procedure TSubDetalhamento.Cores(CorCabecalho, CorDetalhe, CorRodape: TColor);
+procedure TDetalhamento.Cores(CorCabecalho, CorDetalhe, CorRodape: TColor);
 begin
   fBandCabecalho.Color := CorCabecalho;
   fBandDetalhe.Color := CorDetalhe;
   fBandRodape.Color := CorRodape;
 end;
 
-procedure TSubDetalhamento.Configurar();
+procedure TDetalhamento.Configurar();
 begin
   fBandCabecalho.Height := 0;
   fBandDetalhe.Height := 0;
@@ -75,13 +75,14 @@ begin
   fRodape := TDesenho.Create(fRelatorioParent, fBandRodape);
 end;
 
-constructor TSubDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String);
+constructor TDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String);
 begin
   fNomeDetalhamento := ANomeDetalhamento;
   fRelatorioParent := TWinControl(AOwner);
 
   fBandCabecalho := TQRBand.Create(fRelatorioParent);
-  fBandDetalhe := TQRSubDetail.Create(fRelatorioParent);
+  fBandDetalhe := TQRBand.Create(fRelatorioParent);
+  fBandSeparador := TQRChildBand.Create(fRelatorioParent);
   fBandRodape := TQRBand.Create(fRelatorioParent);
 
   fBandCabecalho.Name := 'Cabecalho' + fNomeDetalhamento;
@@ -92,36 +93,30 @@ begin
   fBandDetalhe.Parent := fRelatorioParent;
   fBandRodape.Parent := fRelatorioParent;
 
-  fBandCabecalho.BandType := rbGroupHeader;
-  TQRSubDetail(fBandDetalhe).HeaderBand := fBandCabecalho;
-  TQRSubDetail(fBandDetalhe).FooterBand := fBandRodape;
-  TQRSubDetail(fBandDetalhe).Master := TQuickRep(fRelatorioParent);
-  TQRSubDetail(fBandDetalhe).PrintIfEmpty := False;
-  { ------- }
-  TQRSubDetail(fBandDetalhe).AlignToBottom := False;
-  TQRSubDetail(fBandDetalhe).ForceNewColumn := False;
-  TQRSubDetail(fBandDetalhe).ForceNewPage := False;
-  TQRSubDetail(fBandDetalhe).KeepOnOnePage := False;
-  TQRSubDetail(fBandDetalhe).PreCaluculateBandHeight := False;
-  TQRSubDetail(fBandDetalhe).PrintBefore := False;
-  TQRSubDetail(fBandDetalhe).TransparentBand := False;
-  { -------- }
-  fBandRodape.BandType := rbGroupFooter;
+  fBandCabecalho.BandType := rbPageHeader;
+  TQRBand(fBandDetalhe).BandType := rbDetail;
+  TQRBand(fBandDetalhe).ForceNewPage := true;
+  TQRBand(fBandDetalhe).HasChild := true;
+  fBandRodape.BandType := rbPageFooter;
+
+  fBandSeparador.ParentBand := TQRBand(fBandDetalhe);
+
+  Configurar();
 end;
 
-constructor TSubDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String; ACabecaho, ADetalhe, ARodape: TQRCustomBand);
+constructor TDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String; ACabecaho, ADetalhe, ARodape: TQRCustomBand);
 begin
   fNomeDetalhamento := ANomeDetalhamento;
   fRelatorioParent := TWinControl(AOwner);
 
   fBandCabecalho := TQRBand(ACabecaho);
-  fBandDetalhe := TQRSubDetail(ADetalhe);
+  fBandDetalhe := TQRBand(ADetalhe);
   fBandRodape := TQRBand(ARodape);
 
   Configurar();
 end;
 
-destructor TSubDetalhamento.Destroy;
+destructor TDetalhamento.Destroy;
 begin
   FreeAndNil(fCabecalho);
   FreeAndNil(fDetalhe);
@@ -135,10 +130,11 @@ begin
   inherited;
 end;
 
-procedure TSubDetalhamento.SetDataSet(const Value: TDataSet);
+procedure TDetalhamento.SetDataSet(const Value: TDataSet);
 begin
   fDataSet := Value;
-  TQRSubDetail(fBandDetalhe).DataSet := fDataSet;
+  { if (TipoDetalhe = tdDetalhe) then
+    TQuickRep(RelatorioParentX).DataSet := fDataSet; }
 end;
 
 end.
