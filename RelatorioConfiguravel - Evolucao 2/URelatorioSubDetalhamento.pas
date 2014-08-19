@@ -107,6 +107,8 @@ begin
   TQRSubDetail(fBandDetalhe).TransparentBand := False;
   { -------- }
   fBandRodape.BandType := rbGroupFooter;
+
+  Configurar();
 end;
 
 constructor TSubDetalhamento.Create(AOwner: TComponent; ANomeDetalhamento: String; ACabecaho, ADetalhe, ARodape: TQRCustomBand);
