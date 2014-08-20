@@ -82,7 +82,7 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
-  ASqlItens, ASqlOrdem, aqslbloqueio: String;
+  ASqlItens, ASqlOrdem, ASqlBloqueio: String;
 begin
   Connection.DriverName := 'Firebird';
   Connection.GetDriverFunc := 'getSQLDriverINTERBASE';
@@ -94,20 +94,20 @@ begin
   Connection.Params.Values['Password'] := 'masterkey';
 
   SQLRelatorio.SQL.Clear;
-  SQLRelatorio.SQL.Add('select pedido.* from pedido where (numero > 1) and (numero <500)');
-  ASqlItens := 'select itempedido.* from itempedido where (itempedido.numero = :numero) order by numero,produto';
-  ASqlOrdem := 'select ordempedido.* from ordempedido where (ordempedido.numero = :numero) ' { order by ordem } ;
-  aqslbloqueio := 'select BLOQUEIOPEDIDO.* from BLOQUEIOPEDIDO where (BLOQUEIOPEDIDO.pedido = :numero)' { order by motivo } ;
+  SQLRelatorio.SQL.Add('SELECT PEDIDO.* FROM PEDIDO WHERE (NUMERO > 1) AND (NUMERO <500)');
+  ASqlItens := 'SELECT ITEMPEDIDO.* FROM ITEMPEDIDO WHERE (ITEMPEDIDO.NUMERO = :NUMERO) ORDER BY NUMERO,PRODUTO';
+  ASqlOrdem := 'SELECT ORDEMPEDIDO.* FROM ORDEMPEDIDO WHERE (ORDEMPEDIDO.NUMERO = :NUMERO) ';
+  ASqlBloqueio := 'SELECT BLOQUEIOPEDIDO.* FROM BLOQUEIOPEDIDO WHERE (BLOQUEIOPEDIDO.PEDIDO = :NUMERO)';
   cdsRelatorio.Open;
 
-  cd01 := CriarDatasetDinamico(ASqlItens, 'numero', 'numero', Connection, dsRelatorio);
+  cd01 := CriarDatasetDinamico(ASqlItens, 'NUMERO', 'NUMERO', Connection, dsRelatorio);
   cd01.Open;
   dsItens.DataSet := cd01;
 
-  cd02 := CriarDatasetDinamico(ASqlOrdem, 'numero', 'numero', Connection, dsRelatorio);
+  cd02 := CriarDatasetDinamico(ASqlOrdem, 'NUMERO', 'NUMERO', Connection, dsRelatorio);
   cd02.Open;
 
-  cd03 := CriarDatasetDinamico(aqslbloqueio, 'pedido', 'numero', Connection, dsRelatorio);
+  cd03 := CriarDatasetDinamico(ASqlBloqueio, 'PEDIDO', 'NUMERO', Connection, dsRelatorio);
   cd03.Open;
 end;
 
