@@ -13,7 +13,8 @@ uses
   QRPrntr,
   QRCtrls,
   DBClient,
-  QRPDFFilt;
+  QRPDFFilt,
+  DB;
 
 type
   TTipoShape = (tsLinha, tsRetangulo);
@@ -24,6 +25,7 @@ type
     fRelatorioParent: TWinControl;
     procedure RedimensionarParent(Componente: TWinControl);
     procedure VerificaParent;
+    procedure VerificaField(ANomeField: String; ADataSet: TDataSet);
   public
     property ComponenteParent: TWinControl read fComponenteParent write fComponenteParent;
     property RelatorioParent: TWinControl read fRelatorioParent write fRelatorioParent;
@@ -99,6 +101,8 @@ begin
       raise Exception.CreateFmt('Não identificado Parent para adicionar campo DBLabel %S', [NomeField]);
 
   TQRDBText(Componente).DataField := NomeField;
+  VerificaField(TQRDBText(Componente).DataField, TQRDBText(Componente).DataSet);
+
   ConfigurarCampoLabel(Componente, Linha, Coluna, TamanhoMaxTexto, TamanhoFonte);
 end;
 
@@ -148,6 +152,12 @@ begin
     raise Exception.Create('Relatório Parent não informado');
   if (ComponenteParent = nil) then
     raise Exception.Create('Componente Parent não informado');
+end;
+
+procedure TDesenho.VerificaField(ANomeField: String; ADataSet: TDataSet);
+begin
+  if (ADataSet.FindField(ANomeField) = nil) then
+    raise Exception.CreateFmt('Campo %S não existe no DataSet %S', [ANomeField, ADataSet.Name]);
 end;
 
 end.
