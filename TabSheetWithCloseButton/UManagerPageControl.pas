@@ -67,6 +67,7 @@ begin
   FCloseButtonMouseDownIndex := -1;
   for I := 0 to Length(FCloseButtonsRect) - 1 do
     FCloseButtonsRect[I] := Rect(0, 0, 0, 0);
+  PageControl.Repaint; { adicionado  20/08/2014 }
 end;
 
 class procedure ManagerPageControlCloseButton.EventDrawTab(Control: TCustomTabControl; TabIndex: Integer; const Rect: TRect; Active: Boolean);
