@@ -18,6 +18,9 @@ uses
   Themes,
   Math;
 
+const
+  TabSheetPrefix = 'TabSheet';
+
 type
   ManagerPageControlCloseButton = class(TObject)
   private
@@ -33,7 +36,7 @@ type
     class procedure EventMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 
     class procedure CriarAba(clsForm: TFormClass; var PageControl: TPageControl; Index: Integer);
-    class function ExisteAba(PageControl: TPageControl; NomeAba: String): Boolean;
+    class function ExisteAba(PageControl: TPageControl; clsForm: TFormClass): Boolean;
     class procedure FecharAba(PageControl: TPageControl; NomeAba: String);
   end;
 
@@ -218,6 +221,7 @@ begin
 
   TabSheet.PageControl := PageControl;
   TabSheet.Caption := Form.Caption;
+  TabSheet.Name := TabSheetPrefix + Form.ClassName;
   TabSheet.ImageIndex := Index;
 
   // ===============================================
@@ -236,7 +240,7 @@ begin
   ManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControl);
 end;
 
-class function ManagerPageControlCloseButton.ExisteAba(PageControl: TPageControl; NomeAba: String): Boolean;
+class function ManagerPageControlCloseButton.ExisteAba(PageControl: TPageControl; clsForm: TFormClass): Boolean;
 var
   I: Integer;
   Aba: TTabSheet;
@@ -244,7 +248,7 @@ begin
   Result := False;
   for I := 0 to PageControl.PageCount - 1 do
   begin
-    if PageControl.Pages[I].Caption = NomeAba then
+    if (PageControl.Pages[I].Name = TabSheetPrefix + clsForm.ClassName) then
     begin
       Aba := PageControl.Pages[I];
       PageControl.ActivePage := Aba;

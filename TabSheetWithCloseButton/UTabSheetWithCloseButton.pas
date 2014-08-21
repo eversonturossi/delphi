@@ -38,8 +38,8 @@ uses
 
 procedure TFrmPrincipal.CriarAba(clsForm: TFormClass; Index: Integer);
 begin
-  // if not (ManagerPageControlCloseButton.ExisteAba(PageControlCloseButton,tform( clsForm).Caption)) then
-  ManagerPageControlCloseButton.CriarAba(clsForm, PageControlCloseButton, Index);
+  if not(ManagerPageControlCloseButton.ExisteAba(PageControlCloseButton, clsForm)) then
+    ManagerPageControlCloseButton.CriarAba(clsForm, PageControlCloseButton, Index);
 end;
 
 procedure TFrmPrincipal.FormCreate(Sender: TObject);
