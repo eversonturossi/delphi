@@ -22,7 +22,7 @@ type
     procedure Localizar1Click(Sender: TObject);
     procedure Ajuda1Click(Sender: TObject);
   private
-    procedure CriarAba(clsForm: TFormClass; Index: Integer);
+    procedure CriarAba(ClasseForm: TFormClass; Index: Integer);
   public
     { Public declarations }
   end;
@@ -36,16 +36,16 @@ uses
   UFrmAjuda, UFrmArquivo, UFrmBase, UFrmEditar, UFrmLocalizar;
 {$R *.dfm}
 
-procedure TFrmPrincipal.CriarAba(clsForm: TFormClass; Index: Integer);
+procedure TFrmPrincipal.CriarAba(ClasseForm: TFormClass; Index: Integer);
 begin
-  if not(ManagerPageControlCloseButton.ExisteAba(PageControlCloseButton, clsForm)) then
-    ManagerPageControlCloseButton.CriarAba(clsForm, PageControlCloseButton, Index);
+  if not(TManagerPageControlCloseButton.ExisteAba(PageControlCloseButton, ClasseForm)) then
+    TManagerPageControlCloseButton.CriarAba(ClasseForm, PageControlCloseButton, Index);
 end;
 
 procedure TFrmPrincipal.FormCreate(Sender: TObject);
 begin
-  ManagerPageControlCloseButton.AssignEvents(PageControlCloseButton);
-  ManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControlCloseButton);
+  TManagerPageControlCloseButton.AssignEvents(PageControlCloseButton);
+  TManagerPageControlCloseButton.CreateCloseButtonInNewTab(PageControlCloseButton);
 end;
 
 procedure TFrmPrincipal.Ajuda1Click(Sender: TObject);
