@@ -14,8 +14,10 @@ type
     EditNumeroArquivos: TEdit;
     Label1: TLabel;
     Label2: TLabel;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,6 +66,11 @@ begin
   finally
     TButton(Sender).Enabled := true;
   end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  DataInicio.DateTime := Now - (StrToInt(EditNumeroArquivos.Text) - 1); { para gerar arquivos até a data presente }
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);

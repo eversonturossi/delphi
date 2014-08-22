@@ -62,4 +62,13 @@ object Form1: TForm1
     TabOrder = 3
     Text = 'EditNumeroArquivos'
   end
+  object Button2: TButton
+    Left = 160
+    Top = 51
+    Width = 125
+    Height = 25
+    Caption = 'Retrocedor Data'
+    TabOrder = 4
+    OnClick = Button2Click
+  end
 end
