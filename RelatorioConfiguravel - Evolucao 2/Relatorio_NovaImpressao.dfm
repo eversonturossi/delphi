@@ -379,19 +379,37 @@ object RelatorioNovaImpressao: TRelatorioNovaImpressao
   object cdDetalhe01: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 152
-    Top = 432
+    Left = 72
+    Top = 480
   end
   object cdDetalhe02: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 240
-    Top = 432
+    Left = 72
+    Top = 528
   end
   object cdDetalhe03: TClientDataSet
     Aggregates = <>
     Params = <>
-    Left = 320
-    Top = 432
+    Left = 72
+    Top = 576
+  end
+  object cdMontaItens: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 392
+    Top = 520
+  end
+  object cdListaDetalhamentos: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 448
+    Top = 448
+  end
+  object cdMontaRelatorio: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    Left = 344
+    Top = 448
   end
 end
