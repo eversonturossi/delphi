@@ -4,10 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, UFormBase;
+  Dialogs, UFormBase, StdCtrls;
 
 type
   TFormInicial = class(TFormBase)
+    Memo1: TMemo;
   private
     { Private declarations }
   public
