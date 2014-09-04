@@ -31,7 +31,7 @@ var { Copiado de: http://www.activedelphi.com.br/forum/viewtopic.php?p=315720&si
   PI: TProcessInformation;
   StdOutPipeRead, StdOutPipeWrite: THandle;
   WasOK: Boolean;
-  Buffer: array [0 .. 255] of AnsiChar;
+  Buffer: array [0 .. 255] of AnsiChar; { mudar para ler buffer maior }
   BytesRead: Cardinal;
   WorkDir: string;
   Handle: Boolean;
@@ -60,12 +60,13 @@ begin
       try
         repeat
           Application.ProcessMessages;
-          WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil);
+          WasOK := ReadFile(StdOutPipeRead, Buffer, 255, BytesRead, nil); { mudar para ler buffer maior }
           if BytesRead > 0 then
           begin
             Buffer[BytesRead] := #0;
             { Result := Result + Buffer; comentado aqui }
             Memo.Lines.Add(Trim(Buffer)); { adicionado esta linha }
+            Memo.Lines.Add('==============================================');
           end;
         until not WasOK or (BytesRead = 0);
         WaitForSingleObject(PI.hProcess, INFINITE);
@@ -84,6 +85,7 @@ begin
     Button1.Enabled := False;
     Memo1.Lines.Clear;
     GetDosOutput('sleep.bat', ExtractFilePath(ParamStr(0)), Memo1);
+    // GetDosOutput('ping -t 192.168.50.253 -w 3000 -s 3', ExtractFilePath(ParamStr(0)), Memo1);
   finally
     Button1.Enabled := True;
   end;

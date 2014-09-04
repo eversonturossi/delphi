@@ -33,6 +33,7 @@ object Form2: TForm2
     Anchors = [akLeft, akTop, akRight, akBottom]
     Lines.Strings = (
       'Memo1')
+    ScrollBars = ssVertical
     TabOrder = 1
   end
 end
