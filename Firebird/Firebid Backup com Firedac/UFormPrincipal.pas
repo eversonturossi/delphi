@@ -8,23 +8,21 @@ uses
 
 type
   TFormPrincipal = class(TForm)
-    ADIBBackup1: TADIBBackup;
+    DBBackup: TADIBBackup;
     ButtonBackup: TButton;
-    OpenDialog1: TOpenDialog;
+    OpenDialogDB: TOpenDialog;
     MemoLog: TMemo;
     LabelArquivoBanco: TLabel;
-    ADPhysIBDriverLink1: TADPhysIBDriverLink;
+    DBLink: TADPhysIBDriverLink;
     procedure ButtonBackupClick(Sender: TObject);
-    procedure ADIBBackup1BeforeExecute(Sender: TObject);
-    procedure ADIBBackup1AfterExecute(Sender: TObject);
-    procedure ADIBBackup1Error(ASender: TObject; const AInitiator: IADStanObject; var AException: Exception);
-    procedure ADIBBackup1Progress(ASender: TADPhysDriverService; const AMessage: string);
+    procedure DBBackupBeforeExecute(Sender: TObject);
+    procedure DBBackupAfterExecute(Sender: TObject);
+    procedure DBBackupError(ASender: TObject; const AInitiator: IADStanObject; var AException: Exception);
+    procedure DBBackupProgress(ASender: TADPhysDriverService; const AMessage: string);
     procedure FormCreate(Sender: TObject);
   private
-    function getHora: string;
-    { Private declarations }
+    function getHora(): string;
   public
-    { Public declarations }
   end;
 
 var
@@ -38,24 +36,25 @@ uses uADStanDef;
 function TFormPrincipal.getHora(): string;
 begin
   Result := FormatDateTime('hh:nn:ss', Now);
+  Application.ProcessMessages;
 end;
 
-procedure TFormPrincipal.ADIBBackup1AfterExecute(Sender: TObject);
+procedure TFormPrincipal.DBBackupAfterExecute(Sender: TObject);
 begin
   MemoLog.Lines.Add(getHora() + ' ->  Terninado');
 end;
 
-procedure TFormPrincipal.ADIBBackup1BeforeExecute(Sender: TObject);
+procedure TFormPrincipal.DBBackupBeforeExecute(Sender: TObject);
 begin
   MemoLog.Lines.Add(getHora() + ' ->  Iniciado');
 end;
 
-procedure TFormPrincipal.ADIBBackup1Error(ASender: TObject; const AInitiator: IADStanObject; var AException: Exception);
+procedure TFormPrincipal.DBBackupError(ASender: TObject; const AInitiator: IADStanObject; var AException: Exception);
 begin
   MemoLog.Lines.Add(getHora() + ' -> ERRO: ' + AException.Message);
 end;
 
-procedure TFormPrincipal.ADIBBackup1Progress(ASender: TADPhysDriverService; const AMessage: string);
+procedure TFormPrincipal.DBBackupProgress(ASender: TADPhysDriverService; const AMessage: string);
 begin
   MemoLog.Lines.Add(getHora() + ' -> ' + AMessage);
 end;
@@ -69,23 +68,23 @@ begin
     MemoLog.Lines.Clear;
     LabelArquivoBanco.Caption := '';
 
-    OpenDialog1.Filter := 'FireBird Database(*.fdb)|*.fdb';
-    if not(OpenDialog1.Execute()) then
+    OpenDialogDB.Filter := 'FireBird Database(*.fdb)|*.fdb';
+    if not(OpenDialogDB.Execute()) then
       raise Exception.Create('Cancelado');
-    FileDBOrigem := OpenDialog1.FileName;
+    FileDBOrigem := OpenDialogDB.FileName;
     LabelArquivoBanco.Caption := FileDBOrigem;
     if (UpperCase(ExtractFileExt(FileDBOrigem)) <> UpperCase('.fdb')) then
       raise Exception.Create('Arquivo inválido');
 
     FileDBDestino := ChangeFileExt(FileDBOrigem, '.fbk');
     try
-      ADIBBackup1.Database := FileDBOrigem;
-      ADIBBackup1.BackupFiles.Add(FileDBDestino);
-      ADIBBackup1.Verbose := True;
-      ADIBBackup1.Host := 'localhost';
-      ADIBBackup1.UserName := 'SYSDBA';
-      ADIBBackup1.Password := 'masterkey';
-      ADIBBackup1.Backup;
+      DBBackup.Database := FileDBOrigem;
+      DBBackup.BackupFiles.Add(FileDBDestino);
+      DBBackup.Verbose := True;
+      DBBackup.Host := 'localhost';
+      DBBackup.UserName := 'SYSDBA';
+      DBBackup.Password := 'masterkey';
+      DBBackup.Backup;
     except
       on E: Exception do
         MemoLog.Lines.Add('Erro' + E.Message);

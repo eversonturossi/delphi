@@ -46,20 +46,20 @@ object FormPrincipal: TFormPrincipal
     ScrollBars = ssVertical
     TabOrder = 1
   end
-  object ADIBBackup1: TADIBBackup
-    OnError = ADIBBackup1Error
-    BeforeExecute = ADIBBackup1BeforeExecute
-    AfterExecute = ADIBBackup1AfterExecute
-    DriverLink = ADPhysIBDriverLink1
-    OnProgress = ADIBBackup1Progress
+  object DBBackup: TADIBBackup
+    OnError = DBBackupError
+    BeforeExecute = DBBackupBeforeExecute
+    AfterExecute = DBBackupAfterExecute
+    DriverLink = DBLink
+    OnProgress = DBBackupProgress
     Left = 72
     Top = 144
   end
-  object OpenDialog1: TOpenDialog
-    Left = 320
-    Top = 176
+  object OpenDialogDB: TOpenDialog
+    Left = 256
+    Top = 136
   end
-  object ADPhysIBDriverLink1: TADPhysIBDriverLink
+  object DBLink: TADPhysIBDriverLink
     Left = 176
     Top = 144
   end
