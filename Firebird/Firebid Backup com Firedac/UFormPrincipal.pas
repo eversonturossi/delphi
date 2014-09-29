@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, uADStanIntf, uADPhysManager, uADPhysIB;
+  Dialogs, StdCtrls, uADStanIntf, uADPhysManager, uADPhysIB, ExtCtrls;
 
 type
   TFormPrincipal = class(TForm)
@@ -14,6 +14,10 @@ type
     MemoLog: TMemo;
     LabelArquivoBanco: TLabel;
     DBLink: TADPhysIBDriverLink;
+    Label2: TLabel;
+    LabelTempoDecorrido: TLabel;
+    Label1: TLabel;
+    CheckBoxVerbose: TCheckBox;
     procedure ButtonBackupClick(Sender: TObject);
     procedure DBBackupBeforeExecute(Sender: TObject);
     procedure DBBackupAfterExecute(Sender: TObject);
@@ -21,7 +25,12 @@ type
     procedure DBBackupProgress(ASender: TADPhysDriverService; const AMessage: string);
     procedure FormCreate(Sender: TObject);
   private
+    fDataHoraInicio: TDateTime;
+    fMensagemAnterior: string;
     function getHora(): string;
+    procedure AtualizaProgresso;
+    property DataHoraInicio: TDateTime read fDataHoraInicio write fDataHoraInicio;
+    property MensagemAnterior: string read fMensagemAnterior write fMensagemAnterior;
   public
   end;
 
@@ -36,6 +45,11 @@ uses uADStanDef;
 function TFormPrincipal.getHora(): string;
 begin
   Result := FormatDateTime('hh:nn:ss', Now);
+end;
+
+procedure TFormPrincipal.AtualizaProgresso();
+begin
+  LabelTempoDecorrido.Caption := FormatDateTime('hh:nn:ss', Now - DataHoraInicio);
   Application.ProcessMessages;
 end;
 
@@ -56,7 +70,9 @@ end;
 
 procedure TFormPrincipal.DBBackupProgress(ASender: TADPhysDriverService; const AMessage: string);
 begin
-  MemoLog.Lines.Add(getHora() + ' -> ' + AMessage);
+  if (CheckBoxVerbose.Checked) then
+    MemoLog.Lines.Add(getHora() + ' -> ' + AMessage);
+  AtualizaProgresso();
 end;
 
 procedure TFormPrincipal.ButtonBackupClick(Sender: TObject);
@@ -66,7 +82,9 @@ begin
   try
     TButton(Sender).Enabled := False;
     MemoLog.Lines.Clear;
+    DBBackup.BackupFiles.Clear;
     LabelArquivoBanco.Caption := '';
+    MensagemAnterior := '';
 
     OpenDialogDB.Filter := 'FireBird Database(*.fdb)|*.fdb';
     if not(OpenDialogDB.Execute()) then
@@ -76,6 +94,8 @@ begin
     if (UpperCase(ExtractFileExt(FileDBOrigem)) <> UpperCase('.fdb')) then
       raise Exception.Create('Arquivo inválido');
 
+    DataHoraInicio := Now;
+    AtualizaProgresso();
     FileDBDestino := ChangeFileExt(FileDBOrigem, '.fbk');
     try
       DBBackup.Database := FileDBOrigem;
@@ -91,6 +111,7 @@ begin
     end;
 
   finally
+    AtualizaProgresso();
     TButton(Sender).Enabled := True;
   end;
 end;
@@ -99,6 +120,7 @@ procedure TFormPrincipal.FormCreate(Sender: TObject);
 begin
   LabelArquivoBanco.Caption := '';
   MemoLog.Lines.Clear;
+  LabelTempoDecorrido.Caption := '00:00:00';
 end;
 
 end.
