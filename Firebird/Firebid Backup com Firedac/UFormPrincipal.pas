@@ -96,7 +96,7 @@ begin
 
     DataHoraInicio := Now;
     AtualizaProgresso();
-    FileDBDestino := ChangeFileExt(FileDBOrigem, '.fbk');
+    FileDBDestino := ChangeFileExt(FileDBOrigem, '.fbk2');
     try
       DBBackup.Database := FileDBOrigem;
       DBBackup.BackupFiles.Add(FileDBDestino);
