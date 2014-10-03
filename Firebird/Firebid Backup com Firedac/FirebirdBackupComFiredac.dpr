@@ -2,7 +2,9 @@ program FirebirdBackupComFiredac;
 
 uses
   Forms,
-  UFormPrincipal in 'UFormPrincipal.pas' {FormPrincipal};
+  UFormPrincipal in 'UFormPrincipal.pas' {FormPrincipal},
+  UThreadBackup in 'UThreadBackup.pas',
+  UBackupFirebird in 'UBackupFirebird.pas';
 
 {$R *.res}
 

@@ -41,6 +41,8 @@
 			<DCCReference Include="UFormPrincipal.pas">
 				<Form>FormPrincipal</Form>
 			</DCCReference>
+			<DCCReference Include="UThreadBackup.pas"/>
+			<DCCReference Include="UBackupFirebird.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
