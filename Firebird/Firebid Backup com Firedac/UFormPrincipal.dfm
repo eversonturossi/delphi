@@ -18,7 +18,7 @@ object FormPrincipal: TFormPrincipal
   PixelsPerInch = 96
   TextHeight = 13
   object LabelArquivoBanco: TLabel
-    Left = 144
+    Left = 224
     Top = 11
     Width = 409
     Height = 13
@@ -48,7 +48,7 @@ object FormPrincipal: TFormPrincipal
     ParentFont = False
   end
   object Label1: TLabel
-    Left = 98
+    Left = 178
     Top = 11
     Width = 41
     Height = 13
@@ -85,6 +85,15 @@ object FormPrincipal: TFormPrincipal
     Caption = 'Verbose'
     TabOrder = 2
   end
+  object ButtonRestore: TButton
+    Left = 89
+    Top = 6
+    Width = 75
+    Height = 25
+    Caption = 'Restore'
+    TabOrder = 3
+    OnClick = ButtonRestoreClick
+  end
   object DBBackup: TADIBBackup
     OnError = DBBackupError
     BeforeExecute = DBBackupBeforeExecute
@@ -99,7 +108,16 @@ object FormPrincipal: TFormPrincipal
     Top = 160
   end
   object DBLink: TADPhysIBDriverLink
-    Left = 176
-    Top = 144
+    Left = 128
+    Top = 176
+  end
+  object DBRestore: TADIBRestore
+    OnError = DBRestoreError
+    BeforeExecute = DBRestoreBeforeExecute
+    AfterExecute = DBRestoreAfterExecute
+    DriverLink = DBLink
+    OnProgress = DBRestoreProgress
+    Left = 72
+    Top = 208
   end
 end
