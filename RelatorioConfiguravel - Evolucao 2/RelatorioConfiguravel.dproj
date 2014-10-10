@@ -39,16 +39,17 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="Unit1.pas">
-				<Form>Form1</Form>
+				<Form> Form1 </Form>
 			</DCCReference>
 			<DCCReference Include="Relatorio_NovaImpressao.pas">
-				<Form>RelatorioNovaImpressao</Form>
-				<DesignClass>TQuickRep</DesignClass>
+				<Form> RelatorioNovaImpressao</Form>
+				<DesignClass>TQuickRep </DesignClass>
 			</DCCReference>
 			<DCCReference Include="URelatorioDesenho.pas"/>
 			<DCCReference Include="URelatorioSubDetalhamento.pas"/>
 			<DCCReference Include="URelatorioFonte.pas"/>
 			<DCCReference Include="URelatorioDetalhamento.pas"/>
+			<DCCReference Include="URelatorioUtil.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

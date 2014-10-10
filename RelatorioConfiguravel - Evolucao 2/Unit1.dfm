@@ -16,14 +16,14 @@ object Form1: TForm1
     377)
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
+  object ButtonAbrirDataSets: TButton
     Left = 8
     Top = 8
     Width = 177
     Height = 81
     Caption = 'Abrir Datasets'
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = ButtonAbrirDataSetsClick
   end
   object DBGridMaster: TDBGrid
     Left = 8
@@ -53,14 +53,14 @@ object Form1: TForm1
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object Button2: TButton
-    Left = 192
+  object ButtonGerarRelatorio: TButton
+    Left = 191
     Top = 8
     Width = 177
     Height = 81
     Caption = 'Gerar Relat'#243'rio'
     TabOrder = 3
-    OnClick = Button2Click
+    OnClick = ButtonGerarRelatorioClick
   end
   object Connection: TSQLConnection
     ConnectionName = 'FBConnection'

@@ -7,7 +7,6 @@ uses Windows, SysUtils, Messages, Classes, Graphics, Controls,
   CJVQRBarCode, URelatorioSubDetalhamento, URelatorioDesenho, URelatorioDetalhamento;
 
 type
-  TParametrosMasterDetail = array of String;
 
   TRelatorioNovaImpressao = class(TQuickRep)
     Cabecalho01: TQRBand;
@@ -34,8 +33,6 @@ type
     procedure QRBandCabecalhoGeralBeforePrint(Sender: TQRCustomBand; var PrintBand: Boolean);
   private
     procedure MontarRelatorioDinamico;
-    function CriarDataSetDinamico(SQL: String; ParametrosDetail, ParametroMaster: TParametrosMasterDetail; MasterSource: TDataSource): TClientDataSet;
-    function CriarDataSourceDinamico(ADataSet: TDataSet): TDataSource;
   public
     constructor Create(AOwner: TComponent); override;
     procedure MontarRelatorio();
@@ -140,55 +137,6 @@ begin
   FreeAndNil(Bloqueio);
 
   FreeAndNil(Relatorio);
-end;
-
-function TRelatorioNovaImpressao.CriarDataSourceDinamico(ADataSet: TDataSet): TDataSource;
-var
-  ADataSource: TDataSource;
-begin
-  ADataSource := TDataSource.Create(Self);
-  ADataSource.DataSet := ADataSet;
-  Result := ADataSource;
-end;
-
-function TRelatorioNovaImpressao.CriarDataSetDinamico(SQL: String; ParametrosDetail, ParametroMaster: TParametrosMasterDetail; MasterSource: TDataSource): TClientDataSet;
-var
-  ADataSet: TClientDataSet;
-  AParam: TParam;
-  IParametros: Integer;
-
-  function ConcatenaParametros(Parametros: TParametrosMasterDetail): String;
-  var
-    IConcatena: Integer;
-  begin
-    Result := '';
-    for IConcatena := Low(Parametros) to High(Parametros) do
-      if (IConcatena > 0) then
-        Result := Result + ';' + Parametros[IConcatena]
-      else
-        Result := Parametros[IConcatena];
-  end;
-
-begin
-  ADataSet := TClientDataSet.Create(Self);
-  ADataSet.IndexFieldNames := ConcatenaParametros(ParametrosDetail);
-  ADataSet.MasterFields := ConcatenaParametros(ParametroMaster);
-  // ADataSet.FetchOnDemand := False;   <----    nao usar
-
-  if (MasterSource <> nil) then
-  begin
-    ADataSet.MasterSource := MasterSource;
-    ADataSet.PacketRecords := 0;
-  end;
-
-  for IParametros := Low(ParametroMaster) to High(ParametroMaster) do
-  begin
-    AParam := TParam.Create(nil);
-    AParam.DataType := ftInteger;
-    AParam.Name := ParametroMaster[IParametros];
-    ADataSet.Params.AddParam(AParam);
-  end;
-  Result := ADataSet;
 end;
 
 procedure TRelatorioNovaImpressao.MontarRelatorioDinamico();
