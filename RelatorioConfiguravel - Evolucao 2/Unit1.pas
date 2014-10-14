@@ -19,13 +19,15 @@ type
     dspRelatorio: TDataSetProvider;
     dsRelatorio: TDataSource;
     SQLRelatorio: TSQLQuery;
+    Button1: TButton;
     procedure ButtonAbrirDataSetsClick(Sender: TObject);
     procedure ButtonGerarRelatorioClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     RelatorioNovaImpressao: TRelatorioNovaImpressao;
-    cd01: TClientDataSet;
-    cd02: TClientDataSet;
-    cd03: TClientDataSet;
+    cdItens: TClientDataSet;
+    cdOrdem: TClientDataSet;
+    cdBloqueio: TClientDataSet;
   public
     destructor Destroy; override;
   end;
@@ -62,15 +64,15 @@ begin
   SQL_Bloqueio := 'SELECT BLOQUEIOPEDIDO.* FROM BLOQUEIOPEDIDO WHERE (BLOQUEIOPEDIDO.PEDIDO = :NUMERO)';
   cdsRelatorio.Open;
 
-  cd01 := CriarDatasetDinamicoAntigo(Self, SQL_Itens, 'NUMERO', 'NUMERO', Connection, dsRelatorio);
-  cd01.Open;
-  dsItens.DataSet := cd01;
+  cdItens := CriarDatasetDinamicoAntigo(Self, SQL_Itens, 'NUMERO', 'NUMERO', Connection, dsRelatorio);
+  cdItens.Open;
+  dsItens.DataSet := cdItens;
 
-  cd02 := CriarDatasetDinamicoAntigo(Self, SQL_Ordem, 'NUMERO', 'NUMERO', Connection, dsRelatorio);
-  cd02.Open;
+  cdOrdem := CriarDatasetDinamicoAntigo(Self, SQL_Ordem, 'NUMERO', 'NUMERO', Connection, dsRelatorio);
+  cdOrdem.Open;
 
-  cd03 := CriarDatasetDinamicoAntigo(Self, SQL_Bloqueio, 'PEDIDO', 'NUMERO', Connection, dsRelatorio);
-  cd03.Open;
+  cdBloqueio := CriarDatasetDinamicoAntigo(Self, SQL_Bloqueio, 'PEDIDO', 'NUMERO', Connection, dsRelatorio);
+  cdBloqueio.Open;
 end;
 
 procedure TForm1.ButtonGerarRelatorioClick(Sender: TObject);
@@ -82,17 +84,30 @@ begin
   try
     RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
     RelatorioNovaImpressao.DataSet := cdsRelatorio;
-    RelatorioNovaImpressao.Detalhe01.DataSet := cd01;
-    RelatorioNovaImpressao.Detalhe02.DataSet := cd02;
-    RelatorioNovaImpressao.Detalhe03.DataSet := cd03;
+    RelatorioNovaImpressao.Detalhe01.DataSet := cdItens;
+    RelatorioNovaImpressao.Detalhe02.DataSet := cdOrdem;
+    RelatorioNovaImpressao.Detalhe03.DataSet := cdBloqueio;
     RelatorioNovaImpressao.MontarRelatorio();
     RelatorioNovaImpressao.Preview();
   finally
     FreeAndNil(RelatorioNovaImpressao);
     DBGridMaster.DataSource := dsRelatorio;
-    dsItens.DataSet := cd01;
+    dsItens.DataSet := cdItens;
     TButton(Sender).Enabled := True;
     ButtonAbrirDataSets.Enabled := True;
+  end;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  TButton(Sender).Enabled := False;
+  try
+    RelatorioNovaImpressao := TRelatorioNovaImpressao.Create(Self);
+    RelatorioNovaImpressao.MontarRelatorioDinamico();
+    RelatorioNovaImpressao.Preview();
+  finally
+    FreeAndNil(RelatorioNovaImpressao);
+    TButton(Sender).Enabled := True;
   end;
 end;
 

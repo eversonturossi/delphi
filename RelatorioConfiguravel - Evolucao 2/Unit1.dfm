@@ -19,7 +19,7 @@ object Form1: TForm1
   object ButtonAbrirDataSets: TButton
     Left = 8
     Top = 8
-    Width = 177
+    Width = 193
     Height = 81
     Caption = 'Abrir Datasets'
     TabOrder = 0
@@ -54,13 +54,22 @@ object Form1: TForm1
     TitleFont.Style = []
   end
   object ButtonGerarRelatorio: TButton
-    Left = 191
+    Left = 204
     Top = 8
-    Width = 177
+    Width = 114
     Height = 81
     Caption = 'Gerar Relat'#243'rio'
     TabOrder = 3
     OnClick = ButtonGerarRelatorioClick
+  end
+  object Button1: TButton
+    Left = 322
+    Top = 8
+    Width = 114
+    Height = 81
+    Caption = 'Gerar Relat'#243'rio 2'
+    TabOrder = 4
+    OnClick = Button1Click
   end
   object Connection: TSQLConnection
     ConnectionName = 'FBConnection'

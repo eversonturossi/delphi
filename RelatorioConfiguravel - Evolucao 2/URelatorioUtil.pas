@@ -20,17 +20,17 @@ uses
   ;
 
 type
-  TParametrosMasterDetail = Array of String;
+  TParametrosMasterDetail =   Array of String;
 
-function ConcatenaParametros(Itens: TParametrosMasterDetail): String;
+function ConcatenaParametros(Itens: array of String): String;
 
-function CriarDataSetDinamico(AOwner: TComponent; SQL: String; ParametrosDetail, ParametroMaster: TParametrosMasterDetail; MasterSource: TDataSource): TClientDataSet;
-function CriarDataSourceDinamico(AOwner: TComponent; ADataSet: TDataSet): TDataSource;
+function CriarDataSetDinamico(AOwner: TComponent; SQL: String; ParametrosDetail, ParametroMaster: array of String; MasterSource: TDataSource): TClientDataSet;
 function CriarDatasetDinamicoAntigo(AOwner: TComponent; SQL, NomeCampo, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
+function CriarDataSourceDinamico(AOwner: TComponent; ADataSet: TDataSet): TDataSource;
 
 implementation
 
-function ConcatenaParametros(Itens: TParametrosMasterDetail): String;
+function ConcatenaParametros(Itens: array of String): String;
 var
   I: Integer;
 begin
@@ -43,13 +43,31 @@ begin
   end;
 end;
 
-function CriarDataSourceDinamico(AOwner: TComponent; ADataSet: TDataSet): TDataSource;
+function CriarDataSetDinamico(AOwner: TComponent; SQL: String; ParametrosDetail, ParametroMaster: array of String; MasterSource: TDataSource): TClientDataSet;
 var
-  ADataSource: TDataSource;
+  ADataSet: TClientDataSet;
+  AParam: TParam;
+  IParametros: Integer;
 begin
-  ADataSource := TDataSource.Create(AOwner);
-  ADataSource.DataSet := ADataSet;
-  Result := ADataSource;
+  ADataSet := TClientDataSet.Create(AOwner);
+  ADataSet.IndexFieldNames := ConcatenaParametros(ParametrosDetail);
+  ADataSet.MasterFields := ConcatenaParametros(ParametroMaster);
+  // ADataSet.FetchOnDemand := False;   <----    nao usar
+
+  if (MasterSource <> nil) then
+  begin
+    ADataSet.MasterSource := MasterSource;
+    ADataSet.PacketRecords := 0;
+  end;
+
+  for IParametros := Low(ParametroMaster) to High(ParametroMaster) do
+  begin
+    AParam := TParam.Create(nil);
+    AParam.DataType := ftInteger;
+    AParam.Name := ParametroMaster[IParametros];
+    ADataSet.Params.AddParam(AParam);
+  end;
+  Result := ADataSet;
 end;
 
 function CriarDatasetDinamicoAntigo(AOwner: TComponent; SQL, NomeCampo, NomeParametro: String; Con: TSQLConnection; MasterSource: TDataSource): TClientDataSet;
@@ -89,31 +107,13 @@ begin
   Result := ADataSet;
 end;
 
-function CriarDataSetDinamico(AOwner: TComponent; SQL: String; ParametrosDetail, ParametroMaster: TParametrosMasterDetail; MasterSource: TDataSource): TClientDataSet;
+function CriarDataSourceDinamico(AOwner: TComponent; ADataSet: TDataSet): TDataSource;
 var
-  ADataSet: TClientDataSet;
-  AParam: TParam;
-  IParametros: Integer;
+  ADataSource: TDataSource;
 begin
-  ADataSet := TClientDataSet.Create(AOwner);
-  ADataSet.IndexFieldNames := ConcatenaParametros(ParametrosDetail);
-  ADataSet.MasterFields := ConcatenaParametros(ParametroMaster);
-  // ADataSet.FetchOnDemand := False;   <----    nao usar
-
-  if (MasterSource <> nil) then
-  begin
-    ADataSet.MasterSource := MasterSource;
-    ADataSet.PacketRecords := 0;
-  end;
-
-  for IParametros := Low(ParametroMaster) to High(ParametroMaster) do
-  begin
-    AParam := TParam.Create(nil);
-    AParam.DataType := ftInteger;
-    AParam.Name := ParametroMaster[IParametros];
-    ADataSet.Params.AddParam(AParam);
-  end;
-  Result := ADataSet;
+  ADataSource := TDataSource.Create(AOwner);
+  ADataSource.DataSet := ADataSet;
+  Result := ADataSource;
 end;
 
 end.

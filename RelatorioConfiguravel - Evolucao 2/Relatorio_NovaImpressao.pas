@@ -4,7 +4,8 @@ interface
 
 uses Windows, SysUtils, Messages, Classes, Graphics, Controls,
   StdCtrls, ExtCtrls, Forms, QuickRpt, QRPrntr, QRCtrls, DB, DBClient, QRPDFFilt,
-  CJVQRBarCode, URelatorioSubDetalhamento, URelatorioDesenho, URelatorioDetalhamento;
+  CJVQRBarCode, URelatorioSubDetalhamento, URelatorioDesenho, URelatorioDetalhamento,
+  URelatorioUtil;
 
 type
 
@@ -32,10 +33,10 @@ type
     cdMontaRelatorio: TClientDataSet;
     procedure QRBandCabecalhoGeralBeforePrint(Sender: TQRCustomBand; var PrintBand: Boolean);
   private
-    procedure MontarRelatorioDinamico;
   public
     constructor Create(AOwner: TComponent); override;
     procedure MontarRelatorio();
+    procedure MontarRelatorioDinamico();
     procedure Preview();
   end;
 
@@ -84,9 +85,9 @@ var
   ItensPedido, Ordem, Bloqueio: TSubDetalhamento;
   Relatorio: TDetalhamento;
 begin
-  { Relatorio := TDetalhamento.Create(Self, 'Relatorio'); }
-  Relatorio := TDetalhamento.Create(Self, 'Relatorio', CabecalhoGeral, Principal, RodapeGeral);
-  // relatorio.DataSet := self.DataSet;
+  Relatorio := TDetalhamento.Create(Self, 'Relatorio');
+  // Relatorio := TDetalhamento.Create(Self, 'Relatorio', CabecalhoGeral, Principal, RodapeGeral);
+  Relatorio.DataSet := Self.DataSet;
   Relatorio.Cabecalho.AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12);
   Relatorio.Cabecalho.AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12);
   Relatorio.Rodape.AdicionarCampoLabel('texto fixo em todo rodape ', 1, 100, 0, 12);
@@ -100,8 +101,8 @@ begin
 
   // AdicionarShape('linha', 1, 0, 0, 18, 'SeparadorPrincipal');
 
-  { ItensPedido := TSubDetalhamento.Create(Self, 'ItensPedido'); }
-  ItensPedido := TSubDetalhamento.Create(Self, 'ItensPedido', Cabecalho01, Detalhe01, Rodape01);
+  ItensPedido := TSubDetalhamento.Create(Self, 'ItensPedido');
+  // ItensPedido := TSubDetalhamento.Create(Self, 'ItensPedido', Cabecalho01, Detalhe01, Rodape01);
   ItensPedido.Cores($005F9EF5, $009BC2F9, $00D1E3FC);
   ItensPedido.DataSet := Detalhe01.DataSet;
   ItensPedido.Cabecalho.AdicionarCampoLabel('numero-->', 1, 50, 0, 10);
@@ -111,8 +112,8 @@ begin
   ItensPedido.Rodape.AdicionarCampoLabel('numero<--', 1, 50, 0, 10);
   FreeAndNil(ItensPedido);
 
-  { Ordem := TSubDetalhamento.Create(Self, 'Ordem'); }
-  Ordem := TSubDetalhamento.Create(Self, 'Ordem', Cabecalho02, Detalhe02, Rodape02);
+  Ordem := TSubDetalhamento.Create(Self, 'Ordem');
+  // Ordem := TSubDetalhamento.Create(Self, 'Ordem', Cabecalho02, Detalhe02, Rodape02);
   Ordem.Cores($00D0EB76, $00E3F3AB, $00BEE340);
   Ordem.DataSet := Detalhe02.DataSet;
   Ordem.Cabecalho.AdicionarCampoLabel('ordem-->', 1, 50, 0, 10);
@@ -124,8 +125,8 @@ begin
   Ordem.Rodape.AdicionarCampoLabel('ordem<--', 1, 50, 0, 10);
   FreeAndNil(Ordem);
 
-  { Bloqueio := TSubDetalhamento.Create(Self, 'Bloqueio'); }
-  Bloqueio := TSubDetalhamento.Create(Self, 'Bloqueio', Cabecalho03, Detalhe03, Rodape03);
+  Bloqueio := TSubDetalhamento.Create(Self, 'Bloqueio');
+  // Bloqueio := TSubDetalhamento.Create(Self, 'Bloqueio', Cabecalho03, Detalhe03, Rodape03);
   Bloqueio.Cores($00FFAC59, $00FFD8B0, $00FFC891);
   Bloqueio.DataSet := Detalhe03.DataSet;
   Bloqueio.Cabecalho.AdicionarCampoLabel('bloqueio-->', 1, 50, 0, 10);
@@ -141,19 +142,57 @@ end;
 
 procedure TRelatorioNovaImpressao.MontarRelatorioDinamico();
 var
-  SubDetalhamento: TSubDetalhamento;
+  ItensPedido, Ordem, Bloqueio: TSubDetalhamento;
   Relatorio: TDetalhamento;
+  SQL: String;
 begin
-  try
-    cdMontaRelatorio.CommandText := 'SELECT * FROM RELATORIODINAMICO WHERE ()';
-    cdListaDetalhamentos.CommandText := Format('SELECT * FROM RELATORIODINAMICO WHERE (RELATORIOMASTER = %D)', [cdMontaRelatorio.FieldByName('').AsInteger]);
+  Relatorio := TDetalhamento.Create(Self, 'Relatorio');
+  Relatorio.DataSet := Self.DataSet;
+  Relatorio.Cabecalho.AdicionarCampoLabel('Total Itens: ' + IntToStr(Self.DataSet.RecordCount), 1, 300, 0, 12);
+  Relatorio.Cabecalho.AdicionarCampoLabel('texto fixo em toda pagina  ', 1, 100, 0, 12);
+  Relatorio.Rodape.AdicionarCampoLabel('texto fixo em todo rodape ', 1, 100, 0, 12);
+  Relatorio.Detalhe.AdicionarCampoLabel('texto corpo', 1, 300, 0, 12);
+  Relatorio.Detalhe.AdicionarCampoLabel('texto corpo 2', 30, 300, 0, 12);
+  Relatorio.Detalhe.AdicionarCampoDBLabel('numero', 1, 50, 50, 12);
+  Relatorio.Detalhe.AdicionarCampoDBLabel('emissao', 1, 150, 0, 12);
+  Relatorio.Detalhe.AdicionarShape(tsLinha, 50, 0, 0, 5);
+  Relatorio.Detalhe.AdicionarIncrementoAlturaBand(10);
 
-    Relatorio := TDetalhamento.Create(Self, 'Relatorio');
-    // Relatorio := TDetalhamento.Create(Self, 'Relatorio', CabecalhoGeral, Principal, RodapeGeral);
+  ItensPedido := TSubDetalhamento.Create(Self, 'ItensPedido');
+  ItensPedido.Cores($005F9EF5, $009BC2F9, $00D1E3FC);
+  SQL := '';
+  ItensPedido.DataSet := CriarDataSetDinamico(Self, SQL, [''], ['codigo'], Relatorio.DataSource);
+  ItensPedido.Cabecalho.AdicionarCampoLabel('numero-->', 1, 50, 0, 10);
+  ItensPedido.Detalhe.AdicionarCampoDBLabel('NUMERO', 1, 50, 0, 10);
+  ItensPedido.Detalhe.AdicionarCampoDBLabel('PRODUTO', 1, 200, 0, 10);
+  ItensPedido.Detalhe.AdicionarCampoLabel('texto fixo itens', 10, 300, 0, 10);
+  ItensPedido.Rodape.AdicionarCampoLabel('numero<--', 1, 50, 0, 10);
+  FreeAndNil(ItensPedido);
 
-  finally
-    FreeAndNil(Relatorio);
-  end;
+  Ordem := TSubDetalhamento.Create(Self, 'Ordem');
+  Ordem.Cores($00D0EB76, $00E3F3AB, $00BEE340);
+  Ordem.DataSet := Detalhe02.DataSet;
+  Ordem.Cabecalho.AdicionarCampoLabel('ordem-->', 1, 50, 0, 10);
+  Ordem.Detalhe.AdicionarCampoDBLabel('NUMERO', 1, 1, 0, 10);
+  Ordem.Detalhe.AdicionarCampoDBLabel('ORDEM', 1, 50, 0, 10);
+  Ordem.Detalhe.AdicionarCampoDBLabel('VCTO', 1, 100, 0, 10);
+  Ordem.Detalhe.AdicionarCampoDBLabel('VALOR', 1, 250, 0, 10);
+  Ordem.Detalhe.AdicionarCampoLabel('texto fixo ordem', 1, 400, 0, 10);
+  Ordem.Rodape.AdicionarCampoLabel('ordem<--', 1, 50, 0, 10);
+  FreeAndNil(Ordem);
+
+  Bloqueio := TSubDetalhamento.Create(Self, 'Bloqueio');
+  Bloqueio.Cores($00FFAC59, $00FFD8B0, $00FFC891);
+  Bloqueio.DataSet := Detalhe03.DataSet;
+  Bloqueio.Cabecalho.AdicionarCampoLabel('bloqueio-->', 1, 50, 0, 10);
+  Bloqueio.Detalhe.AdicionarCampoDBLabel('PEDIDO', 1, 1, 0, 10);
+  Bloqueio.Detalhe.AdicionarCampoDBLabel('MOTIVO', 1, 50, 0, 10);
+  Bloqueio.Detalhe.AdicionarCampoDBLabel('AUTORIZADO', 1, 100, 0, 10);
+  Bloqueio.Detalhe.AdicionarCampoLabel('texto fixo bloqueio', 1, 400, 0, 10);
+  Bloqueio.Rodape.AdicionarCampoLabel('bloqueio<--', 1, 50, 0, 10);
+  FreeAndNil(Bloqueio);
+
+  FreeAndNil(Relatorio);
 end;
 
 end.
