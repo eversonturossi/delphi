@@ -95,6 +95,9 @@ begin
 end;
 
 procedure TForm2.Button3Click(Sender: TObject);
+var { http://www.devmedia.com.br/carregar-treeview-xml-parte-2/17882 }
+  INivel1, INivel2, INivel3, INivel4: integer;
+  XMLNodeN1, XMLNodeN2, XMLNodeN3, XMLNodeN4: IXMLNode;
 begin
   try
     TButton(Sender).Enabled := False;
@@ -107,6 +110,44 @@ begin
     XMLDocument1.Encoding := 'UTF-8';
     XMLDocument1.LoadFromFile('myxmldoc2.xml');
 
+    ListBox1.Clear;
+    // for INodes := 0 to XMLDocument1.DocumentElement.ChildNodes.Count - 1 do
+    // begin
+    // ListBox1.Items.Add(XMLDocument1.DocumentElement.ChildNodes[INodes].ChildNodes['NOME'].Text);
+    // end;
+
+    // for INodes := 0 to XMLDocument1.ChildNodes.Count do
+    // begin
+    // ListBox1.Items.Add(XMLDocument1.ChildNodes[INodes].Text);
+    // end;
+
+    for INivel1 := 0 to pred(XMLDocument1.ChildNodes.Count) do
+    begin
+      XMLNodeN1 := XMLDocument1.ChildNodes[INivel1];
+      if XMLNodeN1.NodeType = ntElement then
+      begin
+        if XMLNodeN1.HasChildNodes then
+        begin
+          for INivel2 := 0 to pred(XMLNodeN1.ChildNodes.Count) do
+          begin
+            XMLNodeN2 := XMLNodeN1.ChildNodes[INivel2];
+            if XMLNodeN2.HasChildNodes then
+            begin
+              for INivel3 := 0 to pred(XMLNodeN2.ChildNodes.Count) do
+              begin
+                XMLNodeN3 := XMLNodeN2.ChildNodes[INivel3];
+                if XMLNodeN3.IsTextElement then
+                begin
+                  ListBox1.Items.Add(XMLNodeN3.Text);
+                end;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+
+    XMLDocument1.Active := False;
   finally
     TButton(Sender).Enabled := True;
   end;
