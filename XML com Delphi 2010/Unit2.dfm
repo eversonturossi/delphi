@@ -48,6 +48,15 @@ object Form2: TForm2
     ItemHeight = 13
     TabOrder = 3
   end
+  object Button4: TButton
+    Left = 8
+    Top = 126
+    Width = 75
+    Height = 25
+    Caption = 'Button4'
+    TabOrder = 4
+    OnClick = Button4Click
+  end
   object XMLDocument1: TXMLDocument
     Left = 552
     Top = 8

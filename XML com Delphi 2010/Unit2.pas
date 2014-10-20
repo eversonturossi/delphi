@@ -13,9 +13,11 @@ type
     Button2: TButton;
     Button3: TButton;
     ListBox1: TListBox;
+    Button4: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -82,7 +84,7 @@ begin
 
       Localizacao := XMLDocument1.CreateNode('LOCALIZACAO', ntElement);
       Pessoa.ChildNodes.Add(Localizacao);
-      Localizacao.Text := 'CHAPECDO';
+      Localizacao.Text := 'CHAPECO';
 
       Application.ProcessMessages;
     end;
@@ -141,6 +143,50 @@ begin
                   ListBox1.Items.Add(XMLNodeN3.Text);
                 end;
               end;
+            end;
+          end;
+        end;
+      end;
+    end;
+
+    XMLDocument1.Active := False;
+  finally
+    TButton(Sender).Enabled := True;
+  end;
+end;
+
+procedure TForm2.Button4Click(Sender: TObject);
+var { http://www.devmedia.com.br/carregar-treeview-xml-parte-2/17882 }
+  INivel1, INivel2: integer;
+  XMLNodeN1, XMLNodeN2: IXMLNode;
+begin
+  try
+    TButton(Sender).Enabled := False;
+    XMLDocument1.FileName := '';
+    XMLDocument1.XML.Text := '';
+    XMLDocument1.Active := False;
+    XMLDocument1.Active := True;
+    XMLDocument1.Version := '1.0';
+    XMLDocument1.Encoding := 'UTF-8';
+    XMLDocument1.LoadFromFile('myxmldoc2.xml');
+    ListBox1.Clear;
+    for INivel1 := 0 to pred(XMLDocument1.ChildNodes.Count) do
+    begin
+      XMLNodeN1 := XMLDocument1.ChildNodes[INivel1];
+      if XMLNodeN1.NodeType = ntElement then
+      begin
+        if XMLNodeN1.HasChildNodes then
+        begin
+          for INivel2 := 0 to pred(XMLNodeN1.ChildNodes.Count) do
+          begin
+            XMLNodeN2 := XMLNodeN1.ChildNodes[INivel2];
+            if XMLNodeN2.HasChildNodes then
+            begin
+              ListBox1.Items.Add( //
+                XMLNodeN2.ChildNodes['NOME'].Text + ', ' + //
+                  XMLNodeN2.ChildNodes['IDADE'].Text + ', ' + //
+                  XMLNodeN2.ChildNodes['LOCALIZACAO'].Text //
+                );
             end;
           end;
         end;
