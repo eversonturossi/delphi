@@ -22,23 +22,23 @@ object Form2: TForm2
     TabOrder = 0
     OnClick = Button1Click
   end
-  object Button2: TButton
+  object ButtonGerar: TButton
     Left = 8
     Top = 64
     Width = 75
     Height = 25
-    Caption = 'Button2'
+    Caption = 'Gerar'
     TabOrder = 1
-    OnClick = Button2Click
+    OnClick = ButtonGerarClick
   end
-  object Button3: TButton
+  object ButtonLeitura1: TButton
     Left = 8
     Top = 95
     Width = 75
     Height = 25
-    Caption = 'Button3'
+    Caption = 'Leitura1'
     TabOrder = 2
-    OnClick = Button3Click
+    OnClick = ButtonLeitura1Click
   end
   object ListBox1: TListBox
     Left = 96
@@ -48,14 +48,32 @@ object Form2: TForm2
     ItemHeight = 13
     TabOrder = 3
   end
-  object Button4: TButton
+  object ButtonLeitura2: TButton
     Left = 8
     Top = 126
     Width = 75
     Height = 25
-    Caption = 'Button4'
+    Caption = 'Leitura2'
     TabOrder = 4
-    OnClick = Button4Click
+    OnClick = ButtonLeitura2Click
+  end
+  object ButtonLeitura3: TButton
+    Left = 8
+    Top = 196
+    Width = 75
+    Height = 25
+    Caption = 'Leitura3'
+    TabOrder = 5
+    OnClick = ButtonLeitura3Click
+  end
+  object ButtonGerar2: TButton
+    Left = 8
+    Top = 165
+    Width = 75
+    Height = 25
+    Caption = 'Gerar2'
+    TabOrder = 6
+    OnClick = ButtonGerar2Click
   end
   object XMLDocument1: TXMLDocument
     Left = 552

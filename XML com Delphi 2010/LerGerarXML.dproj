@@ -39,7 +39,7 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="Unit2.pas">
-				<Form>Form2</Form>
+				<Form> Form2 </Form>
 			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
