@@ -81,10 +81,16 @@ begin
 
       Comando := Format('echo "criando usuario %S"', [Usuario]);
       ScriptCria.Add(Comando);
-      Comando := Format('adduser %s -g 100 -s /sbin/nologin -p $(openssl passwd -1 %s) -c "%s"', [Usuario, Usuario, Descricao]);
+      Comando := Format('adduser %s -g 100 -s /sbin/nologin -p $(openssl passwd -1 %s) -c "%s"', [Usuario, Senha, Descricao]);
       ScriptCria.Add(Comando);
       ListBox1.Items.Add(Usuario + ' -> ' + Senha);
       UsuariosFilezilla.Add(Usuario);
+
+      Comando := Format('echo "apagando usuario %S"', [Usuario]);
+      ScriptApaga.Add(Comando);
+      Comando := Format('userdel -r %s ', [Usuario]);
+      ScriptApaga.Add(Comando);
+
     end;
   end;
 end;
