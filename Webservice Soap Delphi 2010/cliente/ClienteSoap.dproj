@@ -2,7 +2,7 @@
 		<PropertyGroup>
 			<ProjectGuid>{8790D510-6408-4F7F-A838-F546186AFA25}</ProjectGuid>
 			<ProjectVersion>12.0</ProjectVersion>
-			<MainSource>Project1.dpr</MainSource>
+			<MainSource>ClienteSoap.dpr</MainSource>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 		</PropertyGroup>
@@ -20,7 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<DCC_DependencyCheckOutputName>Project1.exe</DCC_DependencyCheckOutputName>
+			<DCC_DependencyCheckOutputName>ClienteSoap.exe</DCC_DependencyCheckOutputName>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_Platform>x86</DCC_Platform>
@@ -35,7 +35,7 @@
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
 		<ItemGroup>
-			<DelphiCompile Include="Project1.dpr">
+			<DelphiCompile Include="ClienteSoap.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="Unit2.pas">
@@ -61,7 +61,7 @@
 			<BorlandProject>
 				<Delphi.Personality>
 					<Source>
-						<Source Name="MainSource">Project1.dpr</Source>
+						<Source Name="MainSource">ClienteSoap.dpr</Source>
 					</Source>
 					<Parameters>
 						<Parameters Name="UseLauncher">False</Parameters>
