@@ -76,6 +76,7 @@ const
 var
   I, MaxRegistros, ID: Integer;
   ViaSQL, Resetar, AutoCommit: Boolean;
+  TempoInicial, TempoFinal, TempoAtual: TDateTime;
 begin
   ADQueryLista.DisableControls;
   ButtonOpen.Enabled := False;
@@ -97,6 +98,7 @@ begin
     if (ADQueryInsert.FieldByName('max_codigo').AsString <> '') then
       ID := ADQueryInsert.FieldByName('max_codigo').AsInteger;
 
+    TempoInicial := Now;
     ProgressBar1.Position := 0;
     MaxRegistros := StrToInt(EditMax.Text);
     ProgressBar1.Max := MaxRegistros;
@@ -111,9 +113,9 @@ begin
         ADQueryInsert.ParamByName('CODIGO').AsInteger := ID;
         ADQueryInsert.ParamByName('VERSAOCONTROLELOCAL').AsInteger := I;
         ADQueryInsert.ParamByName('VERSAOCONTROLEREMOTA').AsInteger := I * 2;
-        ADQueryInsert.ParamByName('NOMESISTEMA').AsString := self.Caption;
+        ADQueryInsert.ParamByName('NOMESISTEMA').AsString := 'nome do sistema';
         ADQueryInsert.ParamByName('VERSAOSISTEMA').AsString := 'X.XX.X';
-        ADQueryInsert.ParamByName('DATAALTERACAO').AsDate := now;
+        ADQueryInsert.ParamByName('DATAALTERACAO').AsDate := Now;
         ADQueryInsert.ParamByName('USARCOMPACTACAO').AsString := 'S';
         ADQueryInsert.ParamByName('ATUALIZACAOAUTOMATICA').AsString := 'S';
         ADQueryInsert.ParamByName('DIRETORIOREMOTO').AsString := ExtractFilePath(ParamStr(0));
@@ -125,9 +127,9 @@ begin
         ADQueryLista.FieldByName('CODIGO').AsInteger := ID;
         ADQueryLista.FieldByName('VERSAOCONTROLELOCAL').AsInteger := I;
         ADQueryLista.FieldByName('VERSAOCONTROLEREMOTA').AsInteger := I * 2;
-        ADQueryLista.FieldByName('NOMESISTEMA').AsString := self.Caption;
+        ADQueryLista.FieldByName('NOMESISTEMA').AsString := 'nome do sistema';
         ADQueryLista.FieldByName('VERSAOSISTEMA').AsString := 'X.XX.X';
-        ADQueryLista.FieldByName('DATAALTERACAO').AsDateTime := now;
+        ADQueryLista.FieldByName('DATAALTERACAO').AsDateTime := Now;
         ADQueryLista.FieldByName('USARCOMPACTACAO').AsString := 'S';
         ADQueryLista.FieldByName('ATUALIZACAOAUTOMATICA').AsString := 'S';
         ADQueryLista.FieldByName('DIRETORIOREMOTO').AsString := ExtractFilePath(ParamStr(0));
@@ -137,6 +139,9 @@ begin
           begin
             ADQueryLista.ApplyUpdates();
             OpenQueryListaNoRecords();
+            TempoAtual := (Now - TempoInicial);
+            Self.Caption := Format('Insidiro %d registros em %S', [I, FormatDateTime('hh:nn:ss', TempoAtual)]);
+            Application.ProcessMessages;
           end;
       end;
       Application.ProcessMessages;
@@ -146,6 +151,8 @@ begin
     if not(ViaSQL) then
       ADQueryLista.ApplyUpdates();
   finally
+    TempoFinal := (Now - TempoInicial);
+    Self.Caption := Format('Finalizado em %S', [FormatDateTime('hh:nn:ss', TempoFinal)]);
     ADQueryLista.EnableControls;
     if (Resetar) then
       OpenDB;
