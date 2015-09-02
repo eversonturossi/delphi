@@ -8,7 +8,7 @@ uses
   uADPhysIntf, uADStanDef, uADStanPool, uADStanAsync, uADPhysManager,
   uADStanParam, uADDatSManager, uADDAptIntf, uADDAptManager, Grids, DBGrids, DB,
   uADCompDataSet, uADCompClient, uADStanExprFuncs, uADGUIxFormsWait,
-  uADCompGUIx, uADPhysSQLite, ComCtrls, XPMan;
+  uADCompGUIx, uADPhysSQLite, ComCtrls, XPMan, ExtCtrls;
 
 type
   TForm1 = class(TForm)
@@ -26,10 +26,15 @@ type
     CheckBoxInserirViaSQL: TCheckBox;
     CheckBoxResetarDados: TCheckBox;
     XPManifest1: TXPManifest;
+    TimerLimpaMemoria: TTimer;
+    CheckBoxAutoCommit: TCheckBox;
     procedure ButtonOpenClick(Sender: TObject);
     procedure ButtonInsertClick(Sender: TObject);
+    procedure TimerLimpaMemoriaTimer(Sender: TObject);
   private
     procedure OpenDB;
+    procedure LimparMemoriaResidual;
+    procedure OpenQueryListaNoRecords;
     { Private declarations }
   public
     { Public declarations }
@@ -58,10 +63,19 @@ begin
   ButtonInsert.Enabled := True;
 end;
 
+procedure TForm1.OpenQueryListaNoRecords();
+begin
+  ADQueryLista.Close;
+  ADQueryLista.SQL.Text := 'SELECT * FROM VERSAO WHERE (CODIGO IS NULL)';
+  ADQueryLista.Open();
+end;
+
 procedure TForm1.ButtonInsertClick(Sender: TObject);
+const
+  AutoComitCount = 50000;
 var
   I, MaxRegistros, ID: Integer;
-  ViaSQL, Resetar: Boolean;
+  ViaSQL, Resetar, AutoCommit: Boolean;
 begin
   ADQueryLista.DisableControls;
   ButtonOpen.Enabled := False;
@@ -71,13 +85,14 @@ begin
     ID := 0;
     ViaSQL := CheckBoxInserirViaSQL.Checked;
     Resetar := CheckBoxResetarDados.Checked;
+    AutoCommit := CheckBoxAutoCommit.Checked;
     if (Resetar) then
     begin
-      ADQueryInsert.SQL.Text := 'delete from versao';
+      ADQueryInsert.SQL.Text := 'DELETE FROM VERSAO';
       ADQueryInsert.ExecSQL;
     end;
 
-    ADQueryInsert.SQL.Text := 'select max(codigo) max_codigo from versao';
+    ADQueryInsert.SQL.Text := 'SELECT MAX(CODIGO) MAX_CODIGO FROM VERSAO';
     ADQueryInsert.Open();
     if (ADQueryInsert.FieldByName('max_codigo').AsString <> '') then
       ID := ADQueryInsert.FieldByName('max_codigo').AsInteger;
@@ -117,6 +132,12 @@ begin
         ADQueryLista.FieldByName('ATUALIZACAOAUTOMATICA').AsString := 'S';
         ADQueryLista.FieldByName('DIRETORIOREMOTO').AsString := ExtractFilePath(ParamStr(0));
         ADQueryLista.Post;
+        if (AutoCommit) then
+          if ((I mod AutoComitCount) = 0) then
+          begin
+            ADQueryLista.ApplyUpdates();
+            OpenQueryListaNoRecords();
+          end;
       end;
       Application.ProcessMessages;
       ProgressBar1.Position := I;
@@ -132,6 +153,24 @@ begin
     ButtonOpen.Enabled := True;
     ButtonInsert.Enabled := True;
   end;
+end;
+
+procedure TForm1.TimerLimpaMemoriaTimer(Sender: TObject);
+begin
+  LimparMemoriaResidual();
+end;
+
+procedure TForm1.LimparMemoriaResidual();
+var
+  MainHandle: THandle;
+begin
+  try
+    MainHandle := OpenProcess(PROCESS_ALL_ACCESS, False, GetCurrentProcessID);
+    SetProcessWorkingSetSize(MainHandle, $FFFFFFFF, $FFFFFFFF);
+    CloseHandle(MainHandle);
+  except
+  end;
+  Application.ProcessMessages;
 end;
 
 end.

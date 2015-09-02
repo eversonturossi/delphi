@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = 'Form1'
   ClientHeight = 493
-  ClientWidth = 764
+  ClientWidth = 846
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,7 +12,7 @@ object Form1: TForm1
   Font.Style = []
   OldCreateOrder = False
   DesignSize = (
-    764
+    846
     493)
   PixelsPerInch = 96
   TextHeight = 13
@@ -38,7 +38,7 @@ object Form1: TForm1
   object DBGrid1: TDBGrid
     Left = 8
     Top = 47
-    Width = 748
+    Width = 830
     Height = 438
     Anchors = [akLeft, akTop, akRight, akBottom]
     DataSource = DataSourceLista
@@ -50,15 +50,15 @@ object Form1: TForm1
     TitleFont.Style = []
   end
   object ProgressBar1: TProgressBar
-    Left = 392
+    Left = 472
     Top = 16
-    Width = 364
+    Width = 366
     Height = 17
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 3
   end
   object EditMax: TEdit
-    Left = 288
+    Left = 384
     Top = 12
     Width = 81
     Height = 21
@@ -81,6 +81,14 @@ object Form1: TForm1
     Height = 17
     Caption = 'Resetar dados'
     TabOrder = 6
+  end
+  object CheckBoxAutoCommit: TCheckBox
+    Left = 273
+    Top = 8
+    Width = 97
+    Height = 17
+    Caption = 'AutoCommit'
+    TabOrder = 7
   end
   object ADConnection1: TADConnection
     Params.Strings = (
@@ -119,5 +127,11 @@ object Form1: TForm1
   object XPManifest1: TXPManifest
     Left = 352
     Top = 40
+  end
+  object TimerLimpaMemoria: TTimer
+    Interval = 5000
+    OnTimer = TimerLimpaMemoriaTimer
+    Left = 376
+    Top = 248
   end
 end
