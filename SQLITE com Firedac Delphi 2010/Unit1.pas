@@ -58,7 +58,7 @@ begin
   ADQueryLista.Close;
 
   ADConnection1.Open();
-  ADQueryLista.SQL.Text := 'select * from versao';
+  ADQueryLista.SQL.Text := 'SELECT * FROM VERSAO WHERE (CODIGO <=1000)';
   ADQueryLista.Open();
   ButtonInsert.Enabled := True;
 end;
