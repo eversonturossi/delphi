@@ -4,16 +4,17 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, math, StdCtrls;
+  Dialogs, math, StdCtrls, StrUtils;
 
 type
   TForm2 = class(TForm)
     Button1: TButton;
     procedure Button1Click(Sender: TObject);
   private
-    { Private declarations }
+    function MeuRandom(const NumeroDigitos: Integer): Integer;
+
   public
-    { Public declarations }
+
   end;
 
 var
@@ -23,10 +24,25 @@ implementation
 
 {$R *.dfm}
 
+function TForm2.MeuRandom(const NumeroDigitos: Integer): Integer;
+var
+  ArrayRange: array of Integer;
+  I, Posicao, Range: Integer;
+  RangeStr: String;
+begin
+  SetLength(ArrayRange, NumeroDigitos);
+  for I := 0 to (NumeroDigitos - 1) do
+    ArrayRange[I] := I + 1;
+  Posicao := RandomFrom(ArrayRange);
+  RangeStr := StringOfChar('9', Posicao);
+  Range := StrToInt(RangeStr);
+  Result := Random(Range);
+end;
+
 procedure TForm2.Button1Click(Sender: TObject);
 var
-  I: integer;
-  Tamanho01, Tamanho02, Tamanho03, Tamanho04, Tamanho05, Tamanho06, Tamanho07, Tamanho08, Tamanho09: integer;
+  I: Integer;
+  Tamanho01, Tamanho02, Tamanho03, Tamanho04, Tamanho05, Tamanho06, Tamanho07, Tamanho08, Tamanho09: Integer;
   CodigoRandomico: String;
 begin
   Tamanho01 := 0;
@@ -41,7 +57,10 @@ begin
   for I := 0 to 2000000 { 000 } do
   begin
     Randomize;
-    CodigoRandomico := IntToStr(RandomRange(1, 999999999));
+    // CodigoRandomico := IntToStr(RandomRange(1, 999999999));
+    // CodigoRandomico := IntToStr(Random(99999999));
+    // CodigoRandomico := IntToStr(RandomFrom([1, 12, 123, 1234, 12345, 123456, 1234567, 12345678, 123456789]));
+    CodigoRandomico := IntToStr(MeuRandom(9));
     if (Length(CodigoRandomico) = 01) then
       inc(Tamanho01);
     if (Length(CodigoRandomico) = 02) then
