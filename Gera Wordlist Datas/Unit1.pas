@@ -32,8 +32,8 @@ var
   StrList: TStringList;
   I: Double;
 begin
-  DataInicial := StrToDate('01/01/0001'); // EncodeDate(StrToInt(edtAnoInicial.Text), 01, 01);
-  DataFinal := StrToDate('31/12/2300'); // EncodeDate(StrToInt(edtAnoFinal.Text), 12, 31);
+  DataInicial := StrToDate('01/01/1900'); // EncodeDate(StrToInt(edtAnoInicial.Text), 01, 01);
+  DataFinal := StrToDate('31/12/2016'); // EncodeDate(StrToInt(edtAnoFinal.Text), 12, 31);
   StrList := TStringList.Create;
   I := DataInicial;
   while (I <= DataFinal) do
@@ -50,7 +50,7 @@ begin
     // StrList.Add(FormatDateTime('yy-mm-dd', I));
     I := I + 1;
   end;
-  StrList.SaveToFile('datas-ano01ate2300.txt');
+  StrList.SaveToFile('datas-ano1900ate2016.txt');
   FreeAndNil(StrList);
 end;
 
