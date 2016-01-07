@@ -25,7 +25,6 @@ object Form2: TForm2
     Align = alTop
     Caption = 'Cancelamento NFe pela Chave'
     TabOrder = 0
-    ExplicitWidth = 717
     DesignSize = (
       745
       144)
@@ -178,7 +177,6 @@ object Form2: TForm2
     Align = alTop
     Caption = 'Webservice'
     TabOrder = 1
-    ExplicitWidth = 717
     object rgTipoAmb: TRadioGroup
       Left = 7
       Top = 14

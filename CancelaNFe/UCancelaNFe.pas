@@ -112,6 +112,7 @@ begin
     ACBrNFe1.Configuracoes.WebServices.UF := CUFtoUF(AUF);
     ACBrNFe1.Configuracoes.WebServices.Visualizar := False;
 
+    ACBrNFe1.NotasFiscais.Clear;
     ACBrNFe1.EventoNFe.Evento.Clear;
     with ACBrNFe1.EventoNFe.Evento.Add do
     begin
