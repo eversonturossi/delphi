@@ -24,7 +24,7 @@ object Form2: TForm2
       Left = 11
       Top = 19
       Width = 302
-      Height = 25
+      Height = 21
       TabOrder = 0
     end
   end
@@ -89,5 +89,33 @@ object Form2: TForm2
           00000000000000000100000000000000000000000000000000000000}
       end
     end
+  end
+  object ACBrNFe1: TACBrNFe
+    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.Geral.IncluirQRCodeXMLNFCe = False
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Left = 96
+    Top = 136
+  end
+  object ACBrCTe1: TACBrCTe
+    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Left = 208
+    Top = 136
+  end
+  object ACBrMDFe1: TACBrMDFe
+    Configuracoes.Geral.SSLLib = libCapicomDelphiSoap
+    Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
+    Configuracoes.WebServices.UF = 'SP'
+    Configuracoes.WebServices.AguardarConsultaRet = 0
+    Configuracoes.WebServices.QuebradeLinha = '|'
+    Left = 321
+    Top = 144
   end
 end
