@@ -8,17 +8,19 @@ uses
 
 type
   TForm2 = class(TForm)
-    EditLatInicial: TEdit;
-    EditLongInicial: TEdit;
-    EditDistancia: TEdit;
+    EditLatitudeInicio: TEdit;
+    EditLongitudeInicio: TEdit;
+    EditDistanciaKM: TEdit;
     Button1: TButton;
-    EditLatFinal: TEdit;
-    EditLongFinal: TEdit;
+    EditLatitudeFim: TEdit;
+    EditLongitudeFim: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    EditDistanciaMetros: TEdit;
+    Label6: TLabel;
     procedure Button1Click(Sender: TObject);
   private
   public
@@ -32,16 +34,16 @@ implementation
 uses math;
 {$R *.dfm}
 
-function CalcularDistancia(LatIni, LonIni, LatFim, LonFim: Extended): Extended;
+function CalcularDistanciaCoordenadas(ALatitudeInicio, ALongitudeInicio, ALatitudeFim, ALongitudeFim: Extended): Extended;
 var
   arcoA, arcoB, arcoC: Extended;
   auxPI: Extended;
 begin
   auxPI := Pi / 180;
 
-  arcoA := (LonFim - LonIni) * auxPI;
-  arcoB := (90 - LatFim) * auxPI;
-  arcoC := (90 - LatIni) * auxPI;
+  arcoA := (ALongitudeFim - ALongitudeInicio) * auxPI;
+  arcoB := (90 - ALatitudeFim) * auxPI;
+  arcoC := (90 - ALatitudeInicio) * auxPI;
 
   // cos (a) = cos (b) . cos (c)  + sen (b) . sen (c) . cos (A)
   Result := Cos(arcoB) * Cos(arcoC) + Sin(arcoB) * Sin(arcoC) * Cos(arcoA);
@@ -54,36 +56,29 @@ var
 begin
   Str := Trim(ACoordenada);
   Str := StringReplace(Str, '.', ',', [rfReplaceAll, rfIgnoreCase]);
-
   if (Length(Str) < 8) then
     raise Exception.Create('Coordenada Inválida!');
-
-  if (Str[1] = '-') then
-  begin
-
-  end
-  else
-  begin
-
-  end;
-
   Result := StrToFloat(Str);
+end;
+
+function CalcularDistanciaCoordenadasStr(ALatitudeInicioStr, ALongitudeInicioStr, ALatitudeFimStr, ALongitudeFimStr: String): Extended;
+var
+  ALatitudeInicio, ALatitudeFim, ALongitudeInicio, ALongitudeFim: Extended;
+begin
+  ALatitudeInicio := CoordenadaToExtended(ALatitudeInicioStr);
+  ALongitudeInicio := CoordenadaToExtended(ALongitudeInicioStr);
+  ALatitudeFim := CoordenadaToExtended(ALatitudeFimStr);
+  ALongitudeFim := CoordenadaToExtended(ALongitudeFimStr);
+  Result := CalcularDistanciaCoordenadas(ALatitudeInicio, ALongitudeInicio, ALatitudeFim, ALongitudeFim);
 end;
 
 procedure TForm2.Button1Click(Sender: TObject);
 var
-  LatitudeInicial, LatitudeFinal, LongitudeInicial, LongitudeFinal: Extended;
   Distancia: Extended;
 begin
-  LatitudeInicial := CoordenadaToExtended(EditLatInicial.Text);
-  LongitudeInicial := CoordenadaToExtended(EditLongInicial.Text);
-
-  LatitudeFinal := CoordenadaToExtended(EditLatFinal.Text);
-  LongitudeFinal := CoordenadaToExtended(EditLongFinal.Text);
-
-  Distancia := CalcularDistancia(LatitudeInicial, LongitudeInicial, LatitudeFinal, LongitudeFinal);
-
-  EditDistancia.Text := FloatToStr(Distancia);
+  Distancia := CalcularDistanciaCoordenadasStr(EditLatitudeInicio.Text, EditLongitudeInicio.Text, EditLatitudeFim.Text, EditLongitudeFim.Text);
+  EditDistanciaKM.Text := FloatToStr(Distancia);
+  EditDistanciaMetros.Text := FloatToStr(Distancia * 1000);
 end;
 
 end.
