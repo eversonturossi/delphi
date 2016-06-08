@@ -2,7 +2,8 @@ program Project1;
 
 uses
   Forms,
-  Unit2 in 'Unit2.pas' {Form2};
+  Unit2 in 'Unit2.pas' {Form2},
+  UGeoLocalizacao in 'UGeoLocalizacao.pas';
 
 {$R *.res}
 

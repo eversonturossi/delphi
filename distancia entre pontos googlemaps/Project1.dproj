@@ -41,6 +41,7 @@
 			<DCCReference Include="Unit2.pas">
 				<Form>Form2</Form>
 			</DCCReference>
+			<DCCReference Include="UGeoLocalizacao.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
