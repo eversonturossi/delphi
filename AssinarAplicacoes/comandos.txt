@@ -1,0 +1,15 @@
+#1 - gerar pem
+openssl.exe req -x509 -days 7300 -newkey rsa:1024 -config nomecertificado.cfg -out nomecertificado.pem
+
+#2 - gerar certificado
+openssl.exe pkcs12 -export -passout pass:senhacertificado -in nomecertificado.pem -out nomecertificado.pfx
+
+#3 - assinar aplicativo
+signtool.exe sign /f nomecertificado.pfx /p nomecertificado nomedoaplicativo.exe
+
+#4 - converter pfx para cer
+openssl pkcs12 -in nomecertificado.pfx -out nomecertificado.cer -nodes
+https://www.sslshopper.com/ssl-converter.html
+
+#5 - intalar .cer (ainda pede confirmação)
+certutil -f -user -addstore Root nomecertificado.cer
