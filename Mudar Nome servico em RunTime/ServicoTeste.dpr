@@ -2,7 +2,8 @@ program ServicoTeste;
 
 uses
   SvcMgr,
-  Unit1 in 'Unit1.pas' {Service1: TService};
+  Unit1 in 'Unit1.pas' {Service1: TService},
+  UFuncoes in 'UFuncoes.pas';
 
 {$R *.RES}
 

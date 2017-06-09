@@ -42,6 +42,7 @@
 				<Form>Service1</Form>
 				<DesignClass>TService</DesignClass>
 			</DCCReference>
+			<DCCReference Include="UFuncoes.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
