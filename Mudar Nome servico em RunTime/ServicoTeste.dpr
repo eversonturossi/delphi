@@ -2,7 +2,7 @@ program ServicoTeste;
 
 uses
   SvcMgr,
-  Unit1 in 'Unit1.pas' {Service1: TService},
+  Unit1 in 'Unit1.pas' {ServicoAlteradoRunTime: TService},
   UFuncoes in 'UFuncoes.pas';
 
 {$R *.RES}
@@ -24,6 +24,6 @@ begin
   //
   if not Application.DelayInitialize or Application.Installing then
     Application.Initialize;
-  Application.CreateForm(TService1, Service1);
+  Application.CreateForm(TServicoAlteradoRunTime, ServicoAlteradoRunTime);
   Application.Run;
 end.

@@ -6,77 +6,107 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, SvcMgr, Dialogs,
   UFuncoes;
 
+const
+  cParametroIdentificacao = 'id';
+  cEspaco = ' ';
+  cHifen = '-';
+
 type
-  TService1 = class(TService)
+  TServicoAlteradoRunTime = class(TService)
     procedure ServiceBeforeInstall(Sender: TService);
     procedure ServiceBeforeUninstall(Sender: TService);
     procedure ServiceExecute(Sender: TService);
     procedure ServiceCreate(Sender: TObject);
+    procedure ServiceAfterInstall(Sender: TService);
   private
-    procedure RegisterServices(Install, Silent: Boolean);
+    procedure ServiceLoadInfo(Sender: TObject);
+    procedure ServiceChangeInfo(Sender: TObject);
   public
     function GetServiceController: TServiceController; override;
   end;
 
 var
-  Service1: TService1;
+  ServicoAlteradoRunTime: TServicoAlteradoRunTime;
 
 implementation
 
 uses
-  WinSvC;
+  WinSvC, Registry;
 {$R *.DFM}
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
 begin
-  Service1.Controller(CtrlCode);
+  ServicoAlteradoRunTime.Controller(CtrlCode);
 end;
 
-function TService1.GetServiceController: TServiceController;
+function TServicoAlteradoRunTime.GetServiceController: TServiceController;
 begin
   Result := ServiceController;
 end;
 
-procedure TService1.ServiceBeforeInstall(Sender: TService);
-var
-  AComplemento: String;
+procedure TServicoAlteradoRunTime.ServiceBeforeInstall(Sender: TService);
 begin
-  AComplemento := getParametroAplicacao('/complemento');
-  if (AComplemento <> EmptyStr) then
-  begin
-    DisplayName := DisplayName + ' ' + AComplemento;
-    Name := Name + AComplemento;
-    // SalvarStringToFile('complemento', AComplemento);
-  end;
+  ServiceLoadInfo(Self);
 end;
 
-procedure TService1.ServiceBeforeUninstall(Sender: TService);
-var
-  AComplemento: String;
+procedure TServicoAlteradoRunTime.ServiceBeforeUninstall(Sender: TService);
 begin
-  AComplemento := getParametroAplicacao('/complemento');
-  if (AComplemento <> EmptyStr) then
-  begin
-    DisplayName := DisplayName + ' ' + AComplemento;
-    Name := Name + AComplemento;
-  end;
+  ServiceLoadInfo(Self);
 end;
 
-procedure TService1.ServiceCreate(Sender: TObject);
-var
-  AComplemento: String;
+procedure TServicoAlteradoRunTime.ServiceCreate(Sender: TObject);
 begin
   if not(Application.Installing) then
   begin
-    AComplemento := getParametroAplicacao('/complemento');
-    Name := Name + AComplemento;
+    ServiceLoadInfo(Self);
   end;
 end;
 
-procedure TService1.ServiceExecute(Sender: TService);
+procedure TServicoAlteradoRunTime.ServiceExecute(Sender: TService);
 begin
   while not(Self.Terminated) do
     ServiceThread.ProcessRequests(True);
+end;
+
+procedure TServicoAlteradoRunTime.ServiceLoadInfo(Sender: TObject);
+var
+  LServiceID: String;
+begin
+  LServiceID := getParametroAplicacao(cParametroIdentificacao);
+  if (LServiceID <> EmptyStr) then
+  begin
+    TService(Sender).DisplayName := DisplayName + cEspaco + LServiceID;
+    TService(Sender).Name := Name + LServiceID;
+  end;
+end;
+
+procedure TServicoAlteradoRunTime.ServiceChangeInfo(Sender: TObject);
+var
+  LRegistro: TRegistry;
+  LServiceID, LChaveRegistro, LImagePath: String;
+begin
+  LRegistro := TRegistry.Create;
+  try
+    LServiceID := getParametroAplicacao(cParametroIdentificacao);
+    LRegistro.RootKey := HKEY_LOCAL_MACHINE;
+    LChaveRegistro := 'SYSTEM\CurrentControlSet\Services\' + TService(Sender).Name;
+    LImagePath := ParamStr(0);
+    if (LServiceID <> EmptyStr) then
+      LImagePath := ParamStr(0) + cEspaco + cHifen + cParametroIdentificacao + cEspaco + LServiceID;
+
+    if (LRegistro.OpenKey(LChaveRegistro, True)) then
+    begin
+      LRegistro.WriteString('ImagePath', LImagePath);
+      LRegistro.CloseKey;
+    end;
+  finally
+    FreeAndNil(LRegistro);
+  end;
+end;
+
+procedure TServicoAlteradoRunTime.ServiceAfterInstall(Sender: TService);
+begin
+  ServiceChangeInfo(Self);
 end;
 
 end.
