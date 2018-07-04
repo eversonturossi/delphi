@@ -10,12 +10,15 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     ProgressBar1: TProgressBar;
+    Button2: TButton;
+    Button3: TButton;
     procedure GerarTodasCombinacoesFor();
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
-    { Private declarations }
+    procedure GerarTodasCombinacoes08d;
   public
-    { Public declarations }
   end;
 
 var
@@ -30,55 +33,124 @@ begin
   GerarTodasCombinacoesFor();
 end;
 
-procedure TForm1.GerarTodasCombinacoesFor();
-  function R2D(I: Integer): String;
-  begin
-    if (I >= 10) then
-      Result := IntToStr(I)
-    else
-      Result := '0' + IntToStr(I);
-  end;
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  // GerarTodasCombinacoes10d;
+end;
 
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  GerarTodasCombinacoes08d;
+end;
+
+function R2D(I: Integer): String;
+begin
+  if (I >= 10) then
+    Result := IntToStr(I)
+  else
+    Result := '0' + IntToStr(I);
+end;
+
+procedure TForm1.GerarTodasCombinacoesFor();
 var
   P01, P02, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15: Integer;
-  Cont: Integer;
-  Arq: TextFile;
-  Combinacao: string;
-  Spr: String;
+  A01: Integer;
+  LContador: Integer;
+  LArqqui: TextFile;
+  LCombinacao: string;
+  LSpr: String;
 begin
-  Cont := 0;
-  AssignFile(Arq, 'TodasCombinacoes.txt');
-  Rewrite(Arq);
-  Spr := ';';
-  for P01 := 1 to 11 do
+  LContador := 0;
+  AssignFile(LArqqui, 'TodasCombinacoes.txt');
+  Rewrite(LArqqui);
+  LSpr := ';';
+  A01 := 11; { 14 = 12 /   13 = 13 /  12 = 14 /   11 = 15 /  10 = 16 /   09 = 17 /   08 = 16 }
+  for P01 := 1 to A01 do
   begin
     Form1.Caption := IntToStr(P01);
-    for P02 := (P01 + 1) to 12 do
-      for P03 := (P02 + 1) to 13 do
-        for P04 := (P03 + 1) to 14 do
-          for P05 := (P04 + 1) to 15 do
-            for P06 := (P05 + 1) to 16 do
-              for P07 := (P06 + 1) to 17 do
-                for P08 := (P07 + 1) to 18 do
-                  for P09 := (P08 + 1) to 19 do
-                    for P10 := (P09 + 1) to 20 do
-                      for P11 := (P10 + 1) to 21 do
-                        for P12 := (P11 + 1) to 22 do
-                          for P13 := (P12 + 1) to 23 do
-                            for P14 := (P13 + 1) to 24 do
-                              for P15 := (P14 + 1) to 25 do
+    for P02 := (P01 + 1) to (A01 + 1) do
+      for P03 := (P02 + 1) to (A01 + 2) do
+        for P04 := (P03 + 1) to (A01 + 3) do
+          for P05 := (P04 + 1) to (A01 + 4) do
+            for P06 := (P05 + 1) to (A01 + 5) do
+              for P07 := (P06 + 1) to (A01 + 6) do
+                for P08 := (P07 + 1) to (A01 + 7) do
+                  for P09 := (P08 + 1) to (A01 + 8) do
+                    for P10 := (P09 + 1) to (A01 + 9) do
+                      for P11 := (P10 + 1) to (A01 + 10) do
+                        for P12 := (P11 + 1) to (A01 + 11) do
+                          for P13 := (P12 + 1) to (A01 + 12) do
+                            for P14 := (P13 + 1) to (A01 + 13) do
+                              for P15 := (P14 + 1) to (A01 + 14) do
                               begin
-                                Cont := Cont + 1;
-                                ProgressBar1.Position := Cont;
+                                LContador := LContador + 1;
+                                ProgressBar1.Position := LContador;
                                 Application.ProcessMessages;
-                                Combinacao := R2D(P01) + Spr + R2D(P02) + Spr + R2D(P03) + Spr + R2D(P04) + Spr + R2D(P05) + Spr { }
-                                  + R2D(P06) + Spr + R2D(P07) + Spr + R2D(P08) + Spr + R2D(P09) + Spr + R2D(P10) + ' ' { }
-                                  + R2D(P11) + Spr + R2D(P12) + Spr + R2D(P13) + Spr + R2D(P14) + Spr + R2D(P15);
-                                Writeln(Arq, Combinacao);
+                                LCombinacao := '' + //
+                                  R2D(P01) + LSpr + //
+                                  R2D(P02) + LSpr + //
+                                  R2D(P03) + LSpr + //
+                                  R2D(P04) + LSpr + //
+                                  R2D(P05) + LSpr + //
+                                  R2D(P06) + LSpr + //
+                                  R2D(P07) + LSpr + //
+                                  R2D(P08) + LSpr + //
+                                  R2D(P09) + LSpr + //
+                                  R2D(P10) + LSpr + //
+                                  R2D(P11) + LSpr + //
+                                  R2D(P12) + LSpr + //
+                                  R2D(P13) + LSpr + //
+                                  R2D(P14) + LSpr + //
+                                  R2D(P15);
+                                Writeln(LArqqui, LCombinacao);
                               end;
   end;
-  Form1.Caption := IntToStr(Cont);
-  CloseFile(Arq);
+  Form1.Caption := IntToStr(LContador);
+  CloseFile(LArqqui);
+end;
+
+procedure TForm1.GerarTodasCombinacoes08d();
+var
+  P01, P02, P03, P04, P05, P06, P07, P08: Integer;
+  A01: Integer;
+  LContador: Integer;
+  LArqqui: TextFile;
+  LCombinacao: string;
+  LSpr: String;
+begin
+  LContador := 0;
+  AssignFile(LArqqui, 'TodasCombinacoes08d.txt');
+  Rewrite(LArqqui);
+  LSpr := ';';
+  A01 := 16; { 14 = 12 /   13 = 13 /  12 = 14 /   11 = 15 /  10 = 16 /   09 = 17 /   08 = 16 }
+  for P01 := 1 to A01 do
+  begin
+    Form1.Caption := IntToStr(P01);
+    for P02 := (P01 + 1) to (A01 + 1) do
+      for P03 := (P02 + 1) to (A01 + 2) do
+        for P04 := (P03 + 1) to (A01 + 3) do
+          for P05 := (P04 + 1) to (A01 + 4) do
+            for P06 := (P05 + 1) to (A01 + 5) do
+              for P07 := (P06 + 1) to (A01 + 6) do
+                for P08 := (P07 + 1) to (A01 + 7) do
+                begin
+                  LContador := LContador + 1;
+                  ProgressBar1.Position := LContador;
+                  Application.ProcessMessages;
+                  LCombinacao := '' + //
+                    R2D(P01) + LSpr + //
+                    R2D(P02) + LSpr + //
+                    R2D(P03) + LSpr + //
+                    R2D(P04) + LSpr + //
+                    R2D(P05) + LSpr + //
+                    R2D(P06) + LSpr + //
+                    R2D(P07) + LSpr + //
+                    R2D(P08);
+                  Writeln(LArqqui, LCombinacao);
+                end;
+  end;
+  Form1.Caption := IntToStr(LContador);
+  CloseFile(LArqqui);
 end;
 
 end.
