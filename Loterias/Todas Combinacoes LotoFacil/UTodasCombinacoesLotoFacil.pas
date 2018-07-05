@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls,
-  UAposta, UCombinacao, UNumeros, USorteio;
+  UAposta, UCombinacao, UNumeros, USorteio, UCombinacao.Geracao;
 
 type
   TForm1 = class(TForm)
@@ -66,8 +66,16 @@ begin
 end;
 
 procedure TForm1.Button4Click(Sender: TObject);
+var
+  Lcombinacoes: TCombinacaoGeracao;
 begin
-  //
+  Lcombinacoes := TCombinacaoGeracao.Create;
+  try
+    Lcombinacoes.Gerar(15);
+    Lcombinacoes.Salvar('teste.txt');
+  finally
+    FreeAndNil(Lcombinacoes);
+  end;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -102,7 +110,7 @@ begin
   AssignFile(LArqqui, 'TodasCombinacoes.txt');
   Rewrite(LArqqui);
   LSpr := ';';
-  A01 := 11; { 14 = 12 /   13 = 13 /  12 = 14 /   11 = 15 /  10 = 16 /   09 = 17 /   08 = 16 }
+  A01 := 11;
   FCombinacoes.Clear;
   for P01 := 1 to A01 do
   begin

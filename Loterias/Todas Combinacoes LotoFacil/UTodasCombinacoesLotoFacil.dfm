@@ -36,7 +36,6 @@ object Form1: TForm1
     Align = alBottom
     Max = 3268760
     TabOrder = 1
-    ExplicitTop = 109
   end
   object Button2: TButton
     Left = 8

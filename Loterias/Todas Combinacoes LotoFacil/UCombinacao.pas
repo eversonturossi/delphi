@@ -14,7 +14,8 @@ type
   private
     FNumerosCombinacao: TNumeros;
   public
-    constructor Create;
+    constructor Create; overload;
+    constructor Create(ANumeros: String); overload;
     destructor Destroy; override;
     procedure Clear;
 
@@ -36,6 +37,12 @@ end;
 constructor TCombinacao.Create;
 begin
   FNumerosCombinacao := TNumeros.Create;
+end;
+
+constructor TCombinacao.Create(ANumeros: String);
+begin
+  Create;
+  Self.NumerosCombinacao.Carregar(ANumeros);
 end;
 
 destructor TCombinacao.Destroy;
