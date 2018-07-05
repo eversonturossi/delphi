@@ -26,6 +26,7 @@ type
     procedure Gerar13d;
     procedure Gerar14d;
     procedure Gerar15d;
+    procedure GerarSubForr(AQuantidade, AInicioFor, ALimiteFor, ANivel: Integer);
 
     property Combinacao: TStringBuilder read FCombinacao write FCombinacao;
   public
@@ -34,7 +35,7 @@ type
 
     procedure Gerar(AquantidadeNumeros: Integer);
     procedure GerarFor(AQuantidade: Integer);
-    procedure GerarSubFor(AQuantidade: Integer; AInicioFor, ALimiteFor: Integer);
+    procedure GerarSubFor(AQuantidade, AInicioFor, ALimiteFor, ANivel: Integer);
     procedure Carregar(AArquivoCombinacoes: String);
     procedure Salvar(AArquivoCombinacoes: String);
 
@@ -255,21 +256,44 @@ begin
   begin
     FCombinacao.Clear;
     FCombinacao.Append(Round2D(InicioFor)).Append(cSeparador);
-    GerarSubFor(Pred(AQuantidade), Succ(InicioFor), Succ(LLimiteFor));
+    GerarSubFor(AQuantidade, Succ(InicioFor), Succ(LLimiteFor), 2);
   end;
 end;
 
-procedure TCombinacaoGeracao.GerarSubFor(AQuantidade: Integer; AInicioFor, ALimiteFor: Integer);
+procedure TCombinacaoGeracao.GerarSubFor(AQuantidade, AInicioFor, ALimiteFor, ANivel: Integer);
 var
   I: Integer;
 begin
   for I := AInicioFor to ALimiteFor do
   begin
-    FCombinacao.Append(Round2D(AInicioFor)).Append(cSeparador);
-    if (AQuantidade > 1) then
-      GerarSubFor(Pred(AQuantidade), Succ(AInicioFor), Succ(ALimiteFor))
-    else
-      FCombinacoes.Add(TCombinacao.Create(FCombinacao.ToString));
+    FCombinacao.Append(Round2D(i)).Append(cSeparador);
+    // if (AQuantidade > 2) then
+    // GerarSubFor(Pred(AQuantidade), Succ(AInicioFor), Succ(ALimiteFor), Succ(ANivel))
+    // else
+    // FCombinacoes.Add(TCombinacao.Create(FCombinacao.ToString));
+
+    if (ANivel <= (AQuantidade - 2)) then
+      GerarSubFor(AQuantidade, Succ(AInicioFor), Succ(ALimiteFor), Succ(ANivel));
+    if (ANivel = (AQuantidade - 1)) then
+      GerarSubForr(AQuantidade, Succ(AInicioFor), Succ(ALimiteFor), Succ(ANivel));
+  end;
+end;
+
+procedure TCombinacaoGeracao.GerarSubForr(AQuantidade, AInicioFor, ALimiteFor, ANivel: Integer);
+var
+  I: Integer;
+  LCombinacao: TStringBuilder;
+begin
+  for I := AInicioFor to ALimiteFor do
+  begin
+    LCombinacao := TStringBuilder.Create;
+    try
+      LCombinacao.Append(FCombinacao.ToString);
+      LCombinacao.Append(Round2D(I)).Append(cSeparador);
+      FCombinacoes.Add(TCombinacao.Create(LCombinacao.ToString));
+    finally
+      FreeAndNil(LCombinacao);
+    end;
   end;
 end;
 
