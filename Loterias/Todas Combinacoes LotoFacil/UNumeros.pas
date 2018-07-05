@@ -42,6 +42,7 @@ type
     procedure Clear;
     function ToStr: String;
     procedure Carregar(ANumeros: String);
+    function Acertos(ACompara: TNumeros): Integer;
 
     property Numero01: Boolean read FNumero01 write FNumero01;
     property Numero02: Boolean read FNumero02 write FNumero02;
@@ -224,6 +225,64 @@ begin
 
   if (Result.Length > 0) then
     Delete(Result, 1, 1);
+end;
+
+function TNumeros.Acertos(ACompara: TNumeros): Integer;
+var
+  LAcertos: Integer;
+begin
+  LAcertos := 0;
+  if (ACompara.Numero01 = FNumero01) then
+    Inc(LAcertos);
+  if (ACompara.Numero02 = FNumero02) then
+    Inc(LAcertos);
+  if (ACompara.Numero03 = FNumero03) then
+    Inc(LAcertos);
+  if (ACompara.Numero04 = FNumero04) then
+    Inc(LAcertos);
+  if (ACompara.Numero05 = FNumero05) then
+    Inc(LAcertos);
+  if (ACompara.Numero06 = FNumero06) then
+    Inc(LAcertos);
+  if (ACompara.Numero07 = FNumero07) then
+    Inc(LAcertos);
+  if (ACompara.Numero08 = FNumero08) then
+    Inc(LAcertos);
+  if (ACompara.Numero09 = FNumero09) then
+    Inc(LAcertos);
+  if (ACompara.Numero10 = FNumero10) then
+    Inc(LAcertos);
+  if (ACompara.Numero11 = FNumero11) then
+    Inc(LAcertos);
+  if (ACompara.Numero12 = FNumero12) then
+    Inc(LAcertos);
+  if (ACompara.Numero13 = FNumero13) then
+    Inc(LAcertos);
+  if (ACompara.Numero14 = FNumero14) then
+    Inc(LAcertos);
+  if (ACompara.Numero15 = FNumero15) then
+    Inc(LAcertos);
+  if (ACompara.Numero16 = FNumero16) then
+    Inc(LAcertos);
+  if (ACompara.Numero17 = FNumero17) then
+    Inc(LAcertos);
+  if (ACompara.Numero18 = FNumero18) then
+    Inc(LAcertos);
+  if (ACompara.Numero19 = FNumero19) then
+    Inc(LAcertos);
+  if (ACompara.Numero20 = FNumero20) then
+    Inc(LAcertos);
+  if (ACompara.Numero21 = FNumero21) then
+    Inc(LAcertos);
+  if (ACompara.Numero22 = FNumero22) then
+    Inc(LAcertos);
+  if (ACompara.Numero23 = FNumero23) then
+    Inc(LAcertos);
+  if (ACompara.Numero24 = FNumero24) then
+    Inc(LAcertos);
+  if (ACompara.Numero25 = FNumero25) then
+    Inc(LAcertos);
+  Result := LAcertos;
 end;
 
 end.
