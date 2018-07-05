@@ -2,7 +2,11 @@ program TodasCombinacoesLotoFacil;
 
 uses
   Forms,
-  UTodasCombinacoesLotoFacil in 'UTodasCombinacoesLotoFacil.pas' {Form1};
+  UTodasCombinacoesLotoFacil in 'UTodasCombinacoesLotoFacil.pas' {Form1},
+  UCombinacao in 'UCombinacao.pas',
+  USorteio in 'USorteio.pas',
+  UAposta in 'UAposta.pas',
+  UNumeros in 'UNumeros.pas';
 
 {$R *.res}
 

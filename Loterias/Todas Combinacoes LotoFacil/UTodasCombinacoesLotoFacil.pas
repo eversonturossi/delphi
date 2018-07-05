@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls;
+  Dialogs, StdCtrls, ComCtrls,
+  UAposta, UCombinacao, UNumeros, USorteio;
 
 type
   TForm1 = class(TForm)
@@ -16,9 +17,16 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+
   private
+    FCombinacoes: TCombinacoes;
     procedure GerarTodasCombinacoes08d;
+
+  published
   public
+    property Combinacoes: TCombinacoes read FCombinacoes write FCombinacoes;
   end;
 
 var
@@ -34,13 +42,35 @@ begin
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
+var
+  I: Integer;
+  LArqqui: TextFile;
 begin
-  // GerarTodasCombinacoes10d;
+  AssignFile(LArqqui, 'TodasCombinacoess.txt');
+  Rewrite(LArqqui);
+  try
+    for I := 0 to Pred(FCombinacoes.Count) do
+    begin
+      Writeln(LArqqui, FCombinacoes[I].Numeros.ToStr);
+    end;
+  finally
+    CloseFile(LArqqui);
+  end;
 end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   GerarTodasCombinacoes08d;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  FCombinacoes := TCombinacoes.Create();
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FCombinacoes);
 end;
 
 function R2D(I: Integer): String;
@@ -57,14 +87,16 @@ var
   A01: Integer;
   LContador: Integer;
   LArqqui: TextFile;
-  LCombinacao: string;
+  LCombinacaoStr: string;
   LSpr: String;
+  LCombinacao: TCombinacao;
 begin
   LContador := 0;
   AssignFile(LArqqui, 'TodasCombinacoes.txt');
   Rewrite(LArqqui);
   LSpr := ';';
   A01 := 11; { 14 = 12 /   13 = 13 /  12 = 14 /   11 = 15 /  10 = 16 /   09 = 17 /   08 = 16 }
+  FCombinacoes.Clear;
   for P01 := 1 to A01 do
   begin
     Form1.Caption := IntToStr(P01);
@@ -86,7 +118,7 @@ begin
                                 LContador := LContador + 1;
                                 ProgressBar1.Position := LContador;
                                 Application.ProcessMessages;
-                                LCombinacao := '' + //
+                                LCombinacaoStr := '' + //
                                   R2D(P01) + LSpr + //
                                   R2D(P02) + LSpr + //
                                   R2D(P03) + LSpr + //
@@ -102,7 +134,12 @@ begin
                                   R2D(P13) + LSpr + //
                                   R2D(P14) + LSpr + //
                                   R2D(P15);
-                                Writeln(LArqqui, LCombinacao);
+
+                                LCombinacao := TCombinacao.Create;
+                                LCombinacao.Numeros.Carregar(LCombinacaoStr);
+                                FCombinacoes.Add(LCombinacao);
+
+                                // Writeln(LArqqui, LCombinacaoStr);
                               end;
   end;
   Form1.Caption := IntToStr(LContador);

@@ -11,6 +11,8 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   DesignSize = (
     198
     125)
@@ -34,8 +36,6 @@ object Form1: TForm1
     Align = alBottom
     Max = 3268760
     TabOrder = 1
-    ExplicitTop = 41
-    ExplicitWidth = 213
   end
   object Button2: TButton
     Left = 8
