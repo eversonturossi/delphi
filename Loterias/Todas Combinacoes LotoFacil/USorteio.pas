@@ -12,13 +12,13 @@ uses
 type
   TSorteio = class(TObject)
   private
-    FNumeros: TNumeros;
+    FNumerosSorteados: TNumeros;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
 
-    property Numeros: TNumeros read FNumeros write FNumeros;
+    property NumerosSorteio: TNumeros read FNumerosSorteados write FNumerosSorteados;
   end;
 
   TSorteios = class(TObjectList<TSorteio>)
@@ -35,12 +35,12 @@ end;
 
 constructor TSorteio.Create;
 begin
-  FNumeros := TNumeros.Create;
+  FNumerosSorteados := TNumeros.Create;
 end;
 
 destructor TSorteio.Destroy;
 begin
-  FreeAndNil(FNumeros);
+  FreeAndNil(FNumerosSorteados);
   inherited;
 end;
 

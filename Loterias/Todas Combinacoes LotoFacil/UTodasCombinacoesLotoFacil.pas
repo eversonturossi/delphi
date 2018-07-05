@@ -13,12 +13,14 @@ type
     ProgressBar1: TProgressBar;
     Button2: TButton;
     Button3: TButton;
+    Button4: TButton;
     procedure GerarTodasCombinacoesFor();
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
 
   private
     FCombinacoes: TCombinacoes;
@@ -51,7 +53,7 @@ begin
   try
     for I := 0 to Pred(FCombinacoes.Count) do
     begin
-      Writeln(LArqqui, FCombinacoes[I].Numeros.ToStr);
+      Writeln(LArqqui, FCombinacoes[I].NumerosCombinacao.ToStr);
     end;
   finally
     CloseFile(LArqqui);
@@ -61,6 +63,11 @@ end;
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   GerarTodasCombinacoes08d;
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+  //
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -136,7 +143,7 @@ begin
                                   R2D(P15);
 
                                 LCombinacao := TCombinacao.Create;
-                                LCombinacao.Numeros.Carregar(LCombinacaoStr);
+                                LCombinacao.NumerosCombinacao.Carregar(LCombinacaoStr);
                                 FCombinacoes.Add(LCombinacao);
 
                                 // Writeln(LArqqui, LCombinacaoStr);

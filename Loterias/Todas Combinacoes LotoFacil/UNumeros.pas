@@ -11,31 +11,31 @@ const
 type
   TNumeros = class(TObject)
   private
-    FNumero02: Boolean;
-    FNumero12: Boolean;
-    FNumero03: Boolean;
-    FNumero13: Boolean;
-    FNumero10: Boolean;
     FNumero01: Boolean;
-    FNumero11: Boolean;
+    FNumero02: Boolean;
+    FNumero03: Boolean;
+    FNumero04: Boolean;
+    FNumero05: Boolean;
     FNumero06: Boolean;
     FNumero07: Boolean;
-    FNumero04: Boolean;
-    FNumero14: Boolean;
-    FNumero05: Boolean;
-    FNumero15: Boolean;
     FNumero08: Boolean;
     FNumero09: Boolean;
-    FNumero20: Boolean;
-    FNumero21: Boolean;
-    FNumero24: Boolean;
-    FNumero25: Boolean;
+    FNumero10: Boolean;
+    FNumero11: Boolean;
+    FNumero12: Boolean;
+    FNumero13: Boolean;
+    FNumero14: Boolean;
+    FNumero15: Boolean;
     FNumero16: Boolean;
     FNumero17: Boolean;
     FNumero18: Boolean;
     FNumero19: Boolean;
+    FNumero20: Boolean;
+    FNumero21: Boolean;
     FNumero22: Boolean;
     FNumero23: Boolean;
+    FNumero24: Boolean;
+    FNumero25: Boolean;
   public
     constructor Create;
     destructor Destroy; override;

@@ -12,13 +12,13 @@ uses
 type
   TAposta = class(TObject)
   private
-    FNumeros: TNumeros;
+    FNumerosAposta: TNumeros;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
 
-    property Numeros: TNumeros read FNumeros write FNumeros;
+    property NumerosAposta: TNumeros read FNumerosAposta write FNumerosAposta;
   end;
 
   TApostas = class(TObjectList<TAposta>)
@@ -35,12 +35,12 @@ end;
 
 constructor TAposta.Create;
 begin
-  FNumeros := TNumeros.Create;
+  FNumerosAposta := TNumeros.Create;
 end;
 
 destructor TAposta.Destroy;
 begin
-  FreeAndNil(FNumeros);
+  FreeAndNil(FNumerosAposta);
   inherited;
 end;
 

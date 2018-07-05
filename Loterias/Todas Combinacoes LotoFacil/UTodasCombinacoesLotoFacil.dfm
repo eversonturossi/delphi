@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 192
   Top = 108
   Caption = 'Form1'
-  ClientHeight = 125
+  ClientHeight = 173
   ClientWidth = 198
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,7 +15,7 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   DesignSize = (
     198
-    125)
+    173)
   PixelsPerInch = 96
   TextHeight = 13
   object Button1: TButton
@@ -30,12 +30,13 @@ object Form1: TForm1
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 109
+    Top = 157
     Width = 198
     Height = 16
     Align = alBottom
     Max = 3268760
     TabOrder = 1
+    ExplicitTop = 109
   end
   object Button2: TButton
     Left = 8
@@ -54,5 +55,14 @@ object Form1: TForm1
     Caption = '08d'
     TabOrder = 3
     OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 8
+    Top = 101
+    Width = 187
+    Height = 25
+    Caption = 'Button4'
+    TabOrder = 4
+    OnClick = Button4Click
   end
 end

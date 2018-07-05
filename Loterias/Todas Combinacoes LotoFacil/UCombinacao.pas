@@ -12,13 +12,13 @@ uses
 type
   TCombinacao = class(TObject)
   private
-    FNumeros: TNumeros;
+    FNumerosCombinacao: TNumeros;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
 
-    property Numeros: TNumeros read FNumeros write FNumeros;
+    property NumerosCombinacao: TNumeros read FNumerosCombinacao write FNumerosCombinacao;
   end;
 
   TCombinacoes = class(TObjectList<TCombinacao>)
@@ -35,12 +35,12 @@ end;
 
 constructor TCombinacao.Create;
 begin
-  FNumeros := TNumeros.Create;
+  FNumerosCombinacao := TNumeros.Create;
 end;
 
 destructor TCombinacao.Destroy;
 begin
-  FreeAndNil(FNumeros);
+  FreeAndNil(FNumerosCombinacao);
   inherited;
 end;
 

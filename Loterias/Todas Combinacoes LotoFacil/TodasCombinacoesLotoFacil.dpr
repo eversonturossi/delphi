@@ -6,7 +6,8 @@ uses
   UCombinacao in 'UCombinacao.pas',
   USorteio in 'USorteio.pas',
   UAposta in 'UAposta.pas',
-  UNumeros in 'UNumeros.pas';
+  UNumeros in 'UNumeros.pas',
+  UNumerosOcorrencias in 'UNumerosOcorrencias.pas';
 
 {$R *.res}
 
