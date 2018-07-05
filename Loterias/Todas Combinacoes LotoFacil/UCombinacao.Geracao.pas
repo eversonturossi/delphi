@@ -26,12 +26,15 @@ type
     procedure Gerar13d;
     procedure Gerar14d;
     procedure Gerar15d;
+
     property Combinacao: TStringBuilder read FCombinacao write FCombinacao;
   public
     constructor Create;
     destructor Destroy; override;
 
     procedure Gerar(AquantidadeNumeros: Integer);
+    procedure GerarFor(AQuantidade: Integer);
+    procedure GerarSubFor(AQuantidade: Integer; AInicioFor, ALimiteFor: Integer);
     procedure Carregar(AArquivoCombinacoes: String);
     procedure Salvar(AArquivoCombinacoes: String);
 
@@ -237,6 +240,36 @@ begin
 
                                 FCombinacoes.Add(TCombinacao.Create(FCombinacao.ToString));
                               end;
+  end;
+end;
+
+procedure TCombinacaoGeracao.GerarFor(AQuantidade: Integer);
+var
+  InicioFor: Integer;
+  LLimiteFor: Integer;
+begin
+  LLimiteFor := getLimiteFor(15);
+  FCombinacoes.Clear;
+
+  for InicioFor := 1 to LLimiteFor do
+  begin
+    FCombinacao.Clear;
+    FCombinacao.Append(Round2D(InicioFor)).Append(cSeparador);
+    GerarSubFor(Pred(AQuantidade), Succ(InicioFor), Succ(LLimiteFor));
+  end;
+end;
+
+procedure TCombinacaoGeracao.GerarSubFor(AQuantidade: Integer; AInicioFor, ALimiteFor: Integer);
+var
+  I: Integer;
+begin
+  for I := AInicioFor to ALimiteFor do
+  begin
+    FCombinacao.Append(Round2D(AInicioFor)).Append(cSeparador);
+    if (AQuantidade > 1) then
+      GerarSubFor(Pred(AQuantidade), Succ(AInicioFor), Succ(ALimiteFor))
+    else
+      FCombinacoes.Add(TCombinacao.Create(FCombinacao.ToString));
   end;
 end;
 

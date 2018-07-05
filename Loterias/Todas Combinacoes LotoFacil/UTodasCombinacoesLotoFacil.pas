@@ -71,7 +71,7 @@ var
 begin
   Lcombinacoes := TCombinacaoGeracao.Create;
   try
-    Lcombinacoes.Gerar(15);
+    Lcombinacoes.GerarFor(15);
     Lcombinacoes.Salvar('teste.txt');
   finally
     FreeAndNil(Lcombinacoes);
