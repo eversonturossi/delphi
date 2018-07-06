@@ -46,9 +46,12 @@ var
 begin
   for I := 0 to Pred(AGeracao.Combinacoes.Count) do
   begin
+  if (I < 2000) then
+   begin
     LSorteio := TSorteio.Create;
     LSorteio.NumerosSorteio.Assign(AGeracao.Combinacoes[I].NumerosCombinacao);
     FSorteios.Add(LSorteio);
+   end;
   end;
 end;
 
@@ -73,8 +76,8 @@ begin
   try
     LGeracao.Gerar(15);
     AssociarSorteio(LGeracao);
-    //LGeracao.Clear;
-   // LGeracao.Gerar(10);
+    LGeracao.Clear;
+    LGeracao.Gerar(08);
     AssociarCombinacao(LGeracao);
   finally
     FreeAndNil(LGeracao);
@@ -104,7 +107,7 @@ begin
   for I := 0 to Pred(FCombinacoes.Count) do
   begin
     for Y := 0 to Pred(FSorteios.Count) do
-      FCombinacoes[I].VerificaOcorrencias(15, FSorteios[Y].NumerosSorteio);
+      FCombinacoes[I].VerificaOcorrencias(08, FSorteios[Y].NumerosSorteio);
   end;
   ShowMessageFmt('%S - %d', [FCombinacoes[0].NumerosCombinacao.ToStr, FCombinacoes[0].Ocorrencias]);
 end;

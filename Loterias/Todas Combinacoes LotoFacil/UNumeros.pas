@@ -262,55 +262,55 @@ var
   LAcertos: Integer;
 begin
   LAcertos := 0;
-  if (ACompara.Numero01 = FNumero01) then
+  if (ACompara.Numero01) and (FNumero01) then
     Inc(LAcertos);
-  if (ACompara.Numero02 = FNumero02) then
+  if (ACompara.Numero02) and (FNumero02) then
     Inc(LAcertos);
-  if (ACompara.Numero03 = FNumero03) then
+  if (ACompara.Numero03) and (FNumero03) then
     Inc(LAcertos);
-  if (ACompara.Numero04 = FNumero04) then
+  if (ACompara.Numero04) and (FNumero04) then
     Inc(LAcertos);
-  if (ACompara.Numero05 = FNumero05) then
+  if (ACompara.Numero05) and (FNumero05) then
     Inc(LAcertos);
-  if (ACompara.Numero06 = FNumero06) then
+  if (ACompara.Numero06) and (FNumero06) then
     Inc(LAcertos);
-  if (ACompara.Numero07 = FNumero07) then
+  if (ACompara.Numero07) and (FNumero07) then
     Inc(LAcertos);
-  if (ACompara.Numero08 = FNumero08) then
+  if (ACompara.Numero08) and (FNumero08) then
     Inc(LAcertos);
-  if (ACompara.Numero09 = FNumero09) then
+  if (ACompara.Numero09) and (FNumero09) then
     Inc(LAcertos);
-  if (ACompara.Numero10 = FNumero10) then
+  if (ACompara.Numero10) and (FNumero10) then
     Inc(LAcertos);
-  if (ACompara.Numero11 = FNumero11) then
+  if (ACompara.Numero11) and (FNumero11) then
     Inc(LAcertos);
-  if (ACompara.Numero12 = FNumero12) then
+  if (ACompara.Numero12) and (FNumero12) then
     Inc(LAcertos);
-  if (ACompara.Numero13 = FNumero13) then
+  if (ACompara.Numero13) and (FNumero13) then
     Inc(LAcertos);
-  if (ACompara.Numero14 = FNumero14) then
+  if (ACompara.Numero14) and (FNumero14) then
     Inc(LAcertos);
-  if (ACompara.Numero15 = FNumero15) then
+  if (ACompara.Numero15) and (FNumero15) then
     Inc(LAcertos);
-  if (ACompara.Numero16 = FNumero16) then
+  if (ACompara.Numero16) and (FNumero16) then
     Inc(LAcertos);
-  if (ACompara.Numero17 = FNumero17) then
+  if (ACompara.Numero17) and (FNumero17) then
     Inc(LAcertos);
-  if (ACompara.Numero18 = FNumero18) then
+  if (ACompara.Numero18) and (FNumero18) then
     Inc(LAcertos);
-  if (ACompara.Numero19 = FNumero19) then
+  if (ACompara.Numero19) and (FNumero19) then
     Inc(LAcertos);
-  if (ACompara.Numero20 = FNumero20) then
+  if (ACompara.Numero20) and (FNumero20) then
     Inc(LAcertos);
-  if (ACompara.Numero21 = FNumero21) then
+  if (ACompara.Numero21) and (FNumero21) then
     Inc(LAcertos);
-  if (ACompara.Numero22 = FNumero22) then
+  if (ACompara.Numero22) and (FNumero22) then
     Inc(LAcertos);
-  if (ACompara.Numero23 = FNumero23) then
+  if (ACompara.Numero23) and (FNumero23) then
     Inc(LAcertos);
-  if (ACompara.Numero24 = FNumero24) then
+  if (ACompara.Numero24) and (FNumero24) then
     Inc(LAcertos);
-  if (ACompara.Numero25 = FNumero25) then
+  if (ACompara.Numero25) and (FNumero25) then
     Inc(LAcertos);
   Result := LAcertos;
 end;

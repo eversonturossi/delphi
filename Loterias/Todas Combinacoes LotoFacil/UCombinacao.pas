@@ -64,7 +64,7 @@ var
   LAcertos: Integer;
 begin
   LAcertos := FNumerosCombinacao.Acertos(ANumerosSorteados);
-  if (AQuantidadeNumeros = LAcertos) then
+  if ( LAcertos >= AQuantidadeNumeros) then
     FOcorrencias := FOcorrencias + 1;
 end;
 
