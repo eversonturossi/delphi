@@ -40,6 +40,7 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
+    procedure Assign(AOrigem: TNumeros);
     function ToStr: String;
     procedure Carregar(ANumeros: String);
     function Acertos(ACompara: TNumeros): Integer;
@@ -113,6 +114,35 @@ destructor TNumeros.Destroy;
 begin
 
   inherited;
+end;
+
+procedure TNumeros.Assign(AOrigem: TNumeros);
+begin
+  FNumero01 := AOrigem.Numero01;
+  FNumero02 := AOrigem.Numero02;
+  FNumero03 := AOrigem.Numero03;
+  FNumero04 := AOrigem.Numero04;
+  FNumero05 := AOrigem.Numero05;
+  FNumero06 := AOrigem.Numero06;
+  FNumero07 := AOrigem.Numero07;
+  FNumero08 := AOrigem.Numero08;
+  FNumero09 := AOrigem.Numero09;
+  FNumero10 := AOrigem.Numero10;
+  FNumero11 := AOrigem.Numero11;
+  FNumero12 := AOrigem.Numero12;
+  FNumero13 := AOrigem.Numero13;
+  FNumero14 := AOrigem.Numero14;
+  FNumero15 := AOrigem.Numero15;
+  FNumero16 := AOrigem.Numero16;
+  FNumero17 := AOrigem.Numero17;
+  FNumero18 := AOrigem.Numero18;
+  FNumero19 := AOrigem.Numero19;
+  FNumero20 := AOrigem.Numero20;
+  FNumero21 := AOrigem.Numero21;
+  FNumero22 := AOrigem.Numero22;
+  FNumero23 := AOrigem.Numero23;
+  FNumero24 := AOrigem.Numero24;
+  FNumero25 := AOrigem.Numero25;
 end;
 
 procedure TNumeros.Carregar(ANumeros: String);
