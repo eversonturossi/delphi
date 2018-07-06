@@ -13,11 +13,15 @@ type
   TSorteio = class(TObject)
   private
     FNumerosSorteados: TNumeros;
+    FConcurso: Integer;
+    FDataSorteio: TDate;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
 
+    property Concurso: Integer read FConcurso write FConcurso;
+    property DataSorteio: TDate read FDataSorteio write FDataSorteio;
     property NumerosSorteio: TNumeros read FNumerosSorteados write FNumerosSorteados;
   end;
 
@@ -30,7 +34,9 @@ implementation
 
 procedure TSorteio.Clear;
 begin
-
+  FConcurso := 0;
+  FDataSorteio := 0;
+  FNumerosSorteados.Clear;
 end;
 
 constructor TSorteio.Create;

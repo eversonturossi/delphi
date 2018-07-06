@@ -32,6 +32,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+    procedure Clear;
 
     procedure Gerar(AquantidadeNumeros: Integer);
     procedure GerarFor(AQuantidade: Integer);
@@ -54,10 +55,16 @@ end;
 
 { TCombinacaoGeracao }
 
+procedure TCombinacaoGeracao.Clear;
+begin
+  FCombinacoes.Clear;
+end;
+
 constructor TCombinacaoGeracao.Create;
 begin
   FCombinacoes := TCombinacoes.Create;
   FCombinacao := TStringBuilder.Create;
+  Clear;
 end;
 
 destructor TCombinacaoGeracao.Destroy;
@@ -171,8 +178,41 @@ begin
 end;
 
 procedure TCombinacaoGeracao.Gerar10d;
+var
+  Posicao01, Posicao02, Posicao03, Posicao04, Posicao05: Integer;
+  Posicao06, Posicao07, Posicao08, Posicao09, Posicao10: Integer;
+  LLimiteFor: Integer;
 begin
+  LLimiteFor := getLimiteFor(10);
+  FCombinacoes.Clear;
 
+  for Posicao01 := 1 to LLimiteFor do
+  begin
+    for Posicao02 := Succ(Posicao01) to (LLimiteFor + 1) do
+      for Posicao03 := Succ(Posicao02) to (LLimiteFor + 2) do
+        for Posicao04 := Succ(Posicao03) to (LLimiteFor + 3) do
+          for Posicao05 := Succ(Posicao04) to (LLimiteFor + 4) do
+            for Posicao06 := Succ(Posicao05) to (LLimiteFor + 5) do
+              for Posicao07 := Succ(Posicao06) to (LLimiteFor + 6) do
+                for Posicao08 := Succ(Posicao07) to (LLimiteFor + 7) do
+                  for Posicao09 := Succ(Posicao08) to (LLimiteFor + 8) do
+                    for Posicao10 := Succ(Posicao09) to (LLimiteFor + 9) do
+                    begin
+                      FCombinacao.Clear;
+                      FCombinacao.Append(Round2D(Posicao01)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao02)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao03)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao04)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao05)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao06)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao07)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao08)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao09)).Append(cSeparador);
+                      FCombinacao.Append(Round2D(Posicao10)).Append(cSeparador);
+
+                      FCombinacoes.Add(TCombinacao.Create(FCombinacao.ToString));
+                    end;
+  end;
 end;
 
 procedure TCombinacaoGeracao.Gerar11d;
@@ -266,7 +306,7 @@ var
 begin
   for I := AInicioFor to ALimiteFor do
   begin
-    FCombinacao.Append(Round2D(i)).Append(cSeparador);
+    FCombinacao.Append(Round2D(I)).Append(cSeparador);
     // if (AQuantidade > 2) then
     // GerarSubFor(Pred(AQuantidade), Succ(AInicioFor), Succ(ALimiteFor), Succ(ANivel))
     // else
