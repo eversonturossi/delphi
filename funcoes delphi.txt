@@ -1,0 +1,11 @@
+System.StrUtils
+- if MatchText(VersionNumberStr, ['d17','d18','d19','d20','d21','d22','d23','d24']) then
+
+System.Types
+- ListArquivos: TStringDynArray;
+
+IOUtils
+- ListArquivos := TDirectory.GetFiles(IncludeTrailingPathDelimiter(sDirRoot) + 'Fontes', Extensao ,TSearchOption.soAllDirectories ) ;
+
+if StringInSet(Edit1.Text, ['MARIA','JOSÉ','JOÃO','LUIZ']) then
+  ShowMessage('Seu nome foi encontrado na lista.');
