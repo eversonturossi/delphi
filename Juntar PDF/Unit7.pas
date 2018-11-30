@@ -27,15 +27,16 @@ uses
 
 procedure TForm7.Button1Click(Sender: TObject);
 var
-  AJuntaPDf: TJuntaPDF;
+  LJuntaPDf: TJuntaPDF;
 begin
   Button1.Enabled := False;
-  AJuntaPDf := TJuntaPDF.Create;
+  LJuntaPDf := TJuntaPDF.Create;
   try
-    // AJuntaPDf.SalvaArquivo;
-    AJuntaPDf.Executa;
+    LJuntaPDf.SelecionaArquivos();
+    LJuntaPDf.SalvaArquivo;
+    LJuntaPDf.Executa;
   finally
-    FreeAndNil(AJuntaPDf);
+    FreeAndNil(LJuntaPDf);
     Button1.Enabled := true;
   end;
 end;

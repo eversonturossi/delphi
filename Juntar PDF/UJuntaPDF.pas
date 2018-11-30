@@ -48,6 +48,7 @@ type
     destructor Destroy; override;
     procedure SelecionaArquivos;
     procedure SalvaArquivo;
+    procedure AdicionarArquivos(AArquivos: TStringList);
 
     procedure Executa;
 
@@ -134,6 +135,11 @@ begin
   end;
 end;
 
+procedure TJuntaPDF.AdicionarArquivos(AArquivos: TStringList);
+begin
+  Self.Arquivos.AddStrings(AArquivos);
+end;
+
 procedure TJuntaPDF.CarregarDLL;
 begin
   FHandleDLL := LoadLibrary('gsdll32.dll');
@@ -193,10 +199,8 @@ end;
 
 procedure TJuntaPDF.Executa;
 begin
-  Self.SelecionaArquivos();
   if (Self.FArquivos.Count = 0) then
     raise Exception.Create('Nenhum Arquivo selecionado');
-  Self.SalvaArquivo;
   Self.ConverteStringListParaArray();
   Self.JuntaPDFs();
 end;
