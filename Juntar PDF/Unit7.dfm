@@ -24,7 +24,7 @@ object Form7: TForm7
   end
   object OpenDialog1: TOpenDialog
     Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
-    Left = 312
-    Top = 152
+    Left = 392
+    Top = 32
   end
 end

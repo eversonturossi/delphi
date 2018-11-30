@@ -20,27 +20,22 @@ var
 
 implementation
 
+uses
+  UJuntaPDF;
+
 {$R *.dfm}
 
 procedure TForm7.Button1Click(Sender: TObject);
 var
-  files: array of AnsiString;
-  i, totalarquivos: Integer;
+  AJuntaPDf: TJuntaPDF;
 begin
   Button1.Enabled := False;
+  AJuntaPDf := TJuntaPDF.Create;
   try
-    if OpenDialog1.Execute then
-    begin
-      totalarquivos := OpenDialog1.files.Count;
-      SetLength(files, totalarquivos);
-      for i := 0 to Pred(totalarquivos) do
-      begin
-        files[i] := AnsiString(OpenDialog1.files[i]);
-      end;
-
-      // JuntaPdfs('C:\Users\Top System\Desktop\Juntar PDF\test.pdf', files);
-    end;
+    // AJuntaPDf.SalvaArquivo;
+    AJuntaPDf.Executa;
   finally
+    FreeAndNil(AJuntaPDf);
     Button1.Enabled := true;
   end;
 end;

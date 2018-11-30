@@ -22,56 +22,71 @@ type
   PGSAPIrevision = ^TGSAPIrevision;
   Pgs_main_instance = Pointer;
 
-  TGsapi_New_Instance = function(pinstance: Pgs_main_instance; caller_handle: Pointer): Integer; stdcall;
-  TGsapi_Init_With_Args = function(pinstance: Pgs_main_instance; argc: Integer; argv: PPChar): Integer; stdcall;
-  TGsapi_Exit = function(pinstance: Pgs_main_instance): Integer; stdcall;
-  TGsapi_Delete_Instance = procedure(pinstance: Pgs_main_instance); stdcall;
-  TGsapi_Set_Arg_Encoding = function(pinstance: Pgs_main_instance; ENCODING: Integer): Integer; stdcall;
+  TGSApi_New_Instance = function(pinstance: Pgs_main_instance; caller_handle: Pointer): Integer; stdcall;
+  TGSApi_Init_With_Args = function(pinstance: Pgs_main_instance; argc: Integer; argv: PPChar): Integer; stdcall;
+  TGSApi_Exit = function(pinstance: Pgs_main_instance): Integer; stdcall;
+  TGSApi_Delete_Instance = procedure(pinstance: Pgs_main_instance); stdcall;
+  TGSApi_Set_Arg_Encoding = function(pinstance: Pgs_main_instance; ENCODING: Integer): Integer; stdcall;
 
   TJuntaPDF = class(TObject)
   private
-    HandleDLL: THandle;
-    gsapi_new_instance: TGsapi_New_Instance;
-    gsapi_init_with_args: TGsapi_Init_With_Args;
-    gsapi_exit: TGsapi_Exit;
-    gsapi_delete_instance: TGsapi_Delete_Instance;
-    gsapi_set_arg_encoding: TGsapi_Set_Arg_Encoding;
-    function JuntaPdfs(AoutPdf: AnsiString; AFiles: array of AnsiString): Integer;
+    FHandleDLL: THandle;
+    gsapi_new_instance: TGSApi_New_Instance;
+    gsapi_init_with_args: TGSApi_Init_With_Args;
+    gsapi_exit: TGSApi_Exit;
+    gsapi_delete_instance: TGSApi_Delete_Instance;
+    gsapi_set_arg_encoding: TGSApi_Set_Arg_Encoding;
+    FNomeArquivo: AnsiString;
+    FArquivosJuntar: array of AnsiString;
+    FArquivos: TStringList;
+    function JuntaPDFs(): Integer;
+    procedure CarregarDLL;
     procedure DescarregarDLL;
+    procedure ConverteStringListParaArray();
   public
     constructor Create;
     destructor Destroy; override;
-    procedure CarregarDLL;
+    procedure SelecionaArquivos;
+    procedure SalvaArquivo;
+
+    procedure Executa;
+
+    property NomeArquivo: AnsiString read FNomeArquivo write FNomeArquivo;
+    property Arquivos: TStringList read FArquivos write FArquivos;
   end;
 
 implementation
 
+uses
+  UJuntaPDF.SelecionaArquivos,
+  UJuntaPDF.SalvaArquivo;
+
 { TJuntaPDF }
 
-function TJuntaPDF.JuntaPdfs(AoutPdf: AnsiString; AFiles: array of AnsiString): Integer;
+function TJuntaPDF.JuntaPDFs(): Integer;
 const
   GS_ARG_ENCODING_UTF8 = 1;
 var
-  code, code1, gsargc, i: Integer;
+  code, code1, gsargc, I: Integer;
   gsargv: array of PAnsiChar;
   minst: PGSAPIrevision;
 begin
   SetLength(gsargv, Length(gsargv) + 1);
-  gsargv[high(gsargv)] := 'gs';
+  gsargv[High(gsargv)] := 'gs';
   SetLength(gsargv, Length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-dBATCH';
+  gsargv[High(gsargv)] := '-dBATCH';
   SetLength(gsargv, Length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-dNOPAUSE';
+  gsargv[High(gsargv)] := '-dNOPAUSE';
   SetLength(gsargv, Length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-q';
+  gsargv[High(gsargv)] := '-q';
   SetLength(gsargv, Length(gsargv) + 1);
-  gsargv[high(gsargv)] := '-sDEVICE=pdfwrite';
+  gsargv[High(gsargv)] := '-sDEVICE=pdfwrite';
   SetLength(gsargv, Length(gsargv) + 1);
-  gsargv[high(gsargv)] := PAnsiChar('-sOutputFile=' + AoutPdf);
-  for i := Low(AFiles) to High(AFiles) do
+  gsargv[High(gsargv)] := PAnsiChar('-sOutputFile=' + FNomeArquivo);
+  for I := Low(FArquivosJuntar) to High(FArquivosJuntar) do
   begin
     SetLength(gsargv, Length(gsargv) + 1);
-    gsargv[high(gsargv)] := PAnsiChar(AFiles[i]);
+    gsargv[high(gsargv)] := PAnsiChar(FArquivosJuntar[I]);
   end;
   gsargc := Length(gsargv);
   code := gsapi_new_instance(@minst, nil);
@@ -95,20 +110,44 @@ begin
   result := 1;
 end;
 
+procedure TJuntaPDF.SalvaArquivo;
+var
+  LSalvaArquivo: TJuntaPDFSalvaArquivo;
+begin
+  LSalvaArquivo := TJuntaPDFSalvaArquivo.Create(Self);
+  try
+    LSalvaArquivo.Executa;
+  finally
+    FreeAndNil(LSalvaArquivo);
+  end;
+end;
+
+procedure TJuntaPDF.SelecionaArquivos;
+var
+  LSelecionaArquivos: TJuntaPDFSelecionaArquivos;
+begin
+  LSelecionaArquivos := TJuntaPDFSelecionaArquivos.Create(Self);
+  try
+    LSelecionaArquivos.Executa;
+  finally
+    FreeAndNil(LSelecionaArquivos);
+  end;
+end;
+
 procedure TJuntaPDF.CarregarDLL;
 begin
-  HandleDLL := LoadLibrary('gsdll32.dll');
+  FHandleDLL := LoadLibrary('gsdll32.dll');
 
-  if HandleDLL = 0 then
-    raise Exception.Create('DLL não encontrada');
+  if (FHandleDLL = 0) then
+    raise Exception.Create('DLL gsdll32.dll não encontrada');
 
-  if HandleDLL <> 0 then
+  if (FHandleDLL <> 0) then
   begin
-    gsapi_new_instance := GetProcAddress(HandleDLL, 'gsapi_new_instance');
-    gsapi_init_with_args := GetProcAddress(HandleDLL, 'gsapi_init_with_args');
-    gsapi_exit := GetProcAddress(HandleDLL, 'gsapi_exit');
-    gsapi_delete_instance := GetProcAddress(HandleDLL, 'gsapi_delete_instance');
-    gsapi_set_arg_encoding := GetProcAddress(HandleDLL, 'gsapi_set_arg_encoding');
+    gsapi_new_instance := GetProcAddress(FHandleDLL, 'gsapi_new_instance');
+    gsapi_init_with_args := GetProcAddress(FHandleDLL, 'gsapi_init_with_args');
+    gsapi_exit := GetProcAddress(FHandleDLL, 'gsapi_exit');
+    gsapi_delete_instance := GetProcAddress(FHandleDLL, 'gsapi_delete_instance');
+    gsapi_set_arg_encoding := GetProcAddress(FHandleDLL, 'gsapi_set_arg_encoding');
 
     if (@gsapi_new_instance = nil) then
       raise Exception.Create('DLL gsdll32.dll inválida. Método gsapi_new_instance não encontrado.');
@@ -125,18 +164,41 @@ end;
 
 procedure TJuntaPDF.DescarregarDLL;
 begin
-  FreeLibrary(HandleDLL);
+  FreeLibrary(FHandleDLL);
+end;
+
+procedure TJuntaPDF.ConverteStringListParaArray();
+var
+  I: Integer;
+begin
+  SetLength(FArquivosJuntar, FArquivos.Count);
+  for I := 0 to Pred(FArquivos.Count) do
+    FArquivosJuntar[I] := AnsiString(FArquivos[I]);
 end;
 
 constructor TJuntaPDF.Create;
 begin
   CarregarDLL;
+  FArquivos := TStringList.Create;
+  SetLength(FArquivosJuntar, 0);
 end;
 
 destructor TJuntaPDF.Destroy;
 begin
   DescarregarDLL;
+  FreeAndNil(FArquivos);
+  SetLength(FArquivosJuntar, 0);
   inherited;
+end;
+
+procedure TJuntaPDF.Executa;
+begin
+  Self.SelecionaArquivos();
+  if (Self.FArquivos.Count = 0) then
+    raise Exception.Create('Nenhum Arquivo selecionado');
+  Self.SalvaArquivo;
+  Self.ConverteStringListParaArray();
+  Self.JuntaPDFs();
 end;
 
 end.
