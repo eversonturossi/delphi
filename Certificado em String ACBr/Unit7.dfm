@@ -30,7 +30,7 @@ object Form7: TForm7
   object Label3: TLabel
     Left = 352
     Top = 189
-    Width = 117
+    Width = 109
     Height = 13
     Caption = 'Certificado em BASE64'
   end
@@ -101,8 +101,8 @@ object Form7: TForm7
     TabOrder = 5
   end
   object ACBrNFe1: TACBrNFe
-    Configuracoes.Geral.SSLLib = libNone
-    Configuracoes.Geral.SSLCryptLib = cryNone
+    Configuracoes.Geral.SSLLib = libCustom
+    Configuracoes.Geral.SSLCryptLib = cryWinCrypt
     Configuracoes.Geral.SSLHttpLib = httpNone
     Configuracoes.Geral.SSLXmlSignLib = xsNone
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'

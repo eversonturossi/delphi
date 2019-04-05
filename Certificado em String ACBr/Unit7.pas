@@ -62,7 +62,9 @@ begin
   ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
 
   LCertificadoBase64 := EncodeBase64(ACBrNFe1.Configuracoes.Certificados.DadosPFX); // uses  synacode
+  memo1.Lines.Clear;
   Memo1.Lines.Add(LCertificadoBase64);
+  memo1.Lines.SaveToFile('certificado.txt');
 
   ACBrNFe1.WebServices.StatusServico.Executar;
 
