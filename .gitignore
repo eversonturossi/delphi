@@ -9,3 +9,5 @@
 
 Win32
 Win64
+/TreeViewCheckRadio/*.stat
+*.stat
