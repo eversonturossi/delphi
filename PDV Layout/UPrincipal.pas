@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.WinXPanels;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls;
 
 type
   TForm7 = class(TForm)
@@ -12,10 +12,9 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
-    CardPanel1: TCardPanel;
-    Card1: TCard;
     Panel5: TPanel;
-    CardPanel2: TCardPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
   private
     { Private declarations }
   public

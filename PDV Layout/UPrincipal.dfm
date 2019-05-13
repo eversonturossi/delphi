@@ -23,9 +23,6 @@ object Form7: TForm7
     Color = 14941670
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 216
-    ExplicitTop = 152
-    ExplicitWidth = 185
   end
   object Panel2: TPanel
     Left = 0
@@ -37,9 +34,6 @@ object Form7: TForm7
     Color = 10282178
     ParentBackground = False
     TabOrder = 1
-    ExplicitLeft = 200
-    ExplicitTop = 336
-    ExplicitWidth = 185
   end
   object Panel3: TPanel
     Left = 0
@@ -51,10 +45,6 @@ object Form7: TForm7
     Color = 11949373
     ParentBackground = False
     TabOrder = 2
-    ExplicitLeft = 216
-    ExplicitTop = 224
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Panel4: TPanel
       Left = 0
       Top = 0
@@ -69,32 +59,20 @@ object Form7: TForm7
       Padding.Bottom = 15
       ParentBackground = False
       TabOrder = 0
-      object CardPanel1: TCardPanel
+      object Panel6: TPanel
         Left = 15
         Top = 15
         Width = 227
         Height = 581
         Align = alClient
-        ActiveCard = Card1
         BevelOuter = bvNone
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = -24
-        ExplicitTop = 208
-        ExplicitWidth = 300
-        ExplicitHeight = 200
-        object Card1: TCard
-          Left = 0
-          Top = 0
-          Width = 227
-          Height = 581
-          Caption = 'Card1'
-          CardIndex = 0
-          TabOrder = 0
-          ExplicitWidth = 185
-          ExplicitHeight = 41
-        end
+        ExplicitLeft = 40
+        ExplicitTop = 288
+        ExplicitWidth = 185
+        ExplicitHeight = 41
       end
     end
     object Panel5: TPanel
@@ -110,11 +88,9 @@ object Form7: TForm7
       Padding.Bottom = 15
       ParentBackground = False
       TabOrder = 1
-      ExplicitLeft = 384
-      ExplicitTop = 200
-      ExplicitWidth = 185
-      ExplicitHeight = 41
-      object CardPanel2: TCardPanel
+      ExplicitLeft = 263
+      ExplicitTop = -6
+      object Panel7: TPanel
         Left = 0
         Top = 15
         Width = 527
@@ -124,10 +100,10 @@ object Form7: TForm7
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 199
+        ExplicitLeft = 176
         ExplicitTop = 288
-        ExplicitWidth = 124
-        ExplicitHeight = 88
+        ExplicitWidth = 185
+        ExplicitHeight = 41
       end
     end
   end
