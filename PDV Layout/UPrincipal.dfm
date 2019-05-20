@@ -11,6 +11,8 @@ object Form7: TForm7
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -69,10 +71,17 @@ object Form7: TForm7
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 40
-        ExplicitTop = 288
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        object Panel9: TPanel
+          Left = 0
+          Top = 521
+          Width = 227
+          Height = 60
+          Align = alBottom
+          BevelOuter = bvNone
+          Color = 9803157
+          ParentBackground = False
+          TabOrder = 0
+        end
       end
     end
     object Panel5: TPanel
@@ -88,9 +97,7 @@ object Form7: TForm7
       Padding.Bottom = 15
       ParentBackground = False
       TabOrder = 1
-      ExplicitLeft = 263
-      ExplicitTop = -6
-      object Panel7: TPanel
+      object PanelProdutos: TPanel
         Left = 0
         Top = 15
         Width = 527
@@ -100,10 +107,17 @@ object Form7: TForm7
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 176
-        ExplicitTop = 288
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        object Panel8: TPanel
+          Left = 0
+          Top = 521
+          Width = 527
+          Height = 60
+          Align = alBottom
+          BevelOuter = bvNone
+          Color = 16744448
+          ParentBackground = False
+          TabOrder = 0
+        end
       end
     end
   end
