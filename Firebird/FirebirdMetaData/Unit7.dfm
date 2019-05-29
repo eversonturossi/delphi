@@ -1,9 +1,9 @@
-object FormPrincipal: TFormPrincipal
+object Form7: TForm7
   Left = 0
   Top = 0
-  Caption = 'FormPrincipal'
-  ClientHeight = 394
-  ClientWidth = 447
+  Caption = 'Form7'
+  ClientHeight = 299
+  ClientWidth = 635
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
