@@ -2,13 +2,13 @@ program FirebirdMetaData;
 
 uses
   Vcl.Forms,
-  Unit7 in 'Unit7.pas' {Form7};
+  Unit7 in 'Unit7.pas' {FormPrincipal};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TFormPrincipal, FormPrincipal);
   Application.Run;
 end.
