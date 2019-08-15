@@ -103,8 +103,10 @@ object FormPrincipal: TFormPrincipal
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'Listagem'
-      ExplicitWidth = 281
-      ExplicitHeight = 165
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object DBGrid1: TDBGrid
         Left = 0
         Top = 0
@@ -123,13 +125,15 @@ object FormPrincipal: TFormPrincipal
     object TabSheet2: TTabSheet
       Caption = 'Registro'
       ImageIndex = 1
-      ExplicitLeft = 3
-      ExplicitTop = 22
+      DesignSize = (
+        1088
+        574)
       object DBEdit1: TDBEdit
         Left = 12
         Top = 3
         Width = 1061
         Height = 21
+        Anchors = [akLeft, akTop, akRight]
         DataField = 'NAME'
         DataSource = DataSource1
         TabOrder = 0
@@ -139,6 +143,7 @@ object FormPrincipal: TFormPrincipal
         Top = 30
         Width = 1061
         Height = 531
+        Anchors = [akLeft, akTop, akRight, akBottom]
         DataField = 'SOURCE'
         DataSource = DataSource1
         TabOrder = 1
