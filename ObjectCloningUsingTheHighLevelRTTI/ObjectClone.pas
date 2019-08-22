@@ -4,7 +4,7 @@ interface
 
 type
   TObjectClone = record
-    class function From<T: class>(Source: T): T; static;
+    class function From<T: class>(ASource: T): T; static;
   end;
 
 implementation
@@ -12,51 +12,63 @@ implementation
 uses
   SysUtils, Classes, TypInfo, RTTI, Controls;
 
-class function TObjectClone.From<T>(Source: T): T;
+class function TObjectClone.From<T>(ASource: T): T;
 var
-  Context: TRttiContext;
-  IsComponent, LookOutForNameProp: Boolean;
-  RttiType: TRttiType;
-  Method: TRttiMethod;
-  MinVisibility: TMemberVisibility;
-  Params: TArray<TRttiParameter>;
-  Prop: TRttiProperty;
-  SourceAsPointer, ResultAsPointer: Pointer;
+  LContext: TRttiContext;
+  LisComponent, LLookOutForNameProp: Boolean;
+  LRttiType: TRttiType;
+  LMethod: TRttiMethod;
+  LMinVisibility: TMemberVisibility;
+  LParams: TArray<TRttiParameter>;
+  LProp: TRttiProperty;
+  LSourceAsPointer, LResultAsPointer: Pointer;
 begin
-  RttiType := Context.GetType(Source.ClassType);
+  LRttiType := LContext.GetType(ASource.ClassType);
+
   // find a suitable constructor, though treat components specially
-  IsComponent := (Source is TComponent);
-  for Method in RttiType.GetMethods do
-    if Method.IsConstructor then
+  LisComponent := (ASource is TComponent);
+  for LMethod in LRttiType.GetMethods do
+  begin
+    if LMethod.IsConstructor then
     begin
-      Params := Method.GetParameters;
-      if Params = nil then
+      LParams := LMethod.GetParameters;
+      if LParams = nil then
         Break;
-      if (Length(Params) = 1) and IsComponent and (Params[0].ParamType is TRttiInstanceType) and SameText(Method.Name, 'Create') then
+      if (Length(LParams) = 1) and LisComponent and (LParams[0].ParamType is TRttiInstanceType) and SameText(LMethod.Name, 'Create') then
         Break;
     end;
-  if Params = nil then
-    Result := Method.Invoke(Source.ClassType, []).AsType<T>
+  end;
+
+  if LParams = nil then
+    Result := LMethod.Invoke(ASource.ClassType, []).AsType<T>
   else
-    Result := Method.Invoke(Source.ClassType, [TComponent(Source).Owner]).AsType<T>;
+    Result := LMethod.Invoke(ASource.ClassType, [TComponent(ASource).Owner]).AsType<T>;
+
   try
     // many VCL control properties require the Parent property to be set first
-    if Source is TControl then
-      TControl(Result).Parent := TControl(Source).Parent;
+    if ASource is TControl then
+      TControl(Result).Parent := TControl(ASource).Parent;
+
     // loop through the props, copying values across for ones that are read/write
-    Move(Source, SourceAsPointer, SizeOf(Pointer));
-    Move(Result, ResultAsPointer, SizeOf(Pointer));
-    LookOutForNameProp := IsComponent and (TComponent(Source).Owner <> nil);
-    if IsComponent then
-      MinVisibility := mvPublished // an alternative is to build an exception list
+    Move(ASource, LSourceAsPointer, SizeOf(Pointer));
+    Move(Result, LResultAsPointer, SizeOf(Pointer));
+    LLookOutForNameProp := LisComponent and (TComponent(ASource).Owner <> nil);
+
+    if LisComponent then
+      LMinVisibility := mvPublished // an alternative is to build an exception list
     else
-      MinVisibility := mvPublic;
-    for Prop in RttiType.GetProperties do
-      if (Prop.Visibility >= MinVisibility) and Prop.IsReadable and Prop.IsWritable then
-        if LookOutForNameProp and (Prop.Name = 'Name') and (Prop.PropertyType is TRttiStringType) then
-          LookOutForNameProp := False
+      LMinVisibility := mvPublic;
+
+    for LProp in LRttiType.GetProperties do
+    begin
+      if (LProp.Visibility >= LMinVisibility) and LProp.IsReadable and LProp.IsWritable then
+      begin
+        if LLookOutForNameProp and (LProp.Name = 'Name') and (LProp.PropertyType is TRttiStringType) then
+          LLookOutForNameProp := False
         else
-          Prop.SetValue(ResultAsPointer, Prop.GetValue(SourceAsPointer));
+          LProp.SetValue(LResultAsPointer, LProp.GetValue(LSourceAsPointer));
+      end;
+    end;
   except
     Result.Free;
     raise;

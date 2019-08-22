@@ -18,8 +18,16 @@ object Form7: TForm7
     Top = 8
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = 'Clone-me!'
     TabOrder = 0
     OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 8
+    Top = 80
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 1
   end
 end
