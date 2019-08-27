@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, ACBrBase, ACBrDFe, ACBrNFe;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, ACBrBase, ACBrDFe, ACBrNFe,
+  UCertificadoPFX;
 
 type
   TForm7 = class(TForm)
@@ -14,17 +15,26 @@ type
     Label1: TLabel;
     Label2: TLabel;
     ButtonSelecionaCertificado: TButton;
-    OpenDialog1: TOpenDialog;
     ButtonConsultaStatus: TButton;
     MemoDados: TMemo;
     Memo1: TMemo;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    EditCertificadoCNPJ: TEdit;
+    EditCertificadoVencimento: TEdit;
+    EditCertificadoNumeroSerie: TEdit;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
     procedure ButtonSelecionaCertificadoClick(Sender: TObject);
     procedure ButtonConsultaStatusClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    FCertificado: TCertificadoPFX;
   public
+    property Certificado: TCertificadoPFX read FCertificado;
   end;
 
 var
@@ -33,42 +43,26 @@ var
 implementation
 
 uses
-  ACBrDFeConfiguracoes, ACBrDFeSSL, synautil, pcnConversao, synacode;
+  ACBrDFeConfiguracoes, ACBrDFeSSL, synautil, pcnConversao, synacode, ACBrUtil;
 
 {$R *.dfm}
 
-function GetCertificado(APFXFile: String): AnsiString;
-var
-  FS: TFileStream;
-begin
-  FS := TFileStream.Create(APFXFile, fmOpenRead);
-  try
-    Result := ReadStrFromStream(FS, FS.Size); // de USES no pacote synautil
-  finally
-    FS.Free;
-  end;
-end;
-
 procedure TForm7.ButtonConsultaStatusClick(Sender: TObject);
 var
-  LCertificadoBase64: AnsiString;
+  LCertificado: AnsiString;
 begin
+  LCertificado := DecodeBase64(FCertificado.DadosPFXBase64);
   ACBrNFe1.Configuracoes.Geral.SSLLib := libWinCrypt;
-  ACBrNFe1.Configuracoes.Certificados.DadosPFX := GetCertificado(EditCertificado.Text);
-  ACBrNFe1.Configuracoes.Certificados.Senha := EditSenha.Text;
+  ACBrNFe1.Configuracoes.Certificados.DadosPFX := LCertificado;
+  ACBrNFe1.Configuracoes.Certificados.Senha := FCertificado.Senha;
   ACBrNFe1.Configuracoes.Arquivos.PathSchemas := 'C:\ACBr\trunk2\Exemplos\ACBrDFe\Schemas\NFe';
 
   ACBrNFe1.Configuracoes.WebServices.UF := 'SC';
   ACBrNFe1.Configuracoes.WebServices.Ambiente := taHomologacao;
 
-  LCertificadoBase64 := EncodeBase64(ACBrNFe1.Configuracoes.Certificados.DadosPFX); // uses  synacode
-  memo1.Lines.Clear;
-  Memo1.Lines.Add(LCertificadoBase64);
-  memo1.Lines.SaveToFile('certificado.txt');
-
   ACBrNFe1.WebServices.StatusServico.Executar;
 
-  MemoDados.Lines.clear;
+  MemoDados.Lines.Clear;
   MemoDados.Lines.Add('');
   MemoDados.Lines.Add('Status Serviço');
   MemoDados.Lines.Add('tpAmb: ' + TpAmbToStr(ACBrNFe1.WebServices.StatusServico.tpAmb));
@@ -83,9 +77,32 @@ begin
 end;
 
 procedure TForm7.ButtonSelecionaCertificadoClick(Sender: TObject);
+var
+  LCertificadoBase64: AnsiString;
 begin
-  if OpenDialog1.Execute then
-    EditCertificado.Text := OpenDialog1.FileName;
+  EditCertificado.Text := FCertificado.Arquivo;
+  FCertificado.SelecionaArquivo;
+  FCertificado.Senha := EditSenha.Text;
+  FCertificado.CarregarCertificado;
+
+  EditCertificadoVencimento.Text := FormatDateBr(FCertificado.DataVencimento);
+  EditCertificadoCNPJ.Text := FCertificado.CNPJ;
+  EditCertificadoNumeroSerie.Text := FCertificado.NumeroSerie;
+
+  LCertificadoBase64 := EncodeBase64(FCertificado.DadosPFX); // uses  synacode
+  Memo1.Lines.Clear;
+  Memo1.Lines.Add(LCertificadoBase64);
+  // Memo1.Lines.SaveToFile('certificado.txt');
+end;
+
+procedure TForm7.FormCreate(Sender: TObject);
+begin
+  FCertificado := TCertificadoPFX.Create;
+end;
+
+procedure TForm7.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(FCertificado);
 end;
 
 end.

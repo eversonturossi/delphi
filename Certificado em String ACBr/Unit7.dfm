@@ -11,18 +11,20 @@ object Form7: TForm7
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 8
-    Top = 21
+    Top = 50
     Width = 96
     Height = 13
     Caption = 'Caminho Certificado'
   end
   object Label2: TLabel
     Left = 8
-    Top = 77
+    Top = 4
     Width = 30
     Height = 13
     Caption = 'Senha'
@@ -48,17 +50,38 @@ object Form7: TForm7
     Height = 13
     Caption = 'Resultado Consulta'
   end
+  object Label6: TLabel
+    Left = 576
+    Top = 8
+    Width = 55
+    Height = 13
+    Caption = 'Vencimento'
+  end
+  object Label7: TLabel
+    Left = 702
+    Top = 5
+    Width = 25
+    Height = 13
+    Caption = 'CNPJ'
+  end
+  object Label8: TLabel
+    Left = 576
+    Top = 61
+    Width = 79
+    Height = 13
+    Caption = 'N'#250'mero de S'#233'rie'
+  end
   object EditSenha: TEdit
     Left = 8
-    Top = 96
-    Width = 441
+    Top = 23
+    Width = 161
     Height = 21
     TabOrder = 0
     Text = 'EditSenha'
   end
   object EditCertificado: TEdit
     Left = 8
-    Top = 40
+    Top = 69
     Width = 441
     Height = 21
     TabOrder = 1
@@ -66,7 +89,7 @@ object Form7: TForm7
   end
   object ButtonSelecionaCertificado: TButton
     Left = 455
-    Top = 38
+    Top = 67
     Width = 25
     Height = 25
     Caption = '...'
@@ -74,8 +97,8 @@ object Form7: TForm7
     OnClick = ButtonSelecionaCertificadoClick
   end
   object ButtonConsultaStatus: TButton
-    Left = 80
-    Top = 136
+    Left = 8
+    Top = 158
     Width = 273
     Height = 25
     Caption = 'Consulta Status'
@@ -100,24 +123,41 @@ object Form7: TForm7
       'Memo1')
     TabOrder = 5
   end
+  object EditCertificadoCNPJ: TEdit
+    Left = 702
+    Top = 24
+    Width = 121
+    Height = 21
+    TabOrder = 6
+  end
+  object EditCertificadoVencimento: TEdit
+    Left = 575
+    Top = 24
+    Width = 121
+    Height = 21
+    TabOrder = 7
+  end
+  object EditCertificadoNumeroSerie: TEdit
+    Left = 575
+    Top = 80
+    Width = 248
+    Height = 21
+    TabOrder = 8
+  end
   object ACBrNFe1: TACBrNFe
     Configuracoes.Geral.SSLLib = libCustom
     Configuracoes.Geral.SSLCryptLib = cryWinCrypt
     Configuracoes.Geral.SSLHttpLib = httpNone
     Configuracoes.Geral.SSLXmlSignLib = xsNone
     Configuracoes.Geral.FormatoAlerta = 'TAG:%TAGNIVEL% ID:%ID%/%TAG%(%DESCRICAO%) - %MSG%.'
-    Configuracoes.Geral.VersaoDF = ve400
     Configuracoes.Geral.VersaoQRCode = veqr000
     Configuracoes.Arquivos.OrdenacaoPath = <>
     Configuracoes.WebServices.UF = 'SP'
     Configuracoes.WebServices.AguardarConsultaRet = 0
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.WebServices.SSLType = LT_TLSv1_2
-    Left = 264
-    Top = 320
-  end
-  object OpenDialog1: TOpenDialog
-    Left = 408
-    Top = 352
+    Configuracoes.RespTec.IdCSRT = 0
+    Left = 344
+    Top = 88
   end
 end

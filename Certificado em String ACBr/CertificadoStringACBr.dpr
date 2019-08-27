@@ -2,7 +2,8 @@ program CertificadoStringACBr;
 
 uses
   Vcl.Forms,
-  Unit7 in 'Unit7.pas' {Form7};
+  Unit7 in 'Unit7.pas' {Form7},
+  UCertificadoPFX in 'UCertificadoPFX.pas';
 
 {$R *.res}
 
