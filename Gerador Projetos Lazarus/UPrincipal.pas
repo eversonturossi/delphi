@@ -15,8 +15,8 @@ type
     procedure GerarUnit(AGuid: String);
     function GetFileName(AGuid: String): String;
     function GetDiretorio: String;
-    procedure WriteLnFmt(AArquivo: TextFile; ATexto: String; const AArgs: array of const); overload;
-    procedure WriteLnFmt(AArquivo: TextFile; ATexto: String); overload;
+    procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const); overload;
+    procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String); overload;
     procedure AdicionarProcedureLPR(AGuid: String);
     procedure AdicionarUnitLPI(AID: Int64; AGuid: String);
     procedure AdicionarUnitLPR(AID: Int64; AGuid: String);
@@ -37,7 +37,7 @@ var
 implementation
 
 uses
-  UGuid, Math;
+  UGUID, Math;
 
 {$R *.dfm}
 
@@ -54,12 +54,12 @@ begin
   Result := Result + 'UClasse' + AGuid + '.pas';
 end;
 
-procedure TForm7.WriteLnFmt(AArquivo: TextFile; ATexto: String);
+procedure TForm7.WriteLnFmt(const AArquivo: TextFile; ATexto: String);
 begin
   Writeln(AArquivo, ATexto);
 end;
 
-procedure TForm7.WriteLnFmt(AArquivo: TextFile; ATexto: String; const AArgs: array of const);
+procedure TForm7.WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const);
 begin
   Writeln(AArquivo, Format(ATexto, AArgs));
 end;
@@ -74,23 +74,23 @@ begin
   try
     AssignFile(LArquivoUnit, GetFileName(AGuid));
     Rewrite(LArquivoUnit);
-    WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', AGuid);
+    WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, '{$mode objfpc}{$H+}');
     WriteLnFmt(LArquivoUnit, 'interface');
     WriteLnFmt(LArquivoUnit, 'uses');
     WriteLnFmt(LArquivoUnit, '  Classes, SysUtils;');
-    WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', AGuid);
+    WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, 'implementation');
-    WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', AGuid);
+    WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, 'var');
     WriteLnFmt(LArquivoUnit, '  LTextFile: TextFile;');
     WriteLnFmt(LArquivoUnit, 'begin');
-    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, %S.txt);', AGuid);
+    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, %S.txt);', [AGuid]);
     WriteLnFmt(LArquivoUnit, '  Rewrite(LTextFile);');
     for I := 0 to Pred(LRandom) do
     begin
       LGuid := GuidCreate38;
-      WriteLnFmt(LArquivoUnit, '  Writeln(LTextFile, %S)', LGuid);
+      WriteLnFmt(LArquivoUnit, '  Writeln(LTextFile, %S)', [LGuid]);
     end;
     WriteLnFmt(LArquivoUnit, '  CloseFile(LTextFile);');
     WriteLnFmt(LArquivoUnit, 'end;');
@@ -102,11 +102,11 @@ end;
 
 procedure TForm7.AdicionarUnitLPI(AID: Int64; AGuid: String);
 begin
-  WriteLnFmt(FArquivoLPI, '<Unit%D>', AID);
-  WriteLnFmt(FArquivoLPI, '<Filename Value="uclasse%S.pas"/>', AGuid);
+  WriteLnFmt(FArquivoLPI, '<Unit%D>', [AID]);
+  WriteLnFmt(FArquivoLPI, '<Filename Value="uclasse%S.pas"/>', [AGuid]);
   WriteLnFmt(FArquivoLPI, '<IsPartOfProject Value="True"/>');
-  WriteLnFmt(FArquivoLPI, '<UnitName Value="UClasse%S"/>', AGuid);
-  WriteLnFmt(FArquivoLPI, '</Unit%D>', AID);
+  WriteLnFmt(FArquivoLPI, '<UnitName Value="UClasse%S"/>', [AGuid]);
+  WriteLnFmt(FArquivoLPI, '</Unit%D>', [AID]);
 end;
 
 procedure TForm7.AdicionarUnitLPR(AID: Int64; AGuid: String);
@@ -116,14 +116,14 @@ end;
 
 procedure TForm7.AdicionarUnitLPS(AID: Int64; AGuid: String);
 begin
-  WriteLnFmt(FArquivoLPS, '<Unit%D>', AID);
-  WriteLnFmt(FArquivoLPS, '<Filename Value="uclasse%S.pas"/>', AGuid);
+  WriteLnFmt(FArquivoLPS, '<Unit%D>', [AID]);
+  WriteLnFmt(FArquivoLPS, '<Filename Value="uclasse%S.pas"/>', [AGuid]);
   WriteLnFmt(FArquivoLPS, '<IsPartOfProject Value="True"/>');
-  WriteLnFmt(FArquivoLPS, '<UnitName Value="UClasse%S"/>', AGuid);
-  WriteLnFmt(FArquivoLPS, '<EditorIndex Value="%D"/>', AID);
+  WriteLnFmt(FArquivoLPS, '<UnitName Value="UClasse%S"/>', [AGuid]);
+  WriteLnFmt(FArquivoLPS, '<EditorIndex Value="%D"/>', [AID]);
   WriteLnFmt(FArquivoLPS, '<UsageCount Value="20"/>');
   WriteLnFmt(FArquivoLPS, '<Loaded Value="True"/>');
-  WriteLnFmt(FArquivoLPS, '</Unit%D>', AID);
+  WriteLnFmt(FArquivoLPS, '</Unit%D>', [AID]);
 end;
 
 procedure TForm7.AdicionarProcedureLPR(AGuid: String);
