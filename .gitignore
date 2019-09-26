@@ -10,3 +10,4 @@
 Win32
 Win64
 *.stat
+/Gerador Projetos Lazarus/src
