@@ -100,7 +100,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="UPrincipal.pas">
-            <Form>Form7</Form>
+            <Form>FormGerador</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UGUID.pas"/>

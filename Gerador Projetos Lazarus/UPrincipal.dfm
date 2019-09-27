@@ -1,7 +1,7 @@
-object Form7: TForm7
+object FormGerador: TFormGerador
   Left = 0
   Top = 0
-  Caption = 'Form7'
+  Caption = 'Gerador Projetos'
   ClientHeight = 115
   ClientWidth = 252
   Color = clBtnFace
@@ -62,7 +62,7 @@ object Form7: TForm7
     OnClick = ButtonGerarClick
   end
   object SpinEditClasses: TSpinEdit
-    Left = 8
+    Left = 9
     Top = 32
     Width = 73
     Height = 22
@@ -79,7 +79,7 @@ object Form7: TForm7
     MaxValue = 0
     MinValue = 0
     TabOrder = 2
-    Value = 1
+    Value = 100
   end
   object SpinEditLinhaMax: TSpinEdit
     Left = 167

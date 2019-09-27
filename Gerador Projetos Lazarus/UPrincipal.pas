@@ -8,7 +8,7 @@ uses
   Vcl.ComCtrls;
 
 type
-  TForm7 = class(TForm)
+  TFormGerador = class(TForm)
     ButtonGerar: TButton;
     SpinEditClasses: TSpinEdit;
     Label1: TLabel;
@@ -40,15 +40,17 @@ type
     procedure GerarDPR(ALista: TStringList);
     procedure AdicionarUnitDPR(AID, ATotal: Integer; AGuid: String);
     procedure AdicionarProcedureDPR(AGuid: String);
+    procedure GerarDPROJ(ALista: TStringList);
   public
     FArquivoLPI: TextFile;
     FArquivoLPR: TextFile;
     FArquivoLPS: TextFile;
     FArquivoDPR: TextFile;
+    FArquivoDPROJ: TextFile;
   end;
 
 var
-  Form7: TForm7;
+  FormGerador: TFormGerador;
 
 implementation
 
@@ -80,14 +82,14 @@ begin
   end;
 end;
 
-function TForm7.GetDiretorioProjeto: String;
+function TFormGerador.GetDiretorioProjeto: String;
 begin
   Result := ExtractFilePath(ParamStr(0));
   Result := IncludeTrailingBackslash(Result);
   Result := Result + 'projeto\';
 end;
 
-function TForm7.GetDiretorioUnit(AGuid: String): String;
+function TFormGerador.GetDiretorioUnit(AGuid: String): String;
 begin
   Result := GetDiretorioProjeto;
   Result := Result + 'src\';
@@ -95,7 +97,7 @@ begin
   Result := Result + '\';
 end;
 
-function TForm7.GetDiretorioTXT(AGuid: String): String;
+function TFormGerador.GetDiretorioTXT(AGuid: String): String;
 begin
   Result := ExtractFilePath(ParamStr(0));
   Result := IncludeTrailingBackslash(Result);
@@ -103,23 +105,23 @@ begin
   Result := Result + GetGuid2(AGuid) + '\';
 end;
 
-function TForm7.GetFileName(AGuid: String): String;
+function TFormGerador.GetFileName(AGuid: String): String;
 begin
   Result := GetDiretorioUnit(AGuid);
   Result := Result + 'UClasse' + AGuid + '.pas';
 end;
 
-procedure TForm7.WriteLnFmt(const AArquivo: TextFile; ATexto: String);
+procedure TFormGerador.WriteLnFmt(const AArquivo: TextFile; ATexto: String);
 begin
   Writeln(AArquivo, ATexto);
 end;
 
-procedure TForm7.WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const);
+procedure TFormGerador.WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const);
 begin
   Writeln(AArquivo, Format(ATexto, AArgs));
 end;
 
-procedure TForm7.GerarUnit(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
+procedure TFormGerador.GerarUnit(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
 var
   LArquivoUnit: TextFile;
   I: Integer;
@@ -133,10 +135,14 @@ begin
     AssignFile(LArquivoUnit, GetFileName(AGuid));
     Rewrite(LArquivoUnit);
     WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
-    // WriteLnFmt(LArquivoUnit, '{$mode objfpc}{$H+}');
+    WriteLnFmt(LArquivoUnit, '{$IFDEF FPC}{$mode objfpc}{$H+}{$ENDIF}');
     WriteLnFmt(LArquivoUnit, 'interface');
     WriteLnFmt(LArquivoUnit, 'uses');
+    WriteLnFmt(LArquivoUnit, '{$IFDEF FPC}');
     WriteLnFmt(LArquivoUnit, '  Classes, SysUtils;');
+    WriteLnFmt(LArquivoUnit, '{$ELSE}');
+    WriteLnFmt(LArquivoUnit, '  System.Classes, System.SysUtils;');
+    WriteLnFmt(LArquivoUnit, '{$ENDIF}');
     WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, 'implementation');
     WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
@@ -160,7 +166,7 @@ begin
   end;
 end;
 
-procedure TForm7.AdicionarUnitLPI(AID: Integer; AGuid: String);
+procedure TFormGerador.AdicionarUnitLPI(AID: Integer; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPI, '      <Unit%D>', [AID]);
   WriteLnFmt(FArquivoLPI, '        <Filename Value="src\%S\uclasse%S.pas"/>', [GetGuid2(AGuid), AnsiLowerCase(AGuid)]);
@@ -169,7 +175,7 @@ begin
   WriteLnFmt(FArquivoLPI, '      </Unit%D>', [AID]);
 end;
 
-procedure TForm7.AdicionarUnitLPR(AID, ATotal: Integer; AGuid: String);
+procedure TFormGerador.AdicionarUnitLPR(AID, ATotal: Integer; AGuid: String);
 begin
   if ((AID + 1) < ATotal) then
     WriteLnFmt(FArquivoLPR, '  UClasse%S,', [AGuid])
@@ -177,24 +183,24 @@ begin
     WriteLnFmt(FArquivoLPR, '  UClasse%S;', [AGuid]);
 end;
 
-procedure TForm7.AdicionarUnitLPS(AID: Integer; AGuid: String);
+procedure TFormGerador.AdicionarUnitLPS(AID: Integer; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPS, '      <Unit%D>', [AID]);
   WriteLnFmt(FArquivoLPS, '        <Filename Value="src\%S\uclasse%S.pas"/>', [GetGuid2(AGuid), AGuid]);
   WriteLnFmt(FArquivoLPS, '        <IsPartOfProject Value="True"/>');
   WriteLnFmt(FArquivoLPS, '        <UnitName Value="UClasse%S"/>', [AGuid]);
-  WriteLnFmt(FArquivoLPS, '        <EditorIndex Value="%D"/>', [AID]);
+  WriteLnFmt(FArquivoLPS, '        <EditorIndex Value="-1"/>');
   WriteLnFmt(FArquivoLPS, '        <UsageCount Value="20"/>');
   WriteLnFmt(FArquivoLPS, '        <Loaded Value="True"/>');
   WriteLnFmt(FArquivoLPS, '      </Unit%D>', [AID]);
 end;
 
-procedure TForm7.AdicionarProcedureLPR(AGuid: String);
+procedure TFormGerador.AdicionarProcedureLPR(AGuid: String);
 begin
   WriteLnFmt(FArquivoLPR, '  Procedure%S;', [AGuid]);
 end;
 
-function TForm7.GetCaminhoUnidade(ALista: TStringList): String;
+function TFormGerador.GetCaminhoUnidade(ALista: TStringList): String;
 var
   I: Integer;
   LLista: TStringList;
@@ -220,7 +226,7 @@ begin
 
 end;
 
-procedure TForm7.GerarLPI(ALista: TStringList);
+procedure TFormGerador.GerarLPI(ALista: TStringList);
 var
   I: Integer;
 begin
@@ -291,7 +297,7 @@ begin
   WriteLnFmt(FArquivoLPI, '</CONFIG>');
 end;
 
-procedure TForm7.GerarLPR(ALista: TStringList);
+procedure TFormGerador.GerarLPR(ALista: TStringList);
 var
   I: Integer;
 begin
@@ -314,7 +320,7 @@ begin
   WriteLnFmt(FArquivoLPR, 'end.');
 end;
 
-procedure TForm7.GerarLPS(ALista: TStringList);
+procedure TFormGerador.GerarLPS(ALista: TStringList);
 var
   I: Integer;
 begin
@@ -344,12 +350,12 @@ begin
   WriteLnFmt(FArquivoLPS, '</CONFIG>');
 end;
 
-procedure TForm7.AdicionarProcedureDPR(AGuid: String);
+procedure TFormGerador.AdicionarProcedureDPR(AGuid: String);
 begin
   WriteLnFmt(FArquivoDPR, '    Procedure%S;', [AGuid]);
 end;
 
-procedure TForm7.AdicionarUnitDPR(AID, ATotal: Integer; AGuid: String);
+procedure TFormGerador.AdicionarUnitDPR(AID, ATotal: Integer; AGuid: String);
 begin
   if ((AID + 1) < ATotal) then
     WriteLnFmt(FArquivoDPR, '  UClasse%S in ''src\%S\UClasse%S.pas'',', [AGuid, GetGuid2(AGuid), AGuid])
@@ -357,7 +363,7 @@ begin
     WriteLnFmt(FArquivoDPR, '  UClasse%S in ''src\%S\UClasse%S.pas'';', [AGuid, GetGuid2(AGuid), AGuid]);
 end;
 
-procedure TForm7.GerarDPR(ALista: TStringList);
+procedure TFormGerador.GerarDPR(ALista: TStringList);
 var
   I: Integer;
 begin
@@ -386,7 +392,27 @@ begin
   WriteLnFmt(FArquivoDPR, 'end.');
 end;
 
-procedure TForm7.InicializarArquivos;
+procedure TFormGerador.GerarDPROJ(ALista: TStringList);
+begin
+  WriteLnFmt(FArquivoDPROJ, '<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">');
+  WriteLnFmt(FArquivoDPROJ, '    <PropertyGroup>');
+  WriteLnFmt(FArquivoDPROJ, '        <ProjectGuid>{8B124B4E-6DE2-4244-A934-A1597AAED7CA}</ProjectGuid>');
+  WriteLnFmt(FArquivoDPROJ, '        <ProjectVersion>18.3</ProjectVersion>');
+  WriteLnFmt(FArquivoDPROJ, '        <FrameworkType>None</FrameworkType>');
+  WriteLnFmt(FArquivoDPROJ, '        <MainSource>project1.dpr</MainSource>');
+  WriteLnFmt(FArquivoDPROJ, '        <Base>True</Base>');
+  WriteLnFmt(FArquivoDPROJ, '        <Config Condition="''$(Config)''==''''">Debug</Config>');
+  WriteLnFmt(FArquivoDPROJ, '        <Platform Condition="''$(Platform)''==''''">Win32</Platform>');
+  WriteLnFmt(FArquivoDPROJ, '        <TargetedPlatforms>1</TargetedPlatforms>');
+  WriteLnFmt(FArquivoDPROJ, '        <AppType>Console</AppType>');
+  WriteLnFmt(FArquivoDPROJ, '    </PropertyGroup>');
+  WriteLnFmt(FArquivoDPROJ, '    <PropertyGroup Condition="''$(Config)''==''Base'' or ''$(Base)''!=''''">');
+  WriteLnFmt(FArquivoDPROJ, '        <Base>true</Base>');
+  WriteLnFmt(FArquivoDPROJ, '    </PropertyGroup>');
+  WriteLnFmt(FArquivoDPROJ, '</Project>');
+end;
+
+procedure TFormGerador.InicializarArquivos;
 begin
   AssignFile(FArquivoLPI, GetDiretorioProjeto + 'project1.lpi');
   Rewrite(FArquivoLPI);
@@ -399,17 +425,21 @@ begin
 
   AssignFile(FArquivoDPR, GetDiretorioProjeto + 'project1.dpr');
   Rewrite(FArquivoDPR);
+
+  AssignFile(FArquivoDPROJ, GetDiretorioProjeto + 'project1.dproj');
+  Rewrite(FArquivoDPROJ);
 end;
 
-procedure TForm7.FinicializarArquivos;
+procedure TFormGerador.FinicializarArquivos;
 begin
   CloseFile(FArquivoLPI);
   CloseFile(FArquivoLPR);
   CloseFile(FArquivoLPS);
   CloseFile(FArquivoDPR);
+  CloseFile(FArquivoDPROJ);
 end;
 
-procedure TForm7.Gerar(AQuantidadeClasse, AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
+procedure TFormGerador.Gerar(AQuantidadeClasse, AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
 var
   I: Integer;
   LGuid: String;
@@ -427,18 +457,20 @@ begin
       GerarUnit(LGuid, AQuantidadeLinhaMin, AQuantidadeLinhaMax);
       ProgressBar1.StepBy(1);
     end;
+    FLista.Sort;
     InicializarArquivos;
     GerarLPI(FLista);
     GerarLPR(FLista);
     GerarLPS(FLista);
     GerarDPR(FLista);
+    GerarDPROJ(FLista);
   finally
     FinicializarArquivos;
     FreeAndNil(FLista);
   end;
 end;
 
-procedure TForm7.ButtonGerarClick(Sender: TObject);
+procedure TFormGerador.ButtonGerarClick(Sender: TObject);
 begin
   TButton(Sender).Enabled := False;
   Application.ProcessMessages;

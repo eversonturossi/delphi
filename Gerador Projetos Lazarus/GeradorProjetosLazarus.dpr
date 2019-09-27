@@ -2,7 +2,7 @@ program GeradorProjetosLazarus;
 
 uses
   Vcl.Forms,
-  UPrincipal in 'UPrincipal.pas' {Form7},
+  UPrincipal in 'UPrincipal.pas' {FormGerador},
   UGUID in 'UGUID.pas';
 
 {$R *.res}
@@ -10,6 +10,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm7, Form7);
+  Application.CreateForm(TFormGerador, FormGerador);
   Application.Run;
 end.
