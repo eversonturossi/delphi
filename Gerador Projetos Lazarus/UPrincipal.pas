@@ -456,6 +456,8 @@ begin
       FLista.add(LGuid);
       GerarUnit(LGuid, AQuantidadeLinhaMin, AQuantidadeLinhaMax);
       ProgressBar1.StepBy(1);
+      if (I mod 10 = 0) then
+        Application.ProcessMessages;
     end;
     FLista.Sort;
     InicializarArquivos;
