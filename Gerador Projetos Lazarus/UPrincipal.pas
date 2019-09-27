@@ -4,25 +4,32 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Samples.Spin;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Samples.Spin,
+  Vcl.ComCtrls;
 
 type
   TForm7 = class(TForm)
     ButtonGerar: TButton;
-    SpinEditQuantidade: TSpinEdit;
+    SpinEditClasses: TSpinEdit;
+    Label1: TLabel;
+    SpinEditLinhaMin: TSpinEdit;
+    Label2: TLabel;
+    SpinEditLinhaMax: TSpinEdit;
+    Label3: TLabel;
+    ProgressBar1: TProgressBar;
     procedure ButtonGerarClick(Sender: TObject);
   private
-    procedure GerarUnit(AGuid: String);
+    procedure GerarUnit(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
     function GetFileName(AGuid: String): String;
     function GetDiretorioProjeto: String; overload;
     function GetDiretorioUnit(AGuid: String): String; overload;
     procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const); overload;
     procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String); overload;
     procedure AdicionarProcedureLPR(AGuid: String);
-    procedure AdicionarUnitLPI(AID: Int64; AGuid: String);
-    procedure AdicionarUnitLPR(AID, ATotal: Int64; AGuid: String);
-    procedure AdicionarUnitLPS(AID: Int64; AGuid: String);
-    procedure Gerar(AQuantidade: Int64);
+    procedure AdicionarUnitLPI(AID: Integer; AGuid: String);
+    procedure AdicionarUnitLPR(AID, ATotal: Integer; AGuid: String);
+    procedure AdicionarUnitLPS(AID: Integer; AGuid: String);
+    procedure Gerar(AQuantidadeClasse, AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
     procedure GerarLPI(ALista: TStringList);
     procedure GerarLPR(ALista: TStringList);
     procedure GerarLPS(ALista: TStringList);
@@ -31,7 +38,7 @@ type
     function GetCaminhoUnidade(ALista: TStringList): String;
     function GetDiretorioTXT(AGuid: String): String;
     procedure GerarDPR(ALista: TStringList);
-    procedure AdicionarUnitDPR(AID, ATotal: Int64; AGuid: String);
+    procedure AdicionarUnitDPR(AID, ATotal: Integer; AGuid: String);
     procedure AdicionarProcedureDPR(AGuid: String);
   public
     FArquivoLPI: TextFile;
@@ -112,14 +119,14 @@ begin
   Writeln(AArquivo, Format(ATexto, AArgs));
 end;
 
-procedure TForm7.GerarUnit(AGuid: String);
+procedure TForm7.GerarUnit(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
 var
   LArquivoUnit: TextFile;
-  I: Int64;
+  I: Integer;
   LLinhas: Integer;
   LGuid, ADiterorioTXT: String;
 begin
-  LLinhas := RandomRange(1, 10000);
+  LLinhas := RandomRange(AQuantidadeLinhaMin, AQuantidadeLinhaMax);
   ADiterorioTXT := GetDiretorioTXT(AGuid);
   try
     ForceDirectories(GetDiretorioUnit(AGuid));
@@ -153,7 +160,7 @@ begin
   end;
 end;
 
-procedure TForm7.AdicionarUnitLPI(AID: Int64; AGuid: String);
+procedure TForm7.AdicionarUnitLPI(AID: Integer; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPI, '      <Unit%D>', [AID]);
   WriteLnFmt(FArquivoLPI, '        <Filename Value="src\%S\uclasse%S.pas"/>', [GetGuid2(AGuid), AnsiLowerCase(AGuid)]);
@@ -162,7 +169,7 @@ begin
   WriteLnFmt(FArquivoLPI, '      </Unit%D>', [AID]);
 end;
 
-procedure TForm7.AdicionarUnitLPR(AID, ATotal: Int64; AGuid: String);
+procedure TForm7.AdicionarUnitLPR(AID, ATotal: Integer; AGuid: String);
 begin
   if ((AID + 1) < ATotal) then
     WriteLnFmt(FArquivoLPR, '  UClasse%S,', [AGuid])
@@ -170,7 +177,7 @@ begin
     WriteLnFmt(FArquivoLPR, '  UClasse%S;', [AGuid]);
 end;
 
-procedure TForm7.AdicionarUnitLPS(AID: Int64; AGuid: String);
+procedure TForm7.AdicionarUnitLPS(AID: Integer; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPS, '      <Unit%D>', [AID]);
   WriteLnFmt(FArquivoLPS, '        <Filename Value="src\%S\uclasse%S.pas"/>', [GetGuid2(AGuid), AGuid]);
@@ -189,7 +196,7 @@ end;
 
 function TForm7.GetCaminhoUnidade(ALista: TStringList): String;
 var
-  I: Int64;
+  I: Integer;
   LLista: TStringList;
 begin
   Result := '';
@@ -215,7 +222,7 @@ end;
 
 procedure TForm7.GerarLPI(ALista: TStringList);
 var
-  I: Int64;
+  I: Integer;
 begin
   WriteLnFmt(FArquivoLPI, '<?xml version="1.0" encoding="UTF-8"?>');
   WriteLnFmt(FArquivoLPI, '<CONFIG>');
@@ -286,7 +293,7 @@ end;
 
 procedure TForm7.GerarLPR(ALista: TStringList);
 var
-  I: Int64;
+  I: Integer;
 begin
   WriteLnFmt(FArquivoLPR, 'program project1;');
   WriteLnFmt(FArquivoLPR, '');
@@ -309,7 +316,7 @@ end;
 
 procedure TForm7.GerarLPS(ALista: TStringList);
 var
-  I: Int64;
+  I: Integer;
 begin
   WriteLnFmt(FArquivoLPS, '<?xml version="1.0" encoding="UTF-8"?>');
   WriteLnFmt(FArquivoLPS, '<CONFIG>');
@@ -342,7 +349,7 @@ begin
   WriteLnFmt(FArquivoDPR, '    Procedure%S;', [AGuid]);
 end;
 
-procedure TForm7.AdicionarUnitDPR(AID, ATotal: Int64; AGuid: String);
+procedure TForm7.AdicionarUnitDPR(AID, ATotal: Integer; AGuid: String);
 begin
   if ((AID + 1) < ATotal) then
     WriteLnFmt(FArquivoDPR, '  UClasse%S in ''src\%S\UClasse%S.pas'',', [AGuid, GetGuid2(AGuid), AGuid])
@@ -352,7 +359,7 @@ end;
 
 procedure TForm7.GerarDPR(ALista: TStringList);
 var
-  I: Int64;
+  I: Integer;
 begin
   WriteLnFmt(FArquivoDPR, 'program Project7;');
   WriteLnFmt(FArquivoDPR, '{$APPTYPE CONSOLE}');
@@ -402,7 +409,7 @@ begin
   CloseFile(FArquivoDPR);
 end;
 
-procedure TForm7.Gerar(AQuantidade: Int64);
+procedure TForm7.Gerar(AQuantidadeClasse, AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
 var
   I: Integer;
   LGuid: String;
@@ -411,11 +418,14 @@ begin
   FLista := TStringList.Create;
   try
     ForceDirectories(GetDiretorioProjeto());
-    for I := 0 to Pred(AQuantidade) do
+    ProgressBar1.Max := AQuantidadeClasse;
+    ProgressBar1.Position := 0;
+    for I := 0 to Pred(AQuantidadeClasse) do
     begin
       LGuid := GuidCreate32;
       FLista.add(LGuid);
-      GerarUnit(LGuid);
+      GerarUnit(LGuid, AQuantidadeLinhaMin, AQuantidadeLinhaMax);
+      ProgressBar1.StepBy(1);
     end;
     InicializarArquivos;
     GerarLPI(FLista);
@@ -433,7 +443,7 @@ begin
   TButton(Sender).Enabled := False;
   Application.ProcessMessages;
   try
-    Self.Gerar(SpinEditQuantidade.Value);
+    Self.Gerar(SpinEditClasses.Value, SpinEditLinhaMin.Value, SpinEditLinhaMax.Value);
   finally
     TButton(Sender).Enabled := True;
   end;
