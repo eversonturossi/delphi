@@ -30,10 +30,14 @@ type
     procedure InicializarArquivos;
     function GetCaminhoUnidade(ALista: TStringList): String;
     function GetDiretorioTXT(AGuid: String): String;
+    procedure GerarDPR(ALista: TStringList);
+    procedure AdicionarUnitDPR(AID, ATotal: Int64; AGuid: String);
+    procedure AdicionarProcedureDPR(AGuid: String);
   public
     FArquivoLPI: TextFile;
     FArquivoLPR: TextFile;
     FArquivoLPS: TextFile;
+    FArquivoDPR: TextFile;
   end;
 
 var
@@ -115,14 +119,14 @@ var
   LLinhas: Integer;
   LGuid, ADiterorioTXT: String;
 begin
-  LLinhas := RandomRange(1, 1000);
+  LLinhas := RandomRange(1, 10000);
   ADiterorioTXT := GetDiretorioTXT(AGuid);
   try
     ForceDirectories(GetDiretorioUnit(AGuid));
     AssignFile(LArquivoUnit, GetFileName(AGuid));
     Rewrite(LArquivoUnit);
     WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
-    WriteLnFmt(LArquivoUnit, '{$mode objfpc}{$H+}');
+    // WriteLnFmt(LArquivoUnit, '{$mode objfpc}{$H+}');
     WriteLnFmt(LArquivoUnit, 'interface');
     WriteLnFmt(LArquivoUnit, 'uses');
     WriteLnFmt(LArquivoUnit, '  Classes, SysUtils;');
@@ -287,12 +291,19 @@ begin
   WriteLnFmt(FArquivoLPR, 'program project1;');
   WriteLnFmt(FArquivoLPR, '');
   WriteLnFmt(FArquivoLPR, 'uses');
+  WriteLnFmt(FArquivoLPR, '  SysUtils,');
   for I := 0 to Pred(ALista.Count) do
     AdicionarUnitLPR(I, ALista.Count, ALista[I]);
   WriteLnFmt(FArquivoLPR, '');
+  WriteLnFmt(FArquivoLPR, 'var');
+  WriteLnFmt(FArquivoLPR, '  FTempoInicio, FTempoFim: TTime;');
   WriteLnFmt(FArquivoLPR, 'begin');
+  WriteLnFmt(FArquivoLPR, '  FTempoInicio := Now;');
   for I := 0 to Pred(ALista.Count) do
     AdicionarProcedureLPR(ALista[I]);
+  WriteLnFmt(FArquivoLPR, '  FTempoFim := Now;');
+  WriteLnFmt(FArquivoLPR, '  Writeln(''Tempo de Execucao: '' + FormatDateTime(''hh:nn:ss-zzz'', FTempoFim - FTempoInicio));');
+  WriteLnFmt(FArquivoLPR, '  ReadLn;');
   WriteLnFmt(FArquivoLPR, 'end.');
 end;
 
@@ -326,6 +337,48 @@ begin
   WriteLnFmt(FArquivoLPS, '</CONFIG>');
 end;
 
+procedure TForm7.AdicionarProcedureDPR(AGuid: String);
+begin
+  WriteLnFmt(FArquivoDPR, '    Procedure%S;', [AGuid]);
+end;
+
+procedure TForm7.AdicionarUnitDPR(AID, ATotal: Int64; AGuid: String);
+begin
+  if ((AID + 1) < ATotal) then
+    WriteLnFmt(FArquivoDPR, '  UClasse%S in ''src\%S\UClasse%S.pas'',', [AGuid, GetGuid2(AGuid), AGuid])
+  else
+    WriteLnFmt(FArquivoDPR, '  UClasse%S in ''src\%S\UClasse%S.pas'';', [AGuid, GetGuid2(AGuid), AGuid]);
+end;
+
+procedure TForm7.GerarDPR(ALista: TStringList);
+var
+  I: Int64;
+begin
+  WriteLnFmt(FArquivoDPR, 'program Project7;');
+  WriteLnFmt(FArquivoDPR, '{$APPTYPE CONSOLE}');
+  // WriteLnFmt(FArquivoDPR, '{$R *.res}');
+  WriteLnFmt(FArquivoDPR, 'uses');
+  WriteLnFmt(FArquivoDPR, '  System.SysUtils,');
+  for I := 0 to Pred(ALista.Count) do
+    AdicionarUnitDPR(I, ALista.Count, ALista[I]);
+  WriteLnFmt(FArquivoDPR, 'var');
+  WriteLnFmt(FArquivoDPR, '  FTempoInicio, FTempoFim: TTime;');
+  WriteLnFmt(FArquivoDPR, 'begin');
+  WriteLnFmt(FArquivoDPR, '  FTempoInicio := Now;');
+  WriteLnFmt(FArquivoDPR, '  try');
+  WriteLnFmt(FArquivoDPR, '    { TODO -oUser -cConsole Main : Insert code here }');
+  for I := 0 to Pred(ALista.Count) do
+    AdicionarProcedureDPR(ALista[I]);
+  WriteLnFmt(FArquivoDPR, '    FTempoFim := Now;');
+  WriteLnFmt(FArquivoDPR, '    Writeln(''Tempo de Execucao: '' + FormatDateTime(''hh:nn:ss-zzz'', FTempoFim - FTempoInicio));');
+  WriteLnFmt(FArquivoDPR, '    ReadLN;');
+  WriteLnFmt(FArquivoDPR, '  except');
+  WriteLnFmt(FArquivoDPR, '    on E: Exception do');
+  WriteLnFmt(FArquivoDPR, '      Writeln(E.ClassName, '': '', E.Message);');
+  WriteLnFmt(FArquivoDPR, '  end;');
+  WriteLnFmt(FArquivoDPR, 'end.');
+end;
+
 procedure TForm7.InicializarArquivos;
 begin
   AssignFile(FArquivoLPI, GetDiretorioProjeto + 'project1.lpi');
@@ -336,6 +389,9 @@ begin
 
   AssignFile(FArquivoLPS, GetDiretorioProjeto + 'project1.lps');
   Rewrite(FArquivoLPS);
+
+  AssignFile(FArquivoDPR, GetDiretorioProjeto + 'project1.dpr');
+  Rewrite(FArquivoDPR);
 end;
 
 procedure TForm7.FinicializarArquivos;
@@ -343,6 +399,7 @@ begin
   CloseFile(FArquivoLPI);
   CloseFile(FArquivoLPR);
   CloseFile(FArquivoLPS);
+  CloseFile(FArquivoDPR);
 end;
 
 procedure TForm7.Gerar(AQuantidade: Int64);
@@ -360,11 +417,11 @@ begin
       FLista.add(LGuid);
       GerarUnit(LGuid);
     end;
-
     InicializarArquivos;
     GerarLPI(FLista);
     GerarLPR(FLista);
     GerarLPS(FLista);
+    GerarDPR(FLista);
   finally
     FinicializarArquivos;
     FreeAndNil(FLista);
