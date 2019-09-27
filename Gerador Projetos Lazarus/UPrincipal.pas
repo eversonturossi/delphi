@@ -101,7 +101,7 @@ function TFormGerador.GetDiretorioTXT(AGuid: String): String;
 begin
   Result := ExtractFilePath(ParamStr(0));
   Result := IncludeTrailingBackslash(Result);
-  Result := Result + 'projeto\TXT\';
+  Result := Result + 'projeto\txt\';
   Result := Result + GetGuid2(AGuid) + '\';
 end;
 
@@ -135,16 +135,22 @@ begin
     AssignFile(LArquivoUnit, GetFileName(AGuid));
     Rewrite(LArquivoUnit);
     WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, '{$IFDEF FPC}{$mode objfpc}{$H+}{$ENDIF}');
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'interface');
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'uses');
     WriteLnFmt(LArquivoUnit, '{$IFDEF FPC}');
     WriteLnFmt(LArquivoUnit, '  Classes, SysUtils;');
     WriteLnFmt(LArquivoUnit, '{$ELSE}');
     WriteLnFmt(LArquivoUnit, '  System.Classes, System.SysUtils;');
     WriteLnFmt(LArquivoUnit, '{$ENDIF}');
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'implementation');
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, 'var');
     WriteLnFmt(LArquivoUnit, '  LTextFile: TextFile;');
@@ -160,6 +166,7 @@ begin
     end;
     WriteLnFmt(LArquivoUnit, '  CloseFile(LTextFile);');
     WriteLnFmt(LArquivoUnit, 'end;');
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'end.');
   finally
     CloseFile(LArquivoUnit);
@@ -243,7 +250,7 @@ begin
   WriteLnFmt(FArquivoLPI, '      </Flags>');
   WriteLnFmt(FArquivoLPI, '      <SessionStorage Value="InProjectDir"/>');
   WriteLnFmt(FArquivoLPI, '      <MainUnit Value="0"/>');
-  WriteLnFmt(FArquivoLPI, '      <Title Value="project1"/>');
+  WriteLnFmt(FArquivoLPI, '      <Title Value="Lazarus"/>');
   WriteLnFmt(FArquivoLPI, '      <UseAppBundle Value="False"/>');
   WriteLnFmt(FArquivoLPI, '      <ResourceType Value="res"/>');
   WriteLnFmt(FArquivoLPI, '    </General>');
@@ -260,7 +267,7 @@ begin
   WriteLnFmt(FArquivoLPI, '    </RunParams>');
   WriteLnFmt(FArquivoLPI, '    <Units Count="%D">', [ALista.Count + 1]);
   WriteLnFmt(FArquivoLPI, '      <Unit0>');
-  WriteLnFmt(FArquivoLPI, '        <Filename Value="project1.lpr"/>');
+  WriteLnFmt(FArquivoLPI, '        <Filename Value="Lazarus.lpr"/>');
   WriteLnFmt(FArquivoLPI, '        <IsPartOfProject Value="True"/>');
   WriteLnFmt(FArquivoLPI, '      </Unit0>');
 
@@ -273,7 +280,7 @@ begin
   WriteLnFmt(FArquivoLPI, '    <Version Value="11"/>');
   WriteLnFmt(FArquivoLPI, '    <PathDelim Value="\"/>');
   WriteLnFmt(FArquivoLPI, '    <Target>');
-  WriteLnFmt(FArquivoLPI, '      <Filename Value="project1"/>');
+  WriteLnFmt(FArquivoLPI, '      <Filename Value="Lazarus"/>');
   WriteLnFmt(FArquivoLPI, '    </Target>');
   WriteLnFmt(FArquivoLPI, '    <SearchPaths>');
   WriteLnFmt(FArquivoLPI, '      <IncludeFiles Value="$(ProjOutDir)"/>');
@@ -301,7 +308,7 @@ procedure TFormGerador.GerarLPR(ALista: TStringList);
 var
   I: Integer;
 begin
-  WriteLnFmt(FArquivoLPR, 'program project1;');
+  WriteLnFmt(FArquivoLPR, 'program lazarus;');
   WriteLnFmt(FArquivoLPR, '');
   WriteLnFmt(FArquivoLPR, 'uses');
   WriteLnFmt(FArquivoLPR, '  SysUtils,');
@@ -332,7 +339,7 @@ begin
   WriteLnFmt(FArquivoLPS, '    <BuildModes Active="Default"/>');
   WriteLnFmt(FArquivoLPS, '    <Units Count="%D">', [ALista.Count + 1]);
   WriteLnFmt(FArquivoLPS, '      <Unit0>');
-  WriteLnFmt(FArquivoLPS, '        <Filename Value="project1.lpr"/>');
+  WriteLnFmt(FArquivoLPS, '        <Filename Value="Lazarus.lpr"/>');
   WriteLnFmt(FArquivoLPS, '        <IsPartOfProject Value="True"/>');
   WriteLnFmt(FArquivoLPS, '        <IsVisibleTab Value="True"/>');
   WriteLnFmt(FArquivoLPS, '        <UsageCount Value="20"/>');
@@ -399,7 +406,7 @@ begin
   WriteLnFmt(FArquivoDPROJ, '        <ProjectGuid>{8B124B4E-6DE2-4244-A934-A1597AAED7CA}</ProjectGuid>');
   WriteLnFmt(FArquivoDPROJ, '        <ProjectVersion>18.3</ProjectVersion>');
   WriteLnFmt(FArquivoDPROJ, '        <FrameworkType>None</FrameworkType>');
-  WriteLnFmt(FArquivoDPROJ, '        <MainSource>project1.dpr</MainSource>');
+  WriteLnFmt(FArquivoDPROJ, '        <MainSource>Delphi.dpr</MainSource>');
   WriteLnFmt(FArquivoDPROJ, '        <Base>True</Base>');
   WriteLnFmt(FArquivoDPROJ, '        <Config Condition="''$(Config)''==''''">Debug</Config>');
   WriteLnFmt(FArquivoDPROJ, '        <Platform Condition="''$(Platform)''==''''">Win32</Platform>');
@@ -414,19 +421,19 @@ end;
 
 procedure TFormGerador.InicializarArquivos;
 begin
-  AssignFile(FArquivoLPI, GetDiretorioProjeto + 'project1.lpi');
+  AssignFile(FArquivoLPI, GetDiretorioProjeto + 'Lazarus.lpi');
   Rewrite(FArquivoLPI);
 
-  AssignFile(FArquivoLPR, GetDiretorioProjeto + 'project1.lpr');
+  AssignFile(FArquivoLPR, GetDiretorioProjeto + 'Lazarus.lpr');
   Rewrite(FArquivoLPR);
 
-  AssignFile(FArquivoLPS, GetDiretorioProjeto + 'project1.lps');
+  AssignFile(FArquivoLPS, GetDiretorioProjeto + 'Lazarus.lps');
   Rewrite(FArquivoLPS);
 
-  AssignFile(FArquivoDPR, GetDiretorioProjeto + 'project1.dpr');
+  AssignFile(FArquivoDPR, GetDiretorioProjeto + 'Delphi.dpr');
   Rewrite(FArquivoDPR);
 
-  AssignFile(FArquivoDPROJ, GetDiretorioProjeto + 'project1.dproj');
+  AssignFile(FArquivoDPROJ, GetDiretorioProjeto + 'Delphi.dproj');
   Rewrite(FArquivoDPROJ);
 end;
 
