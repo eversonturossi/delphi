@@ -14,7 +14,8 @@ type
   private
     procedure GerarUnit(AGuid: String);
     function GetFileName(AGuid: String): String;
-    function GetDiretorio: String;
+    function GetDiretorio: String; overload;
+    function GetDiretorio(AGuid: String): String; overload;
     procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const); overload;
     procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String); overload;
     procedure AdicionarProcedureLPR(AGuid: String);
@@ -50,9 +51,16 @@ begin
   Result := Result + 'src\';
 end;
 
+function TForm7.GetDiretorio(AGuid: String): String;
+begin
+  Result := GetDiretorio;
+  Result := Result + Copy(AGuid, 1, 2);;
+  Result := Result + '\';
+end;
+
 function TForm7.GetFileName(AGuid: String): String;
 begin
-  Result := GetDiretorio();
+  Result := GetDiretorio(AGuid);
   Result := Result + 'UClasse' + AGuid + '.pas';
 end;
 
@@ -73,8 +81,9 @@ var
   LLinhas: Integer;
   LGuid: String;
 begin
-  LLinhas := RandomRange(1, 200);
+  LLinhas := RandomRange(1, 1000);
   try
+    ForceDirectories(GetDiretorio(AGuid));
     AssignFile(LArquivoUnit, GetFileName(AGuid));
     Rewrite(LArquivoUnit);
     WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
@@ -106,9 +115,9 @@ end;
 procedure TForm7.AdicionarUnitLPI(AID: Int64; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPI, '      <Unit%D>', [AID]);
-  WriteLnFmt(FArquivoLPI, '        <Filename Value="uclasse%S.pas"/>', [AGuid]);
+  WriteLnFmt(FArquivoLPI, '        <Filename Value="%S\uclasse%S.pas"/>', [Copy(AGuid, 1, 2), AGuid]);
   WriteLnFmt(FArquivoLPI, '        <IsPartOfProject Value="True"/>');
-  WriteLnFmt(FArquivoLPI, '        <UnitName Value="UClasse%S"/>', [AGuid]);
+  WriteLnFmt(FArquivoLPI, '        <UnitName Value="%S\UClasse%S"/>', [Copy(AGuid, 1, 2), AGuid]);
   WriteLnFmt(FArquivoLPI, '      </Unit%D>', [AID]);
 end;
 
@@ -123,9 +132,9 @@ end;
 procedure TForm7.AdicionarUnitLPS(AID: Int64; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPS, '      <Unit%D>', [AID]);
-  WriteLnFmt(FArquivoLPS, '        <Filename Value="uclasse%S.pas"/>', [AGuid]);
+  WriteLnFmt(FArquivoLPS, '        <Filename Value="%S\uclasse%S.pas"/>', [Copy(AGuid, 1, 2), AGuid]);
   WriteLnFmt(FArquivoLPS, '        <IsPartOfProject Value="True"/>');
-  WriteLnFmt(FArquivoLPS, '        <UnitName Value="UClasse%S"/>', [AGuid]);
+  WriteLnFmt(FArquivoLPS, '        <UnitName Value="%S\UClasse%S"/>', [Copy(AGuid, 1, 2), AGuid]);
   WriteLnFmt(FArquivoLPS, '        <EditorIndex Value="%D"/>', [AID]);
   WriteLnFmt(FArquivoLPS, '        <UsageCount Value="20"/>');
   WriteLnFmt(FArquivoLPS, '        <Loaded Value="True"/>');
