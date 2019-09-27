@@ -14,8 +14,8 @@ type
   private
     procedure GerarUnit(AGuid: String);
     function GetFileName(AGuid: String): String;
-    function GetDiretorio: String; overload;
-    function GetDiretorio(AGuid: String): String; overload;
+    function GetDiretorioProjeto: String; overload;
+    function GetDiretorioUnit(AGuid: String): String; overload;
     procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String; const AArgs: array of const); overload;
     procedure WriteLnFmt(const AArquivo: TextFile; ATexto: String); overload;
     procedure AdicionarProcedureLPR(AGuid: String);
@@ -28,6 +28,8 @@ type
     procedure GerarLPS(ALista: TStringList);
     procedure FinicializarArquivos;
     procedure InicializarArquivos;
+    function GetCaminhoUnidade(ALista: TStringList): String;
+    function GetDiretorioTXT(AGuid: String): String;
   public
     FArquivoLPI: TextFile;
     FArquivoLPR: TextFile;
@@ -44,23 +46,55 @@ uses
 
 {$R *.dfm}
 
-function TForm7.GetDiretorio: String;
+procedure RemoverDuplicadosStringList(const ALista: TStringList);
+{ remove duplicate strings from the string list
+  http://delphi.about.com/od/delphitips2009/qt/remove-duplicat.htm }
+var
+  LBuffer: TStringList;
+  I: Integer;
+begin
+  ALista.Sort;
+  LBuffer := TStringList.Create;
+  try
+    LBuffer.Sorted := True;
+    LBuffer.Duplicates := dupIgnore;
+    LBuffer.BeginUpdate;
+    for I := 0 to ALista.Count - 1 do
+      LBuffer.add(ALista[I]);
+    LBuffer.EndUpdate;
+    ALista.Assign(LBuffer);
+  finally
+    FreeAndNil(LBuffer);
+    ALista.Sort;
+  end;
+end;
+
+function TForm7.GetDiretorioProjeto: String;
 begin
   Result := ExtractFilePath(ParamStr(0));
   Result := IncludeTrailingBackslash(Result);
-  Result := Result + 'src\';
+  Result := Result + 'projeto\';
 end;
 
-function TForm7.GetDiretorio(AGuid: String): String;
+function TForm7.GetDiretorioUnit(AGuid: String): String;
 begin
-  Result := GetDiretorio;
-  Result := Result + Copy(AGuid, 1, 2);;
+  Result := GetDiretorioProjeto;
+  Result := Result + 'src\';
+  Result := Result + GetGuid2(AGuid);;
   Result := Result + '\';
+end;
+
+function TForm7.GetDiretorioTXT(AGuid: String): String;
+begin
+  Result := ExtractFilePath(ParamStr(0));
+  Result := IncludeTrailingBackslash(Result);
+  Result := Result + 'projeto\TXT\';
+  Result := Result + GetGuid2(AGuid) + '\';
 end;
 
 function TForm7.GetFileName(AGuid: String): String;
 begin
-  Result := GetDiretorio(AGuid);
+  Result := GetDiretorioUnit(AGuid);
   Result := Result + 'UClasse' + AGuid + '.pas';
 end;
 
@@ -79,11 +113,12 @@ var
   LArquivoUnit: TextFile;
   I: Int64;
   LLinhas: Integer;
-  LGuid: String;
+  LGuid, ADiterorioTXT: String;
 begin
   LLinhas := RandomRange(1, 1000);
+  ADiterorioTXT := GetDiretorioTXT(AGuid);
   try
-    ForceDirectories(GetDiretorio(AGuid));
+    ForceDirectories(GetDiretorioUnit(AGuid));
     AssignFile(LArquivoUnit, GetFileName(AGuid));
     Rewrite(LArquivoUnit);
     WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
@@ -97,7 +132,9 @@ begin
     WriteLnFmt(LArquivoUnit, 'var');
     WriteLnFmt(LArquivoUnit, '  LTextFile: TextFile;');
     WriteLnFmt(LArquivoUnit, 'begin');
-    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, ''%S.txt'');', [AGuid]);
+    WriteLnFmt(LArquivoUnit, '  writeln(''%S - %D Linhas'');', [AGuid, LLinhas]);
+    WriteLnFmt(LArquivoUnit, '  ForceDirectories(''%S'');', [ADiterorioTXT]);
+    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, ''%S\%S.txt'');', [ADiterorioTXT, AGuid]);
     WriteLnFmt(LArquivoUnit, '  Rewrite(LTextFile);');
     for I := 0 to Pred(LLinhas) do
     begin
@@ -115,9 +152,9 @@ end;
 procedure TForm7.AdicionarUnitLPI(AID: Int64; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPI, '      <Unit%D>', [AID]);
-  WriteLnFmt(FArquivoLPI, '        <Filename Value="%S\uclasse%S.pas"/>', [Copy(AGuid, 1, 2), AGuid]);
+  WriteLnFmt(FArquivoLPI, '        <Filename Value="src\%S\uclasse%S.pas"/>', [GetGuid2(AGuid), AnsiLowerCase(AGuid)]);
   WriteLnFmt(FArquivoLPI, '        <IsPartOfProject Value="True"/>');
-  WriteLnFmt(FArquivoLPI, '        <UnitName Value="%S\UClasse%S"/>', [Copy(AGuid, 1, 2), AGuid]);
+  WriteLnFmt(FArquivoLPI, '        <UnitName Value="UClasse%S"/>', [AGuid]);
   WriteLnFmt(FArquivoLPI, '      </Unit%D>', [AID]);
 end;
 
@@ -132,9 +169,9 @@ end;
 procedure TForm7.AdicionarUnitLPS(AID: Int64; AGuid: String);
 begin
   WriteLnFmt(FArquivoLPS, '      <Unit%D>', [AID]);
-  WriteLnFmt(FArquivoLPS, '        <Filename Value="%S\uclasse%S.pas"/>', [Copy(AGuid, 1, 2), AGuid]);
+  WriteLnFmt(FArquivoLPS, '        <Filename Value="src\%S\uclasse%S.pas"/>', [GetGuid2(AGuid), AGuid]);
   WriteLnFmt(FArquivoLPS, '        <IsPartOfProject Value="True"/>');
-  WriteLnFmt(FArquivoLPS, '        <UnitName Value="%S\UClasse%S"/>', [Copy(AGuid, 1, 2), AGuid]);
+  WriteLnFmt(FArquivoLPS, '        <UnitName Value="UClasse%S"/>', [AGuid]);
   WriteLnFmt(FArquivoLPS, '        <EditorIndex Value="%D"/>', [AID]);
   WriteLnFmt(FArquivoLPS, '        <UsageCount Value="20"/>');
   WriteLnFmt(FArquivoLPS, '        <Loaded Value="True"/>');
@@ -144,6 +181,32 @@ end;
 procedure TForm7.AdicionarProcedureLPR(AGuid: String);
 begin
   WriteLnFmt(FArquivoLPR, '  Procedure%S;', [AGuid]);
+end;
+
+function TForm7.GetCaminhoUnidade(ALista: TStringList): String;
+var
+  I: Int64;
+  LLista: TStringList;
+begin
+  Result := '';
+  LLista := TStringList.Create;
+  try
+    for I := 0 to Pred(ALista.Count) do
+      LLista.add('src\' + GetGuid2(ALista[I]));
+
+    RemoverDuplicadosStringList(LLista);
+
+    for I := 0 to Pred(LLista.Count) do
+    begin
+      if (I > 0) then
+        Result := Result + ';';
+      Result := Result + LLista[I];
+    end;
+
+  finally
+    FreeAndNil(LLista);
+  end;
+
 end;
 
 procedure TForm7.GerarLPI(ALista: TStringList);
@@ -178,7 +241,7 @@ begin
   WriteLnFmt(FArquivoLPI, '      <FormatVersion Value="2"/>');
   WriteLnFmt(FArquivoLPI, '      <Modes Count="0"/>');
   WriteLnFmt(FArquivoLPI, '    </RunParams>');
-  WriteLnFmt(FArquivoLPI, '    <Units Count="%D">', [ALista.Count]);
+  WriteLnFmt(FArquivoLPI, '    <Units Count="%D">', [ALista.Count + 1]);
   WriteLnFmt(FArquivoLPI, '      <Unit0>');
   WriteLnFmt(FArquivoLPI, '        <Filename Value="project1.lpr"/>');
   WriteLnFmt(FArquivoLPI, '        <IsPartOfProject Value="True"/>');
@@ -197,6 +260,7 @@ begin
   WriteLnFmt(FArquivoLPI, '    </Target>');
   WriteLnFmt(FArquivoLPI, '    <SearchPaths>');
   WriteLnFmt(FArquivoLPI, '      <IncludeFiles Value="$(ProjOutDir)"/>');
+  WriteLnFmt(FArquivoLPI, '      <OtherUnitFiles Value="%S"/>', [GetCaminhoUnidade(ALista)]);
   WriteLnFmt(FArquivoLPI, '      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>');
   WriteLnFmt(FArquivoLPI, '    </SearchPaths>');
   WriteLnFmt(FArquivoLPI, '  </CompilerOptions>');
@@ -242,7 +306,7 @@ begin
   WriteLnFmt(FArquivoLPS, '    <PathDelim Value="\"/>');
   WriteLnFmt(FArquivoLPS, '    <Version Value="11"/>');
   WriteLnFmt(FArquivoLPS, '    <BuildModes Active="Default"/>');
-  WriteLnFmt(FArquivoLPS, '    <Units Count="%D">', [ALista.Count]);
+  WriteLnFmt(FArquivoLPS, '    <Units Count="%D">', [ALista.Count + 1]);
   WriteLnFmt(FArquivoLPS, '      <Unit0>');
   WriteLnFmt(FArquivoLPS, '        <Filename Value="project1.lpr"/>');
   WriteLnFmt(FArquivoLPS, '        <IsPartOfProject Value="True"/>');
@@ -264,13 +328,13 @@ end;
 
 procedure TForm7.InicializarArquivos;
 begin
-  AssignFile(FArquivoLPI, GetDiretorio + 'project1.lpi');
+  AssignFile(FArquivoLPI, GetDiretorioProjeto + 'project1.lpi');
   Rewrite(FArquivoLPI);
 
-  AssignFile(FArquivoLPR, GetDiretorio + 'project1.lpr');
+  AssignFile(FArquivoLPR, GetDiretorioProjeto + 'project1.lpr');
   Rewrite(FArquivoLPR);
 
-  AssignFile(FArquivoLPS, GetDiretorio + 'project1.lps');
+  AssignFile(FArquivoLPS, GetDiretorioProjeto + 'project1.lps');
   Rewrite(FArquivoLPS);
 end;
 
@@ -289,11 +353,11 @@ var
 begin
   FLista := TStringList.Create;
   try
-    ForceDirectories(GetDiretorio);
+    ForceDirectories(GetDiretorioProjeto());
     for I := 0 to Pred(AQuantidade) do
     begin
       LGuid := GuidCreate32;
-      FLista.Add(LGuid);
+      FLista.add(LGuid);
       GerarUnit(LGuid);
     end;
 
@@ -303,7 +367,7 @@ begin
     GerarLPS(FLista);
   finally
     FinicializarArquivos;
-    FreeandNil(FLista);
+    FreeAndNil(FLista);
   end;
 end;
 

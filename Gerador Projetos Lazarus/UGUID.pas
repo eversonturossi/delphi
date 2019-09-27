@@ -7,6 +7,7 @@ uses
 
 function GuidCreate38: string;
 function GuidCreate32: string;
+function GetGuid2(AGuid: String): String;
 
 implementation
 
@@ -28,6 +29,11 @@ begin
   LGuid := StringReplace(LGuid, '}', '', [rfReplaceAll]);
   LGuid := StringReplace(LGuid, '-', '', [rfReplaceAll]);
   Result := LGuid;
+end;
+
+function GetGuid2(AGuid: String): String;
+begin
+  Result := Copy(AGuid, 1, 2);
 end;
 
 end.
