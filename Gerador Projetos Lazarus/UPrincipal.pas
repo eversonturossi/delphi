@@ -17,8 +17,11 @@ type
     SpinEditLinhaMax: TSpinEdit;
     Label3: TLabel;
     ProgressBar1: TProgressBar;
+    ButtonParar: TButton;
     procedure ButtonGerarClick(Sender: TObject);
+    procedure ButtonPararClick(Sender: TObject);
   private
+    FExecutando: Boolean;
     procedure GerarUnit(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
     function GetFileName(AGuid: String): String;
     function GetDiretorioProjeto: String; overload;
@@ -126,10 +129,9 @@ var
   LArquivoUnit: TextFile;
   I: Integer;
   LLinhas: Integer;
-  LGuid, ADiterorioTXT: String;
+  LGuid: String;
 begin
   LLinhas := RandomRange(AQuantidadeLinhaMin, AQuantidadeLinhaMax);
-  ADiterorioTXT := GetDiretorioTXT(AGuid);
   try
     ForceDirectories(GetDiretorioUnit(AGuid));
     AssignFile(LArquivoUnit, GetFileName(AGuid));
@@ -151,13 +153,25 @@ begin
     WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'implementation');
     WriteLnFmt(LArquivoUnit, '');
+
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'function GetDiretorioTXT%S:String;', [AGuid]);
+    WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  Result := ExtractFilePath(ParamStr(0));');
+    WriteLnFmt(LArquivoUnit, '  Result := IncludeTrailingBackslash(Result);');
+    WriteLnFmt(LArquivoUnit, '  Result := Result + ''txt\'';');
+    WriteLnFmt(LArquivoUnit, '  Result := Result + ''%S'';', [GetGuid2(AGuid)]);
+    WriteLnFmt(LArquivoUnit, 'end;');
+    WriteLnFmt(LArquivoUnit, '');
     WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, 'var');
     WriteLnFmt(LArquivoUnit, '  LTextFile: TextFile;');
+    WriteLnFmt(LArquivoUnit, '  LDiterorioTXT: String;');
     WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  LDiterorioTXT := GetDiretorioTXT%S;', [AGuid]);
     WriteLnFmt(LArquivoUnit, '  writeln(''%S - %D Linhas'');', [AGuid, LLinhas]);
-    WriteLnFmt(LArquivoUnit, '  ForceDirectories(''%S'');', [ADiterorioTXT]);
-    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, ''%S\%S.txt'');', [ADiterorioTXT, AGuid]);
+    WriteLnFmt(LArquivoUnit, '  ForceDirectories(LDiterorioTXT);');
+    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, LDiterorioTXT + ''\%S.txt'');', [AGuid]);
     WriteLnFmt(LArquivoUnit, '  Rewrite(LTextFile);');
     for I := 0 to Pred(LLinhas) do
     begin
@@ -452,6 +466,7 @@ var
   LGuid: String;
   FLista: TStringList;
 begin
+  FExecutando := True;
   FLista := TStringList.Create;
   try
     ForceDirectories(GetDiretorioProjeto());
@@ -464,7 +479,11 @@ begin
       GerarUnit(LGuid, AQuantidadeLinhaMin, AQuantidadeLinhaMax);
       ProgressBar1.StepBy(1);
       if (I mod 10 = 0) then
+      begin
         Application.ProcessMessages;
+        if not(FExecutando) then
+          Break;
+      end;
     end;
     FLista.Sort;
     InicializarArquivos;
@@ -483,11 +502,18 @@ procedure TFormGerador.ButtonGerarClick(Sender: TObject);
 begin
   TButton(Sender).Enabled := False;
   Application.ProcessMessages;
+  ButtonParar.Enabled := True;
   try
     Self.Gerar(SpinEditClasses.Value, SpinEditLinhaMin.Value, SpinEditLinhaMax.Value);
   finally
     TButton(Sender).Enabled := True;
+    ButtonParar.Enabled := False;
   end;
+end;
+
+procedure TFormGerador.ButtonPararClick(Sender: TObject);
+begin
+  FExecutando := False;
 end;
 
 end.

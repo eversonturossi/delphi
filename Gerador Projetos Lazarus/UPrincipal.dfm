@@ -54,8 +54,8 @@ object FormGerador: TFormGerador
   end
   object ButtonGerar: TButton
     Left = 8
-    Top = 83
-    Width = 232
+    Top = 82
+    Width = 162
     Height = 25
     Caption = 'Gerar'
     TabOrder = 0
@@ -97,5 +97,14 @@ object FormGerador: TFormGerador
     Width = 232
     Height = 17
     TabOrder = 4
+  end
+  object ButtonParar: TButton
+    Left = 173
+    Top = 83
+    Width = 67
+    Height = 25
+    Caption = 'Parar'
+    TabOrder = 5
+    OnClick = ButtonPararClick
   end
 end
