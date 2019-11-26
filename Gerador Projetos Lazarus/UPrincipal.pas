@@ -23,6 +23,7 @@ type
   private
     FExecutando: Boolean;
     procedure GerarUnit(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
+    procedure GerarUnit2(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
     function GetFileName(AGuid: String): String;
     function GetDiretorioProjeto: String; overload;
     function GetDiretorioUnit(AGuid: String): String; overload;
@@ -178,6 +179,97 @@ begin
       LGuid := GuidCreate38;
       WriteLnFmt(LArquivoUnit, '  Writeln(LTextFile, ''%S'');', [LGuid]);
     end;
+    WriteLnFmt(LArquivoUnit, '  CloseFile(LTextFile);');
+    WriteLnFmt(LArquivoUnit, 'end;');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'end.');
+  finally
+    CloseFile(LArquivoUnit);
+  end;
+end;
+
+procedure TFormGerador.GerarUnit2(AGuid: String; AQuantidadeLinhaMin, AQuantidadeLinhaMax: Integer);
+var
+  LArquivoUnit: TextFile;
+  I: Integer;
+  LLinhas: Integer;
+  LGuid: String;
+begin
+  LLinhas := RandomRange(AQuantidadeLinhaMin, AQuantidadeLinhaMax);
+  try
+    ForceDirectories(GetDiretorioUnit(AGuid));
+    AssignFile(LArquivoUnit, GetFileName(AGuid));
+    Rewrite(LArquivoUnit);
+    WriteLnFmt(LArquivoUnit, 'unit UClasse%S;', [AGuid]);
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, '{$IFDEF FPC}{$mode objfpc}{$H+}{$ENDIF}');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'interface');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'uses');
+    WriteLnFmt(LArquivoUnit, '{$IFDEF FPC}');
+    WriteLnFmt(LArquivoUnit, '  Classes, SysUtils;');
+    WriteLnFmt(LArquivoUnit, '{$ELSE}');
+    WriteLnFmt(LArquivoUnit, '  System.Win.ComObj, Winapi.ActiveX, System.Classes, System.SysUtils;');
+    WriteLnFmt(LArquivoUnit, '{$ENDIF}');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'implementation');
+    WriteLnFmt(LArquivoUnit, '');
+
+    WriteLnFmt(LArquivoUnit, 'function GuidCreate38: string;');
+    WriteLnFmt(LArquivoUnit, 'var');
+    WriteLnFmt(LArquivoUnit, '  ID: TGUID;');
+    WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  Result := '''';');
+    WriteLnFmt(LArquivoUnit, '  if CoCreateGuid(ID) = S_OK then');
+    WriteLnFmt(LArquivoUnit, '    Result := GUIDToString(ID);');
+    WriteLnFmt(LArquivoUnit, 'end;');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'function GuidCreate32: string;');
+    WriteLnFmt(LArquivoUnit, 'var');
+    WriteLnFmt(LArquivoUnit, '  LGuid: String;');
+    WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  LGuid := GuidCreate38;');
+    WriteLnFmt(LArquivoUnit, '  LGuid := StringReplace(LGuid, ''{'', '''', [rfReplaceAll]);');
+    WriteLnFmt(LArquivoUnit, '  LGuid := StringReplace(LGuid, ''}'', '''', [rfReplaceAll]);');
+    WriteLnFmt(LArquivoUnit, '  LGuid := StringReplace(LGuid, ''-'', '''', [rfReplaceAll]);');
+    WriteLnFmt(LArquivoUnit, '  Result := LGuid;');
+    WriteLnFmt(LArquivoUnit, 'end;');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'function GetGuid2(AGuid: String): String;');
+    WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  Result := Copy(AGuid, 1, 2);');
+    WriteLnFmt(LArquivoUnit, 'end;');
+
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'function GetDiretorioTXT(AGuid: String):String;');
+    WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  Result := ExtractFilePath(ParamStr(0));');
+    WriteLnFmt(LArquivoUnit, '  Result := IncludeTrailingBackslash(Result);');
+    WriteLnFmt(LArquivoUnit, '  Result := Result + ''txt\'';');
+    WriteLnFmt(LArquivoUnit, '  Result := Result + GetGuid2(AGuid);');
+    WriteLnFmt(LArquivoUnit, 'end;');
+    WriteLnFmt(LArquivoUnit, '');
+    WriteLnFmt(LArquivoUnit, 'procedure Procedure%S;', [AGuid]);
+    WriteLnFmt(LArquivoUnit, 'var');
+    WriteLnFmt(LArquivoUnit, '  LTextFile: TextFile;');
+    WriteLnFmt(LArquivoUnit, '  LDiterorioTXT, LGuid: String;');
+    WriteLnFmt(LArquivoUnit, '  I, LLinhas: Integer;');
+    WriteLnFmt(LArquivoUnit, 'begin');
+    WriteLnFmt(LArquivoUnit, '  LGuid := GuidCreate32;');
+    WriteLnFmt(LArquivoUnit, '  LDiterorioTXT := GetDiretorioTXT(LGuid);');
+    WriteLnFmt(LArquivoUnit, '  writeln(LGuid + '' - %D Linhas'');', [LLinhas]);
+    WriteLnFmt(LArquivoUnit, '  ForceDirectories(LDiterorioTXT);');
+    WriteLnFmt(LArquivoUnit, '  AssignFile(LTextFile, LDiterorioTXT + ''\'' + LGuid +''.txt'');');
+    WriteLnFmt(LArquivoUnit, '  Rewrite(LTextFile);');
+    WriteLnFmt(LArquivoUnit, '  LLinhas := %D;', [LLinhas]);
+    WriteLnFmt(LArquivoUnit, '  for I := 0 to Pred(LLinhas) do');
+    WriteLnFmt(LArquivoUnit, '  begin');
+    WriteLnFmt(LArquivoUnit, '    LGuid := GuidCreate38;');
+    WriteLnFmt(LArquivoUnit, '    WriteLn(LTextFile, LGuid);');
+    WriteLnFmt(LArquivoUnit, '  end;');
     WriteLnFmt(LArquivoUnit, '  CloseFile(LTextFile);');
     WriteLnFmt(LArquivoUnit, 'end;');
     WriteLnFmt(LArquivoUnit, '');
@@ -476,7 +568,7 @@ begin
     begin
       LGuid := GuidCreate32;
       FLista.add(LGuid);
-      GerarUnit(LGuid, AQuantidadeLinhaMin, AQuantidadeLinhaMax);
+      GerarUnit2(LGuid, AQuantidadeLinhaMin, AQuantidadeLinhaMax);
       ProgressBar1.StepBy(1);
       if (I mod 10 = 0) then
       begin
