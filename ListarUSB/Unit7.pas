@@ -4,18 +4,19 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ACBrBase, ACBrPosPrinter, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ACBrBase, ACBrPosPrinter, Vcl.StdCtrls, ACBrWinUSBDevice;
 
 type
   TForm7 = class(TForm)
-    Button1: TButton;
+    ButtonListaImpressoras: TButton;
     ACBrPosPrinter1: TACBrPosPrinter;
     MemoDispositivos: TMemo;
-    procedure Button1Click(Sender: TObject);
+    ButtonListaTodos: TButton;
+    procedure ButtonListaImpressorasClick(Sender: TObject);
+    procedure ButtonListaTodosClick(Sender: TObject);
   private
-    { Private declarations }
+    procedure Listar(ADeviceList: TACBrUSBWinDeviceList);
   public
-    { Public declarations }
   end;
 
 var
@@ -23,23 +24,31 @@ var
 
 implementation
 
-uses
-  ACBrWinUSBDevice;
-
 {$R *.dfm}
 
-procedure TForm7.Button1Click(Sender: TObject);
+procedure TForm7.ButtonListaImpressorasClick(Sender: TObject);
+begin
+  ACBrPosPrinter1.Device.WinUSB.FindUSBPrinters();
+  Listar(ACBrPosPrinter1.Device.WinUSB.DeviceList);
+end;
+
+procedure TForm7.ButtonListaTodosClick(Sender: TObject);
+begin
+  ACBrPosPrinter1.Device.WinUSB.DeviceList.Clear;
+  ACBrPosPrinter1.Device.WinUSB.FindUSBDevicesByGUID(GUID_DEVINTERFACE_USB_DEVICE);
+  Listar(ACBrPosPrinter1.Device.WinUSB.DeviceList);
+end;
+
+procedure TForm7.Listar(ADeviceList: TACBrUSBWinDeviceList);
 var
-  K: Integer;
+  I: Integer;
   LDevice: TACBrUSBWinDevice;
 begin
   MemoDispositivos.Lines.Clear;
-  ACBrPosPrinter1.Device.WinUSB.FindUSBPrinters();
-  // ACBrPosPrinter1.Device.WinUSB.FindUSBKnownDevices;
-  for K := 0 to ACBrPosPrinter1.Device.WinUSB.DeviceList.Count - 1 do
+  for I := 0 to ADeviceList.Count - 1 do
   begin
-    LDevice := ACBrPosPrinter1.Device.WinUSB.DeviceList.Items[K];
-    // memodispositivos.Lines.Add('DeviceKind:' + LDevice.DeviceKind);
+    LDevice := ADeviceList.Items[I];
+    MemoDispositivos.Lines.Add('DeviceKind:' + DeviceKindDescription(LDevice.DeviceKind));
     MemoDispositivos.Lines.Add('DeviceName:' + LDevice.DeviceName);
     MemoDispositivos.Lines.Add('VendorID:' + LDevice.VendorID);
     MemoDispositivos.Lines.Add('VendorName:' + LDevice.VendorName);
@@ -51,7 +60,7 @@ begin
     MemoDispositivos.Lines.Add('GUID:' + LDevice.GUID);
     MemoDispositivos.Lines.Add('FrendlyName:' + LDevice.FrendlyName);
     MemoDispositivos.Lines.Add('HardwareID:' + LDevice.HardwareID);
-    // memodispositivos.Lines.Add('ACBrProtocol:' + LDevice.ACBrProtocol);
+    MemoDispositivos.Lines.Add('ACBrProtocol:' + LDevice.ACBrProtocol.ToString);
     MemoDispositivos.Lines.Add('-----------------------------------');
   end;
 end;

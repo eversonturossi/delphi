@@ -1,7 +1,7 @@
 object Form7: TForm7
   Left = 0
   Top = 0
-  Caption = 'Form7'
+  Caption = 'Listar USB'
   ClientHeight = 289
   ClientWidth = 635
   Color = clBtnFace
@@ -16,14 +16,14 @@ object Form7: TForm7
     289)
   PixelsPerInch = 96
   TextHeight = 13
-  object Button1: TButton
+  object ButtonListaImpressoras: TButton
     Left = 8
     Top = 8
-    Width = 75
+    Width = 121
     Height = 25
-    Caption = 'Listar'
+    Caption = 'Listar Impressoas'
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = ButtonListaImpressorasClick
   end
   object MemoDispositivos: TMemo
     Left = 8
@@ -32,6 +32,15 @@ object Form7: TForm7
     Height = 242
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 1
+  end
+  object ButtonListaTodos: TButton
+    Left = 135
+    Top = 8
+    Width = 130
+    Height = 25
+    Caption = 'Listar Todos'
+    TabOrder = 2
+    OnClick = ButtonListaTodosClick
   end
   object ACBrPosPrinter1: TACBrPosPrinter
     ConfigBarras.MostrarCodigo = False
@@ -42,7 +51,7 @@ object Form7: TForm7
     ConfigQRCode.LarguraModulo = 4
     ConfigQRCode.ErrorLevel = 0
     LinhasEntreCupons = 0
-    Left = 256
-    Top = 8
+    Left = 64
+    Top = 80
   end
 end
