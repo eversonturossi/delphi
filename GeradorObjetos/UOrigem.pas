@@ -35,12 +35,13 @@ type
     procedure RemoverReadWrite;
 
     procedure RemoverF;
-    procedure RemovePontoEVirgula;
-    procedure RemoveDuplicado;
+    procedure RemoverPontoEVirgula;
+    procedure RemoverDuplicado;
 
     procedure RemoverProcedureFunction;
     procedure RemoverGetSet;
     procedure RemoverArgumentos;
+    procedure RemoverInvalidos;
 
     function ExisteEspacoDuplo: Boolean;
 
@@ -123,7 +124,7 @@ begin
       Result := True;
 end;
 
-procedure TOrigem.RemoveDuplicado;
+procedure TOrigem.RemoverDuplicado;
 var
   I, IDuplicado: Integer;
   LDuplicado: Boolean;
@@ -142,7 +143,7 @@ begin
   end;
 end;
 
-procedure TOrigem.RemovePontoEVirgula;
+procedure TOrigem.RemoverPontoEVirgula;
 var
   I: Integer;
 begin
@@ -253,8 +254,18 @@ begin
         Delete(LTexto, Pos(')', LTexto), 1);
 
       FOrigem[I] := LTexto;
-
     end;
+  end;
+end;
+
+procedure TOrigem.RemoverInvalidos;
+var
+  I: Integer;
+begin
+  for I := Pred(FOrigem.Count) downto 0 do
+  begin
+    if (Pos(':', FOrigem[I]) = 0) then
+      FOrigem.Delete(I);
   end;
 end;
 
@@ -307,10 +318,11 @@ begin
   RemoverProcedureFunction;
   RemoverGetSet;
   RemoverArgumentos;
-  RemovePontoEVirgula;
+  RemoverPontoEVirgula;
 
   TratarPadrao;
-  RemoveDuplicado;
+  RemoverDuplicado;
+  RemoverInvalidos;
   LerCampos;
 end;
 

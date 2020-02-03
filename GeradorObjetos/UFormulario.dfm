@@ -65,30 +65,7 @@ object Formulario: TFormulario
     Width = 922
     Height = 160
     Align = alTop
-    Lines.Strings = (
-      '    procedure SetID(AValue: Int64);'
-      '    function GetID: Int64;'
-      ''
-      '    procedure SetModelo(AValue: String);'
-      '    function GetModelo: String;'
-      ''
-      '    procedure SetAutorizado(AValue: Boolean);'
-      '    function GetAutorizado: Boolean;'
-      ''
-      '    procedure SetCancelado(AValue: Boolean);'
-      '    function GetCancelado: Boolean;'
-      ''
-      '    procedure SetInutilizado(AValue: Boolean);'
-      '    function GetInutilizado: Boolean;'
-      ''
-      '    procedure SetDenegado(AValue: Boolean);'
-      '    function GetDenegado: Boolean;'
-      ''
-      '    procedure SetChaveAcesso(AValue: String);'
-      '    function GetChaveAcesso: String;'
-      ''
-      '    procedure SetProtocolo(AValue: String);'
-      '    function GetProtocolo: String;')
+    PopupMenu = PopupMenuOrigem
     TabOrder = 1
   end
   object MemoFonte: TMemo
@@ -97,9 +74,25 @@ object Formulario: TFormulario
     Width = 922
     Height = 373
     Align = alClient
+    PopupMenu = PopupMenuFonte
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 2
-    OnDblClick = MemoFonteDblClick
+  end
+  object PopupMenuOrigem: TPopupMenu
+    Left = 456
+    Top = 104
+    object MenuItemColar: TMenuItem
+      Caption = 'Colar'
+      OnClick = MenuItemColarClick
+    end
+  end
+  object PopupMenuFonte: TPopupMenu
+    Left = 456
+    Top = 296
+    object MenuItemCopiar: TMenuItem
+      Caption = 'Copiar'
+      OnClick = MenuItemCopiarClick
+    end
   end
 end

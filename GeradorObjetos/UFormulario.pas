@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
   UCampo,
-  UCampoList;
+  UCampoList, Vcl.Menus;
 
 type
   TFormulario = class(TForm)
@@ -16,9 +16,14 @@ type
     MemoFonte: TMemo;
     ButtonGerar: TButton;
     LabeledEditNomeClasse: TLabeledEdit;
+    PopupMenuOrigem: TPopupMenu;
+    PopupMenuFonte: TPopupMenu;
+    MenuItemCopiar: TMenuItem;
+    MenuItemColar: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure ButtonGerarClick(Sender: TObject);
-    procedure MemoFonteDblClick(Sender: TObject);
+    procedure MenuItemCopiarClick(Sender: TObject);
+    procedure MenuItemColarClick(Sender: TObject);
   private
   public
     procedure Gerar;
@@ -40,8 +45,8 @@ end;
 
 procedure TFormulario.FormCreate(Sender: TObject);
 begin
-  // MemoOrigem.Lines.Clear;
-  // MemoFonte.Lines.Clear;
+  MemoOrigem.Lines.Clear;
+  MemoFonte.Lines.Clear;
 end;
 
 procedure TFormulario.Gerar;
@@ -69,7 +74,12 @@ begin
   end;
 end;
 
-procedure TFormulario.MemoFonteDblClick(Sender: TObject);
+procedure TFormulario.MenuItemColarClick(Sender: TObject);
+begin
+  MemoOrigem.PasteFromClipboard;
+end;
+
+procedure TFormulario.MenuItemCopiarClick(Sender: TObject);
 begin
   MemoFonte.SelectAll;
   MemoFonte.CopyToClipboard;
