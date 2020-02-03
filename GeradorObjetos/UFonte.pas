@@ -186,7 +186,7 @@ var
   I: Integer;
 begin
   for I := 0 to Pred(FCampoList.Count) do
-    Add('    function Get%S: %S);', [FCampoList[I].Nome, FCampoList[I].Tipo]);
+    Add('    function Get%S: %S;', [FCampoList[I].Nome, FCampoList[I].Tipo]);
 end;
 
 procedure TFonte.GerarClassePropertys;
@@ -194,7 +194,7 @@ var
   I: Integer;
 begin
   for I := 0 to Pred(FCampoList.Count) do
-    Add('    propcerty %S: %S read F%0:S write F%0:S);', [FCampoList[I].Nome, FCampoList[I].Tipo]);
+    Add('    property %S: %S read F%0:S write F%0:S;', [FCampoList[I].Nome, FCampoList[I].Tipo]);
   Add('  end;');
 end;
 
@@ -210,7 +210,7 @@ begin
   Add('  Self.Clear;');
   Add('end;');
   Add('');
-  Add('destrucotor %S.Destructor;', [FNomeClasse]);
+  Add('destructor %S.Destroy;', [FNomeClasse]);
   Add('begin');
   Add('  inherited');
   Add('end;');

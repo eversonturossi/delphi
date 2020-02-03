@@ -48,19 +48,6 @@ object Formulario: TFormulario
       TabOrder = 0
       OnClick = ButtonGerarClick
     end
-    object RadioGroupOrigem: TRadioGroup
-      Left = 328
-      Top = 4
-      Width = 273
-      Height = 39
-      Caption = 'Origem'
-      Columns = 3
-      Items.Strings = (
-        'variavel'
-        'property'
-        'interface')
-      TabOrder = 1
-    end
     object LabeledEditNomeClasse: TLabeledEdit
       Left = 8
       Top = 22
@@ -69,7 +56,7 @@ object Formulario: TFormulario
       EditLabel.Width = 61
       EditLabel.Height = 13
       EditLabel.Caption = 'Nome Classe'
-      TabOrder = 2
+      TabOrder = 1
     end
   end
   object MemoOrigem: TMemo
@@ -113,5 +100,6 @@ object Formulario: TFormulario
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 2
+    OnDblClick = MemoFonteDblClick
   end
 end

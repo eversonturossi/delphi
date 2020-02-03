@@ -15,10 +15,10 @@ type
     MemoOrigem: TMemo;
     MemoFonte: TMemo;
     ButtonGerar: TButton;
-    RadioGroupOrigem: TRadioGroup;
     LabeledEditNomeClasse: TLabeledEdit;
     procedure FormCreate(Sender: TObject);
     procedure ButtonGerarClick(Sender: TObject);
+    procedure MemoFonteDblClick(Sender: TObject);
   private
   public
     procedure Gerar;
@@ -67,6 +67,12 @@ begin
     FreeAndNil(LFonte);
     FreeAndNil(LOrigem);
   end;
+end;
+
+procedure TFormulario.MemoFonteDblClick(Sender: TObject);
+begin
+  MemoFonte.SelectAll;
+  MemoFonte.CopyToClipboard;
 end;
 
 end.
