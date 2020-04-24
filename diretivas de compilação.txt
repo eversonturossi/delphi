@@ -1,3 +1,71 @@
+https://gist.github.com/marlonnardi/7121c8081768f526b989
+
+List Updated 2019 -> http://docwiki.embarcadero.com/RADStudio/Rio/en/Compiler_Versions
+
+
+{$IFDEF VER80} ShowMessage('Delphi 1');{$ENDIF}
+{$IFDEF VER90} ShowMessage('Delphi 2');{$ENDIF}
+{$IFDEF VER100} ShowMessage('Delphi 3');{$ENDIF}
+{$IFDEF VER120} ShowMessage('Delphi 4');{$ENDIF}
+{$IFDEF VER130} ShowMessage('Delphi 5');{$ENDIF}
+{$IFDEF VER140} ShowMessage('Delphi 6');{$ENDIF}
+{$IFDEF VER150} ShowMessage('Delphi 7');{$ENDIF}
+{$IFDEF VER160} ShowMessage('Delphi 8');{$ENDIF}
+{$IFDEF VER170} ShowMessage('Delphi 2005');{$ENDIF}
+{$IFDEF VER180} ShowMessage('Delphi 2006');{$ENDIF}
+{$IFDEF VER185} ShowMessage('Delphi 2007');{$ENDIF}
+{$IFDEF VER200} ShowMessage('Delphi 2009');{$ENDIF}
+{$IFDEF VER210} ShowMessage('Delphi 2010');{$ENDIF}
+{$IFDEF VER220} ShowMessage('Delphi XE');{$ENDIF}
+{$IFDEF VER230} ShowMessage('Delphi XE2');{$ENDIF}
+{$IFDEF VER240} ShowMessage('Delphi XE3');{$ENDIF}
+{$IFDEF VER250} ShowMessage('Delphi XE4');{$ENDIF}
+{$IFDEF VER260} ShowMessage('Delphi XE5');{$ENDIF}
+{$IFDEF VER270} ShowMessage('Delphi XE6');{$ENDIF}
+{$IFDEF VER280} ShowMessage('Delphi XE7');{$ENDIF}
+{$IFDEF VER290} ShowMessage('Delphi XE8');{$ENDIF}
+{$IFDEF VER300} ShowMessage('Delphi 10 Seattle');{$ENDIF}
+{$IFDEF VER310} ShowMessage('Delphi 10.1 Berlin');{$ENDIF}
+{$IFDEF VER320} ShowMessage('Delphi 10.2 Tokyo');{$ENDIF}
+{$IFDEF VER330} ShowMessage('Delphi 10.3 Rio');{$ENDIF}
+
+if CompilerVersion = 20 then sCompilerName := 'Delphi 2009';
+ 
+or in conditional compiler expressions:
+
+{$if CompilerVersion > 18} // Delphi 2007 or later {$ifend} 
+ 
+Compiler 	      CompilerVersion 	Defined Symbol   Used BPL
+Delphi 10.3 Rio	        33 		VER330                26
+Delphi 10.2 Tokyo	32 		VER320                25
+Delphi 10.1 Berlin	31 		VER310                24
+Delphi 10 Seattle	30 		VER300                23
+Delphi XE8		29 		VER290                22
+Delphi XE7		28 		VER280                21
+Delphi XE6		27 		VER270                20
+Delphi XE5		26 		VER260                19
+Delphi XE4		25 		VER250                18 
+Delphi XE3		24 		VER240                17
+Delphi XE2		23 		VER230                16
+Delphi XE	        22 		VER220                15
+Delphi 2010 	        21 		VER210                14
+Delphi 2009		20 		VER200                13
+Delphi 2007 .NET 	19 		VER190                12
+Delphi 2007 	        18.5    	VER185                12
+Delphi 2006 	        18 		VER180
+Delphi 2005 	        17 		VER170
+Delphi 8 .NET           16 		VER160
+Delphi 7 		15 		VER150
+Delphi 6 		14 		VER140
+Delphi 5 		13 		VER130
+Delphi 4 		12 		VER120
+Delphi 3 		10 		VER100
+Delphi 2 	        9 		VER90
+Delphi 1 		8 		VER80
+
+
+
+//----------------------------------------------------------------------
 //diretivas para cada vesao do delphi copiado do acbr
   {$IFDEF VER150}  {$ENDIF} // D7
   {$IFDEF VER170}  {$ENDIF} // D2005
