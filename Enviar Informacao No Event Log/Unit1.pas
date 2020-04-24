@@ -25,6 +25,10 @@ implementation
 {$R *.dfm}
 { TForm1 }
 
+{
+  http://www.andreanolanusse.com/pt/enviando-informacoes-de-depuracao-para-o-event-log-do-delphi/
+}
+
 procedure TForm1.Button1Click(Sender: TObject);
 begin
   LogDebug('teste teste teste');
