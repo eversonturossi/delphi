@@ -4,10 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, SvcMgr, Dialogs;
+
 procedure SalvarStringToFile(ANomeArquivo, AStr: String);
 function LerStringFromFile(ANomeArquivo: String): String;
-function getParametroAplicacao(NomeParametro: String; ValorPadrao: String = ''): String;
-function LocalizarParametroAplicacao(const AParametro: String; const IgnoreCase: Boolean = True): Boolean;
+function getValorParametroAplicacao(ANomeParametro: String; AValorPadrao: String = ''): String;
+function LocalizarParametroAplicacao(const AParametro: String; const AIgnoreCase: Boolean = True): Boolean;
 
 implementation
 
@@ -39,41 +40,36 @@ begin
   end;
 end;
 
-function getParametroAplicacao(NomeParametro: String; ValorPadrao: String = ''): String;
+function getValorParametroAplicacao(ANomeParametro: String; AValorPadrao: String = ''): String;
 var
   I: Integer;
-  AParametroAtual, AParametro: String;
+  LParametroAtual, LParametro: String;
 begin
-  Result := ValorPadrao;
+  Result := AValorPadrao;
   if (ParamCount > 0) then
   begin
-    AParametro := AnsiUpperCase(Trim(NomeParametro));
+    LParametro := AnsiUpperCase(Trim(ANomeParametro));
     for I := 1 to ParamCount do
     begin
-      AParametroAtual := AnsiUpperCase(Trim(ParamStr(I)));
-      if ('/' + AParametro = AParametroAtual) or ('-' + AParametro = AParametroAtual) or (AParametro = AParametroAtual) then
+      LParametroAtual := AnsiUpperCase(Trim(ParamStr(I)));
+      if ('/' + LParametro = LParametroAtual) or ('-' + LParametro = LParametroAtual) or (LParametro = LParametroAtual) then
         if (I < ParamCount) then
           Result := Trim(ParamStr(I + 1));
     end;
   end;
 end;
 
-function LocalizarParametroAplicacao(const AParametro: String; const IgnoreCase: Boolean = True): Boolean;
-const
-  cSwitchChars = ['/', '-'];
+function LocalizarParametroAplicacao(const AParametro: String): Boolean;
+begin
+  Result := FindCmdLineSwitch(AParametro, ['-', '/'], True);
+end;
+
+function getParametros(ANomeParametro: String): String;
 var
   I: Integer;
-  S: String;
 begin
-  Result := False;
-  for I := 1 to ParamCount do
-  begin
-    S := ParamStr(I);
-    if (S[1] in cSwitchChars) then
-      if IgnoreCase then
-        if (AnsiCompareText(Copy(S, 2, Maxint), AParametro) = 0) then
-          Result := True;
-  end;
+  Result := '';
+
 end;
 
 end.

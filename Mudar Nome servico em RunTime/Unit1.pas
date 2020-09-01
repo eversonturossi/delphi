@@ -4,24 +4,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, SvcMgr, Dialogs,
-  UFuncoes;
+  UFuncoes, OverbyteIcsWndControl, OverbyteIcsHttpSrv;
 
 const
-  cParametroIdentificacao = 'id';
-  cEspaco = ' ';
-  cHifen = '-';
+  cParametroInstancia = 'instancia';
 
 type
   TServicoAlteradoRunTime = class(TService)
-    procedure ServiceBeforeInstall(Sender: TService);
-    procedure ServiceBeforeUninstall(Sender: TService);
+    HttpServer1: THttpServer;
     procedure ServiceExecute(Sender: TService);
-    procedure ServiceCreate(Sender: TObject);
     procedure ServiceAfterInstall(Sender: TService);
+    procedure ServiceStart(Sender: TService; var Started: Boolean);
   private
+    FInstancia: String;
     procedure ServiceLoadInfo(Sender: TObject);
-    procedure ServiceChangeInfo(Sender: TObject);
+    procedure ServiceSaveInfo(Sender: TObject);
   public
+    constructor Create(AOwner: TComponent); override;
     function GetServiceController: TServiceController; override;
   end;
 
@@ -32,6 +31,7 @@ implementation
 
 uses
   WinSvC, Registry;
+
 {$R *.DFM}
 
 procedure ServiceController(CtrlCode: DWord); stdcall;
@@ -39,27 +39,22 @@ begin
   ServicoAlteradoRunTime.Controller(CtrlCode);
 end;
 
+constructor TServicoAlteradoRunTime.Create(AOwner: TComponent);
+begin
+  inherited;
+  FInstancia := getParametroAplicacao(cParametroInstancia);
+  ServiceLoadInfo(Self);
+end;
+
 function TServicoAlteradoRunTime.GetServiceController: TServiceController;
 begin
   Result := ServiceController;
 end;
 
-procedure TServicoAlteradoRunTime.ServiceBeforeInstall(Sender: TService);
+procedure TServicoAlteradoRunTime.ServiceAfterInstall(Sender: TService);
 begin
-  ServiceLoadInfo(Self);
-end;
-
-procedure TServicoAlteradoRunTime.ServiceBeforeUninstall(Sender: TService);
-begin
-  ServiceLoadInfo(Self);
-end;
-
-procedure TServicoAlteradoRunTime.ServiceCreate(Sender: TObject);
-begin
-  if not(Application.Installing) then
-  begin
-    ServiceLoadInfo(Self);
-  end;
+  if not(FInstancia.IsEmpty) then
+    ServiceSaveInfo(Sender);
 end;
 
 procedure TServicoAlteradoRunTime.ServiceExecute(Sender: TService);
@@ -69,30 +64,31 @@ begin
 end;
 
 procedure TServicoAlteradoRunTime.ServiceLoadInfo(Sender: TObject);
-var
-  LServiceID: String;
 begin
-  LServiceID := getParametroAplicacao(cParametroIdentificacao);
-  if (LServiceID <> EmptyStr) then
+  if not(FInstancia.IsEmpty) then
   begin
-    TService(Sender).DisplayName := DisplayName + cEspaco + LServiceID;
-    TService(Sender).Name := Name + LServiceID;
+    TService(Sender).DisplayName := Format('%S %S', [DisplayName, FInstancia]);
+    TService(Sender).Name := Name + FInstancia;
   end;
 end;
 
-procedure TServicoAlteradoRunTime.ServiceChangeInfo(Sender: TObject);
+procedure TServicoAlteradoRunTime.ServiceSaveInfo(Sender: TObject);
 var
   LRegistro: TRegistry;
-  LServiceID, LChaveRegistro, LImagePath: String;
+  LChaveRegistro, LImagePath: String;
 begin
   LRegistro := TRegistry.Create;
   try
-    LServiceID := getParametroAplicacao(cParametroIdentificacao);
+    FInstancia := getValorParametroAplicacao(cParametroInstancia);
     LRegistro.RootKey := HKEY_LOCAL_MACHINE;
     LChaveRegistro := 'SYSTEM\CurrentControlSet\Services\' + TService(Sender).Name;
-    LImagePath := ParamStr(0);
-    if (LServiceID <> EmptyStr) then
-      LImagePath := ParamStr(0) + cEspaco + cHifen + cParametroIdentificacao + cEspaco + LServiceID;
+    LImagePath := QuotedStr(ParamStr(0));
+
+    { if not(FInstancia.IsEmpty) then
+      LImagePath := Format('%S -%S %S', [LImagePath, cParametroInstancia, FInstancia]); }
+
+    if (ParamCount > 1) then
+      LImagePath := LImagePath + ' ' + getParametros();
 
     if (LRegistro.OpenKey(LChaveRegistro, True)) then
     begin
@@ -104,9 +100,10 @@ begin
   end;
 end;
 
-procedure TServicoAlteradoRunTime.ServiceAfterInstall(Sender: TService);
+procedure TServicoAlteradoRunTime.ServiceStart(Sender: TService; var Started: Boolean);
 begin
-  ServiceChangeInfo(Self);
+  HttpServer1.DocDir := ExtractFileDir(ParamStr(0));
+  HttpServer1.Start();
 end;
 
 end.
