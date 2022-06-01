@@ -28,6 +28,8 @@ List Updated 2019 -> http://docwiki.embarcadero.com/RADStudio/Rio/en/Compiler_Ve
 {$IFDEF VER310} ShowMessage('Delphi 10.1 Berlin');{$ENDIF}
 {$IFDEF VER320} ShowMessage('Delphi 10.2 Tokyo');{$ENDIF}
 {$IFDEF VER330} ShowMessage('Delphi 10.3 Rio');{$ENDIF}
+{$IFDEF VER340} ShowMessage('Delphi 10.4 Sydney');{$ENDIF}
+{$IFDEF VER350} ShowMessage('Delphi 10.5 Alexandria');{$ENDIF}
 
 if CompilerVersion = 20 then sCompilerName := 'Delphi 2009';
  
@@ -128,10 +130,10 @@ Delphi 1 8 VER80
 {$IFDEF VER150}
    ShowMessage('Compilando em Delphi 7.0');
 {$ELSE}
-   ShowMessage('N„o sei qual a vers„o do delphi');
+   ShowMessage('N√£o sei qual a vers√£o do delphi');
 {$ENDIF}
 //----------------------------------------------------------------------
-//n„o recompilar pacotes requeridos  
+//n√£o recompilar pacotes requeridos  
   {$IMPLICITBUILD ON}
 //----------------------------------------------------------------------  
 //no arquivo inc
